@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="virtual_robot" type="virtual_robot" name="virtual_robot" output="screen">
+        <rosparam param="joint_names">["r1_joint_s", "r1_joint_l", "r1_joint_u"]</rosparam>
+        <rosparam param="default_positions">[0, 0.1, 0.0]</rosparam>
+    </node>
+    <test test-name="gtest_virtual_robot" pkg="virtual_robot" type="gtest_virtual_robot" />
+</launch>

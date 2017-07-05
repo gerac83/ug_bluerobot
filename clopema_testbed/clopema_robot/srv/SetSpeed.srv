@@ -1,0 +1,6 @@
+#Speed possible values:
+# ~ 0.01 - 0.2, where 0.01 is minimum and 0.2 maximum speed
+# ~ -1 do not change speed used for obtaining current speed
+float32 speed
+---
+float32 current_speed

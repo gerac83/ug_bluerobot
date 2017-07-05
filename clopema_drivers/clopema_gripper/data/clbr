@@ -1,0 +1,54 @@
+24 24
+
+ 0.0000 -0.0035 0   0 0 1    0.0000 -0.0035   0.001   0  1 0
+ 0.0000 -0.0105 0   0 0 1    0.0000 -0.0105   0.001   0  1 0
+ 0.0020 -0.0070 0   0 0 1    0.0020 -0.0070   0.001   0  1 0
+ 0.0040 -0.0035 0   0 0 1    0.0040 -0.0035   0.001   0  1 0
+ 0.0060  0.0000 0   0 0 1    0.0060  0.0000   0.001   0  1 0
+-0.0020 -0.0070 0   0 0 1   -0.0020 -0.0070   0.001   0  1 0
+ 0.0020  0.0000 0   0 0 1    0.0020  0.0000   0.001   0  1 0
+-0.0040 -0.0035 0   0 0 1   -0.0040 -0.0035   0.001   0  1 0
+-0.0060  0.0000 0   0 0 1   -0.0060  0.0000   0.001   0  1 0
+-0.0020  0.0000 0   0 0 1   -0.0020  0.0000   0.001   0  1 0
+ 0.0000  0.0035 0   0 0 1    0.0000  0.0035   0.001   0  1 0
+ 0.0040  0.0035 0   0 0 1    0.0040  0.0035   0.001   0  1 0
+ 0.0020  0.0070 0   0 0 1    0.0020  0.0070   0.001   0  1 0
+ 0.0000  0.0105 0   0 0 1    0.0000  0.0105   0.001   0  1 0
+-0.0040  0.0035 0   0 0 1   -0.0040  0.0035   0.001   0  1 0
+-0.0020  0.0070 0   0 0 1   -0.0020  0.0070   0.001   0  1 0
+
+-0.0040 -0.0175 0   0 0 1   -0.0040 -0.0175   0.0013  0  1 0
+-0.0040 -0.0175 0   0 0 1   -0.0040 -0.0175   0.0013  1  1 0
+
+ 0.0040 -0.0175 0   0 0 1    0.0040 -0.0175   0.0013  0  1 0
+ 0.0040 -0.0175 0   0 0 1    0.0040 -0.0175   0.0013  1  1 0
+
+ 0.0150  0.0000 0   0 0 1    0.0150  0.0000   0.0013  0  1 0
+ 0.0150  0.0000 0   0 0 1    0.0150  0.0000   0.0013  1  1 0
+
+ 0.0000  0.0000 0   0 0 1    0.0000  0.0000   0.001   0  1 0
+ 0.0000  0.0000 0   0 0 1    0.0000  0.0000   0.001   1  1 0
+
+
+format:
+total-number-of-sensors  total-number-of-sensor-neighbors
+(one line per sensor) sensor-position-3d sensor-normal-3d sensor-position-2d sensor-radius robot-link number-of-neighbors neighbors
+
+On the skin, the sensors are positioned as follows.  The other information are also shown alongside:
+
+-0.6	-0.4	-0.2	0	0.2	0.4	0.6	1.5
+|	|	|	|	|	|	|	|
+
+			14					--- 1.05
+		16		13				--- 0.70
+	15		11		12			--- 0.35
+9		10		7		5	Encoder	--- 0
+	8		1		4			--- -0.35
+		6		3				--- -0.70
+			2					--- -1.05
+
+	Light				Proximity		--- -1.75
+
+Note that currently there is only one gripper, so the position of gripper two's extra information is placed at the same location.
+This needs to be updated when the second gripper is added.  Last sensor type (whether there is grip or not) is not shown as a sensor
+but instead affects the color of the tactile sensors.

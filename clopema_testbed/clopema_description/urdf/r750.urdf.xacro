@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="r750" params="*origin parent suffix color"> 
+		<link name="${suffix}r750_base">
+			<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<mesh scale="0.001 0.001 0.001" filename="package://clopema_description/meshes/r750_base.stl"/>
+				</geometry>
+				<material name="${color}" />
+				<origin xyz="-0.545 0.37 0.0" rpy="${PI/2} 0 0"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="1.09 0.74 0.51" />
+				</geometry>
+				<origin xyz="0 0 0.255"/>
+			</collision>
+		</link>
+		<link name="${suffix}r750">
+			<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<mesh scale="0.001 0.001 0.001" filename="package://clopema_description/meshes/r750.stl"/>
+				</geometry>
+				<material name="${color}" />
+				<origin xyz="0 0 0.060" rpy="${90*TO_RAD} 0 ${90*TO_RAD}"/>
+			</visual>
+			<collision>
+				<geometry>
+					<mesh scale="0.001 0.001 0.001" filename="package://clopema_description/meshes/r750col.stl"/>
+				</geometry>
+				<origin xyz="0 0 0.060" rpy="${90*TO_RAD} 0 ${90*TO_RAD}"/>
+			</collision>
+		</link>
+		<joint name="${suffix}ext_axis" type="revolute">
+			<axis xyz="0 0 1" />
+			<limit lower="-${115*TO_RAD}" upper="${115*TO_RAD}" velocity="${163*TO_RAD}" effort="1000.0" />
+			<child link="${suffix}r750"/>
+			<origin xyz="0 0 0.51" rpy="0 0 -${PI/2}"/>
+			<parent link="${suffix}r750_base"/>
+		</joint>
+
+		<joint name="${suffix}joint_f0" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${suffix}r750_base"/>
+		</joint>
+	</xacro:macro>
+</robot>

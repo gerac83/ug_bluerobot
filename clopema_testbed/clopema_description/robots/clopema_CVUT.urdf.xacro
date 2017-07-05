@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="clopema">
+	<xacro:include filename="$(find clopema_description)/urdf/common.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/room_ctu.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/base_link.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/ma1400.urdf.xacro" />
+    <xacro:include filename="$(find clopema_description)/urdf/gripper_v2.urdf.xacro" />               
+    <xacro:include filename="$(find clopema_description)/urdf/gripper_v3.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/r750.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/table_adjustable.urdf.xacro" />	
+    <xacro:include filename="$(find clopema_description)/urdf/table_adjustable_frames_only.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/colObjects.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/force_sensor.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/xtion.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/alvar_marker.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/robot_head_UG.xacro" />
+    <xacro:include filename="$(find clopema_description)/urdf/toradex.urdf.xacro" />
+    <xacro:include filename="$(find clopema_description)/urdf/hanging_string.xacro" />
+
+	<xacro:base_link/>
+	<xacro:room_ctu/>
+	<xacro:r750 parent="base_link" suffix="" color="blue">
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	</xacro:r750>
+
+	<xacro:ma1400 parent="r750" suffix="r1_" color="blue">
+		<origin xyz="0 -.25 0.1600" rpy="${15*TO_RAD} 0 0"/>
+	</xacro:ma1400>
+	<xacro:ma1400 parent="r750" suffix="r2_" color="blue">
+		<origin xyz="0 .25 0.1600" rpy="-${15*TO_RAD} 0 0"/>
+	</xacro:ma1400>
+
+	<xacro:gripper_v3 parent="tip_link" suffix="r1_" color="blue">
+		<origin xyz="0.000 0 0.04775" rpy="0 0 ${PI}"/>
+	</xacro:gripper_v3>
+	<xacro:gripper_v3 parent="tip_link" suffix="r2_" color="blue">
+		<origin xyz="0.000 0 0.04775" rpy="0 0 ${PI}"/>
+	</xacro:gripper_v3>
+
+    <xacro:robot_head parent="r750">
+        <origin rpy="0 0 0" xyz="-0.45 0.15 1.68"/>
+    </xacro:robot_head>
+  
+    <xacro:alvar_marker parent="r1_tip_link" suffix="r1" width="0.045">
+        <origin xyz="-0.032 0 0.0955" rpy="0 -${PI/2} 0"/>
+    </xacro:alvar_marker>
+    
+    <xacro:alvar_marker parent="r2_tip_link" suffix="r2" width="0.045">
+        <origin xyz="-0.032 0 0.0955" rpy="0 -${PI/2} 0"/>
+    </xacro:alvar_marker>
+
+    <xacro:alvar_marker parent="base_link" suffix="r750_1" width="0.045">
+        <origin xyz="-0.382 -0.2 0.5756" rpy="-${PI/2}  0 0"/>
+    </xacro:alvar_marker> 
+    
+    <xacro:alvar_marker parent="base_link" suffix="r750_2" width="0.045">
+        <origin xyz="0.385 -0.2 0.5756" rpy="${PI/2}  0 0"/>
+    </xacro:alvar_marker>
+    
+    <!--
+    <xacro:alvar_marker parent="base_link" suffix="floor_1" width="0.045">
+        <origin xyz="-0.243 -0.897 0" rpy="0 0 0"/>
+    </xacro:alvar_marker>  
+    -->
+    
+    
+    <link name="calib_target"> </link>
+    <joint name="calib_target_joint" type="fixed">
+        <origin xyz="2.30 0.03 0.97" rpy="0 -${PI/2} 0"/>
+        <parent link="base_link"/>
+        <child link="calib_target"/>
+    </joint>
+		
+	<link name="torso_link"/>
+	<joint name="torso_link_f" type="fixed">
+		  <child link="torso_link"/>
+		  <parent link="r750"/>
+		  <origin xyz="0 0 -0.51" rpy="0 0 ${PI/2}"/>
+	</joint>
+	<link name="r1_gg"/>
+	<joint name="r1_gg_joint_t" type="fixed">
+		<child link="r1_gg"/>
+		<parent link="r1_ee"/>
+		<origin xyz="-0.025 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<link name="r2_gg"/>
+	<joint name="r2_gg_joint_t" type="fixed">
+		<child link="r2_gg"/>
+		<parent link="r2_ee"/>
+		<origin xyz="-0.025 0 0" rpy="0 0 0"/>
+	</joint>
+
+
+
+    <xacro:colObjects/>
+    <xacro:xtion parent="r2_link_6" suffix="2" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+    <xacro:xtion parent="r1_link_6" suffix="1" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+    
+    <xacro:xtion parent="torso_link" suffix="3" prefix="" color="grey">
+        <origin xyz="0 0 -50.0" rpy="0 0 0"/> <!-- Go away if not calibrated -->
+    </xacro:xtion>
+    
+    <xacro:force_sensor parent="tip_link" suffix="r1_">
+        <origin xyz="0 0 0.035" rpy="0 0 ${PI/3}"/>
+    </xacro:force_sensor>
+    <xacro:force_sensor parent="tip_link" suffix="r2_">
+        <origin xyz="0 0 0.035" rpy="0 0 ${PI/3}"/>
+    </xacro:force_sensor>
+
+    <xacro:table parent="base_link" suffix="t1_" color="green" height="0.81" deskx="0.8" desky="0.8">
+    	<origin xyz="1.2 0.050 0.81" rpy="0 0 0"/>
+    </xacro:table>
+    <!--
+    <xacro:table parent="base_link" suffix="t2_" color="grey" height="0.68" deskx="0.8" desky="0.8">
+    	<origin xyz="0.0 -1.0 0.68" rpy="0 0 0"/>
+    </xacro:table> 
+    -->
+    <xacro:table parent="base_link" suffix="t3_" color="red" height="0.777" deskx="1.5" desky="1.4">
+        <origin xyz="-1.50 0.0 0.777" rpy="0 0 0"/>
+    </xacro:table>
+    
+    <xacro:table parent="base_link" suffix="t4_" color="red" height="0.765" deskx="0.8" desky="0.8">
+        <origin xyz="0.0 1.2 0.765" rpy="0 0 0"/>
+    </xacro:table>
+    
+    <xacro:table parent="base_link" suffix="tsorting_" color="blue" height="0.26" deskx="0.39" desky="1.17">
+        <origin xyz="0.0 -1.04 0.26" rpy="0 0 ${PI/2}"/>
+    </xacro:table>
+    
+    <!--
+    <xacro:table_frames_only parent="base_link" suffix="tsorting_" color="blue" height="0.001" deskx="1.0" desky="1.0">
+        <origin xyz="0.0 -1.00 0.25" rpy="0 0 ${PI/2}"/>
+    </xacro:table_frames_only>
+     -->
+
+    <xacro:toradex parent="r2_link_4" prefix="r2_" color="grey">
+        <origin xyz="0.1 .15 -.01" rpy="0 0 0"/>
+    </xacro:toradex>
+
+    <!--
+    <xacro:hanging_string_complet parent="base_link" length_x="1.01" length_y="0.0">
+        <origin xyz="0.0 -1.2 0.0" rpy="0 0 0"/>
+    </xacro:hanging_string_complet>  
+    -->
+           
+</robot>

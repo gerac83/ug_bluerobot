@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+    
+    <xacro:property name="stand_height" value="1.24" />
+    <xacro:property name="string_height" value="1.235" />
+    
+    <!-- Stand for hanging string -->
+    <xacro:macro name="hanging_string_stand" params="*origin parent suffix"> 
+        <link name="stand_${suffix}">
+            <xacro:default_inertial/>
+            <visual>
+                <geometry>
+                    <cylinder radius="0.03" length="${stand_height}"/>
+                </geometry>
+                <material name="Yellow">
+                    <color rgba="1 1 0 1.0"/>
+                </material>
+                <origin xyz="0 0 ${stand_height/2}"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="0.03" length="${stand_height}"/>
+                </geometry>
+                <origin xyz="0 0 ${stand_height/2}"/>
+            </collision>
+        </link>
+        <joint name="joint_stand_${suffix}" type="fixed">
+            <insert_block name="origin" />
+            <parent link="${parent}"/>
+            <child link="stand_${suffix}"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Whole hanging string with stands -->
+    <xacro:macro name="hanging_string_complet" params="*origin parent length_x length_y"> 
+        
+        <!-- Conter of whole hanging string with stands -->
+        <link name="hanging_string_floor_center" />
+               
+        <joint name="joint_hanging_string_floor_center" type="fixed">
+            <insert_block name="origin" />
+            <parent link="${parent}"/>
+            <child link="hanging_string_floor_center"/>
+        </joint>
+        
+        <!-- Both hanging string stands -->
+        <xacro:hanging_string_stand parent="hanging_string_floor_center" suffix="1">
+            <origin xyz="${-length_x/2} ${-length_y/2} 0"/>
+        </xacro:hanging_string_stand>
+
+        <xacro:hanging_string_stand parent="hanging_string_floor_center" suffix="2">
+            <origin xyz="${length_x/2} ${length_y/2} 0"/>
+        </xacro:hanging_string_stand>
+        
+        <!-- Hanging string between stands -->
+        <link name="hanging_string">
+            <xacro:default_inertial/>
+            <visual>
+                <geometry>
+                    <box size="${length_x + 0.01} ${length_y + 0.01} 0.01" />
+                </geometry>
+                <material name="green" />
+                <origin xyz="0 0 0"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${length_x + 0.01} ${length_y + 0.01} 0.01" />
+                </geometry>
+                <origin xyz="0 0 0"/>
+            </collision>
+        </link>
+        
+        <joint name="joint_hanging_string" type="fixed">
+            <origin xyz="0.0 0.0 ${string_height}" />
+            <parent link="hanging_string_floor_center"/>
+            <child link="hanging_string"/>
+        </joint>
+        
+        <xacro:table_frames_only parent="hanging_string_floor_center" suffix="table_hanging_string_" color="green" height="0.001" deskx="1.0" desky="1.0">
+            <origin xyz="0.0 -0.5 ${string_height}" rpy="0 0 ${PI/2}"/>
+        </xacro:table_frames_only>
+            
+    </xacro:macro>
+</robot>

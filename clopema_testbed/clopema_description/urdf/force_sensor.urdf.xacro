@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+    <xacro:macro name="force_sensor" params="*origin parent suffix"> 
+       <link name="${suffix}force_sensor">
+           <inertial>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+             <mass value="2.5"/>
+             <inertia 
+                ixx="1.0" ixy="0.0" ixz="0.0" 
+                iyy="1.0" iyz="0.0" 
+                izz="1.0"/>
+           </inertial>
+       </link>
+       <joint name="${suffix}force_sensor_joint_f" type="fixed">
+           <insert_block name="origin" />
+           <parent link="${suffix}${parent}"/>
+           <child link="${suffix}force_sensor"/>
+        </joint>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="tip_link" params="*origin parent suffix color"> 
+		<link name="${suffix}link_7">
+			<xacro:default_inertial/>
+		</link>
+		<link name="${suffix}tip_link">
+			<xacro:default_inertial/>
+		</link>
+		<joint name="${suffix}joint_t" type="revolute">
+			<axis xyz="0 0 1" />
+			<limit lower="-${199*TO_RAD}" upper="${199*TO_RAD}" velocity="${610*TO_RAD}" effort="1000.0" />
+			<child link="${suffix}link_7"/>
+			<insert_block name="origin" /> 
+			<parent link="${suffix}${parent}"/>
+		</joint>
+		<joint name="${suffix}joint_t_f" type="fixed">
+			<parent link="${suffix}link_7"/>
+			<child link="${suffix}tip_link"/>
+			<origin xyz="0 0 0.2" rpy="0 0 0"/>
+		</joint>
+	</xacro:macro>
+</robot>

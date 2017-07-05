@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<launch>
+    <node pkg="virtual_robot" type="virtual_robot" name="clopema_controller" output="screen">
+        <rosparam param="joint_names">
+            ["r1_joint_s", "r1_joint_l", "r1_joint_u", "r1_joint_r", "r1_joint_b", "r1_joint_t",
+             "r2_joint_s", "r2_joint_l", "r2_joint_u", "r2_joint_r", "r2_joint_b", "r2_joint_t",
+             "ext_axis"]
+        </rosparam>
+        <rosparam param="default_positions"> [0.0, 0.0] </rosparam>
+        <param name="set_power_down_service" value="/clopema_controller/set_drive_power" />
+        <param name="synchronization_service" value="/clopema_controller/set_synchronization" />
+        
+        <param name="allow_joint_states" value="true" />
+        <param name="allow_robot_status" value="true" />
+        <param name="allow_point_streaming" value="true" />
+        <param name="allow_path_actionlib" value="true" />
+        <param name="allow_path_service" value="true" />
+        <param name="allow_stop_motion" value="true" />
+        <param name="allow_path_topic" value="true" />
+        
+        <remap from="~joint_states" to="/joint_states" />
+    </node>
+</launch>

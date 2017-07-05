@@ -1,0 +1,13 @@
+### Description ###
+# Definition of Grasping action
+# table_desk - table, where the garment is located {t1, t2, t3}
+# arm - arm used for picking up {r1, r2}
+
+### Goal Definition ###
+string arm
+string table_desk
+---
+### Result Definition ###
+---
+### Feedback Definition ###
+

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>clopema_libs</name>
+  <version>0.0.0</version>
+  <description>The clopema_libs package</description>
+
+  <maintainer email="wagnelib@cmp.felk.cvut.cz">Libor Wagner</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <build_depend>roscpp</build_depend>
+  
+  <run_depend>image_geometry</run_depend>
+  <build_depend>image_geometry</build_depend>
+  
+  <run_depend>clopema_robot</run_depend>
+  <build_depend>clopema_robot</build_depend>
+
+  <run_depend>cmake_modules</run_depend>
+  <build_depend>cmake_modules</build_depend>
+  <export>
+  </export>
+</package>

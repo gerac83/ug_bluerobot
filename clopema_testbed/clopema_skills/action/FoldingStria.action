@@ -1,0 +1,13 @@
+### Description ###
+# Definition of Folding skill
+# garment_type - type of the garment - {tshirt_short, pants, towel, tshirt_long}
+# table_desk - table, where the garment is located {t1, t2, t3}
+
+### Goal Definition ###
+string garment_type
+string table_desk
+---
+### Result Definition ###
+---
+### Feedback Definition ###
+float64 percentage_solved

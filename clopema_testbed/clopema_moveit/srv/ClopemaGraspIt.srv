@@ -1,0 +1,8 @@
+string frame_id
+string ik_link
+geometry_msgs/Pose[] poses
+float64 offset_minus
+float64 offset_plus
+---
+trajectory_msgs/JointTrajectory[] joint_trajectories
+string error

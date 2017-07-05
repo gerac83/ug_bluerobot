@@ -1,0 +1,22 @@
+### Description ###
+# Definition of CerthClassifier action
+
+
+### Goal Definition ###
+bool color
+bool texture
+bool type
+bool material
+bool skin 
+
+---
+### Result Definition ###
+int64 color
+int64 texture
+int64 type
+int64 material
+int64 skin
+int64 status
+
+---
+### Feedback Definition ###

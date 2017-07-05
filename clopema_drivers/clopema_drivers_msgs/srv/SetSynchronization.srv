@@ -1,0 +1,3 @@
+# Enable/Disable synchronization of the controller
+bool enable
+---

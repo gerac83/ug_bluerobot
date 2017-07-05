@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="topic_tools" type="relay" name="relay_joint_state" ns="clopema_controller" args="joint_states /joint_states" />
+    <node pkg="clopema_controller" name="joint_streamer" type="clopema_joint_streamer" output="screen" ns="clopema_controller" />
+    <node pkg="clopema_controller" name="robot_state" type="clopema_robot_state" output="screen" ns="clopema_controller" />
+</launch>

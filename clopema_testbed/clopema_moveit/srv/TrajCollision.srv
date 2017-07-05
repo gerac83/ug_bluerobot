@@ -1,0 +1,10 @@
+#Trajectory which will be tested for collision
+moveit_msgs/RobotTrajectory rtraj
+
+moveit_msgs/RobotState start_state
+
+#Pairs which have disabled collision checking
+string[] enable_collision_1
+string[] enable_collision_2
+---
+bool valid

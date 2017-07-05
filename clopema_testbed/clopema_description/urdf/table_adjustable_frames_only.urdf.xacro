@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+
+	<xacro:macro name="table_frames_only_leg" params="*origin parent suffix color height"> 
+		<link name="${suffix}"></link>
+		<joint name="${suffix}joint_ftable_frames_only_leg" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${suffix}"/>
+		</joint>
+	</xacro:macro>
+	<xacro:macro name="table_frames_only" params="*origin parent suffix color height deskx desky"> 
+		<link name="${suffix}desk"></link>
+		<joint name="${suffix}joint_frames_only_ftable" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${suffix}desk"/>
+		</joint>
+		<xacro:table_frames_only_leg parent="${suffix}desk" suffix="${suffix}leg_1" color="${color}" height="${height}">
+			<origin xyz="${deskx/2} ${desky/2} 0.0" rpy="0 0 ${PI}"/>
+		</xacro:table_frames_only_leg>
+		<xacro:table_frames_only_leg parent="${suffix}desk" suffix="${suffix}leg_2" color="${color}" height="${height}">
+			<origin xyz="${deskx/2} -${desky/2} 0.0" rpy="0 0 ${PI/2}"/>
+		</xacro:table_frames_only_leg>
+		<xacro:table_frames_only_leg parent="${suffix}desk" suffix="${suffix}leg_3" color="${color}" height="${height}">
+			<origin xyz="-${deskx/2} -${desky/2} 0.0" rpy="0 0 0"/>
+		</xacro:table_frames_only_leg>
+		<xacro:table_frames_only_leg parent="${suffix}desk" suffix="${suffix}leg_4" color="${color}" height="${height}">
+			<origin xyz="-${deskx/2} ${desky/2} 0.0" rpy="0 0 ${-PI/2}"/>
+		</xacro:table_frames_only_leg>
+	</xacro:macro>
+</robot>

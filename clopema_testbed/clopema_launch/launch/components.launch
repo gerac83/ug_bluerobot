@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <!--
+    This launch file contains probably uncomplete list of clopema componets. This launch file could be imported or used as and template.
+    --!>
+
+    <arg name="start_force" default="false"/>
+    <group if="$(arg start_force)">
+        <include file="$(find clopema_force)/launch/force_sensors.launch"/>
+    </group>
+
+    <arg name="start_grippers" default="false"/>
+    <group if="$(arg start_grippers)">
+        <include file="$(find clopema_gripper)/launch/start_grippers.launch"/>
+    </group>
+
+    <arg name="start_rubbing" default="false"/>
+    <group if="$(arg start_rubbing)">
+        <include file="$(find clopema_rubbing)/launch/start_rubbing.launch"/>
+    </group>
+
+    <arg name="start_virtptu" default="false"/>
+    <group if="$(arg start_virtptu)">
+        <include file="$(find clopema_ptu)/launch/virtual_ptu.launch" />
+    </group>
+
+</launch>

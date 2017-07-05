@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="clopema_moveit" name="grasp_it" type="grasping" output="screen"></node>
+    <node pkg="clopema_robot" name="grasp_from_table_services" type="grasping_services" output="screen"/>
+    <node pkg="clopema_robot" name="grasp_and_fold" type="grasp_and_fold" output="screen"/>
+    <node pkg="clopema_robot" name="time_param_srv" type="time_param_srv" output="screen"/>
+        
+</launch>

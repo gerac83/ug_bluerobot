@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="room_ug"> 
+		<link name="ctu_floor">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="5.9 4.6 0.2"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0"/>
+			</collision>
+		</link>
+		<link name="ctu_roof_1">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="5.9 4.6 0.2"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.1"/>
+			</collision>
+		</link>
+		<link name="ctu_roof_2">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.001 0.001 0.001"/>
+				</geometry>
+				<origin xyz="0.0 20.0 0.1"/>
+			</collision>
+		</link>
+		<link name="ctu_roof_3">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.001 0.001 0.001"/>
+				</geometry>
+				<origin xyz="0.0 30.0 0.1" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="ctu_wall_1">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="5.9 0.200 3"/>
+				</geometry>
+				<origin xyz="0.0 0.1 1.5" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="ctu_wall_2">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="5.9 0.200 3"/>
+				</geometry>
+				<origin xyz="0.0 -0.1 1.5" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="ctu_wall_3">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.200 4.6 3"/>
+				</geometry>
+				<origin xyz="0.1 0.0 1.5" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="ctu_wall_4">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.200 4.6 3"/>
+				</geometry>
+				<origin xyz="-0.1 0.0 1.5" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<joint name="ctu_f_floor" type="fixed">
+                        <origin xyz="0 0 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_floor"/>
+                </joint>
+		<joint name="ctu_f_roof_1" type="fixed">
+                        <origin xyz="0 0 3" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_roof_1"/>
+                </joint>
+		<joint name="ctu_f_roof_2" type="fixed">
+                        <origin xyz="0 0 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_roof_2"/>
+                </joint>
+		<joint name="ctu_f_roof_3" type="fixed">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_roof_3"/>
+                </joint>
+		<joint name="ctu_f_wall_1" type="fixed">
+			<origin xyz="0.0 2.3 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_wall_1"/>
+                </joint>
+		<joint name="ctu_f_wall_2" type="fixed">
+			<origin xyz=".0 -2.3 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_wall_2"/>
+                </joint>
+		<joint name="ctu_f_wall_3" type="fixed">
+			<origin xyz="2.95 0 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_wall_3"/>
+                </joint>
+		<joint name="ctu_f_wall_4" type="fixed">
+			<origin xyz="-2.95 0 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_wall_4"/>
+                </joint>
+	</xacro:macro>
+</robot>

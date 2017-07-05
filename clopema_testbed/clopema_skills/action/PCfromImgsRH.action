@@ -1,0 +1,27 @@
+### Description ###
+# Definition of Computing Point Cloud using RH
+# ptX and ptY -> Returns point the indexed 3D point wrt to left image
+# computePC -> Flag to indicate whether to compute a dense or sparse point cloud, subject to sampling_rate
+# sampling_rate -> after how many point a 3D point is computed (valid when computing a point cloud). e.g. sampling _rate = 1 means that the point cloud will have image_width*image_height 3D points.
+# imgLeft and imgRight -> Left and right images
+# infoLeft and infoRight -> left and right camera information
+# point3D -> 3D point corresponding to the point given in ptX and ptY
+# point_cloud -> dense or sparse point cloud
+
+### Goal Definition ###
+int16 ptX
+int16 ptY
+bool computePC
+int16 sampling_rate
+sensor_msgs/Image imgLeft
+sensor_msgs/Image imgRight
+sensor_msgs/CameraInfo infoLeft
+sensor_msgs/CameraInfo infoRight
+---
+### Result Definition ###
+geometry_msgs/PointStamped point3D
+sensor_msgs/PointCloud2 point_cloud
+bool status
+---
+### Feedback Definition ###
+int16 progress

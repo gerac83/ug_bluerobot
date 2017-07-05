@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="local" default="false"/>
+    <arg name="machine" default="clopema3"/>
+    <arg name="output" default="screen"/>
+    <arg name="name" value="r1_rubbing_node"/>
+
+    <include file="$(find clopema_config)/launch/clopema.launch" />
+
+
+    <group if="$(arg local)" >
+        <node name="r1_gripper_driver"
+            pkg="clopema_gripper"
+            type="clopema_gripper_driver.sh"
+            output="$(arg output)" />
+
+        <node name="r1_gripper_rosskin_server"
+            pkg="clopema_gripper"
+            args=""
+            type="clopema_gripper_rosskin_server"
+            respawn="true"
+            output="$(arg output)" />
+
+        <node name="r1_gripper_motor_server"
+            pkg="clopema_gripper"
+            args="-l 1"
+            type="clopema_gripper_motor_server"
+            output="$(arg output)" />
+
+        <node name="r2_gripper_motor_server"
+            pkg="clopema_gripper"
+            args="-l 2"
+            type="clopema_gripper_motor_server"
+            output="$(arg output)" />
+    </group>
+
+    <group unless="$(arg local)">
+        <node name="r1_gripper_driver"
+            pkg="clopema_gripper"
+            type="clopema_gripper_driver.sh"
+            output="$(arg output)"
+            machine="$(arg machine)"/>
+
+       <node name="r1_gripper_rosskin_server"
+            pkg="clopema_gripper"
+            args=""
+            type="clopema_gripper_rosskin_server"
+            respawn="true"
+            output="$(arg output)"
+            machine="$(arg machine)"/>
+
+       <node name="r1_gripper_motor_server"
+            pkg="clopema_gripper"
+            args="-l 1"
+            type="clopema_gripper_motor_server"
+            output="$(arg output)"
+            machine="$(arg machine)"/>
+
+       <node name="r2_gripper_motor_server"
+            pkg="clopema_gripper"
+            args="-l 2"
+            type="clopema_gripper_motor_server"
+            output="$(arg output)"
+            machine="$(arg machine)"/>
+    </group>
+            
+    <node pkg="clopema_gripper" name="optical_classification" type="optical_classification.py" output="screen">
+    </node>
+</launch>

@@ -1,0 +1,17 @@
+---
+uint32 sensor_types_count
+uint32 sensors_count
+uint32 sensor_neighbors_count
+# packed helper arrays
+uint32[] sensor_neighbors
+# for each sensor type
+uint32[] sensor_type_sensors_begins
+uint32[] sensor_type_sensors_ends
+# for each sensor
+float32[] sensor_relative_positions
+float32[] sensor_relative_orientations
+float32[] sensor_flattened_positions
+float32[] sensor_radii
+uint32[] sensor_neighbors_begins
+uint32[] sensor_neighbors_counts
+uint32[] sensor_robot_links

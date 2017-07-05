@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="base_link"> 
+		<link name="base_link">
+	<!--		<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<box size="2.0 2.0 0.05"/>
+				</geometry>
+				<origin xyz="0 0 0.025"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="2.0 2.0 0.05"/>
+				</geometry>
+				<origin xyz="0 0 0.025"/>
+			</collision>
+-->
+		</link>
+<!--
+		<link name="r1_link_e"/>
+		<link name="r2_link_e"/>
+		<joint name="r1_joint_e" type="revolute">
+			<axis xyz="0 0 1" />
+			<limit lower="-${1*TO_RAD}" upper="${1*TO_RAD}" velocity="${220*TO_RAD}" effort="1000.0" />
+			<child link="r1_link_e"/>
+			<origin xyz="0 0 0.0"/>
+			<parent link="base_link"/>
+		</joint>
+		<joint name="r2_joint_e" type="revolute">
+			<axis xyz="0 0 1" />
+			<limit lower="-${1*TO_RAD}" upper="${1*TO_RAD}" velocity="${220*TO_RAD}" effort="1000.0" />
+			<child link="r2_link_e"/>
+			<origin xyz="0 0 0.0"/>
+			<parent link="base_link"/>
+		</joint>
+-->
+	</xacro:macro>
+</robot>

@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="clopema">
+    <include filename="$(find clopema_description)/urdf/common.urdf.xacro" />
+    <include filename="$(find
+clopema_description)/urdf/room_certh.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/base_link.urdf.xacro" />
+    <include filename="$(find
+clopema_description)/urdf/ma1400/ma1400.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/gripper.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/r750.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/table_adjustable.urdf.xacro" />
+    <include filename="$(find
+clopema_description)/urdf/colObjects.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/dx100.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/xtion3.urdf.xacro" />
+    <include filename="$(find clopema_description)/urdf/xtion.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/alvar_marker.urdf.xacro" />
+<xacro:include filename="$(find clopema_description)/urdf/robot_head_UG.xacro" />
+
+    <xacro:base_link/>
+    <xacro:room_certh/>
+    <xacro:r750 parent="base_link" suffix="" color="blue">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    </xacro:r750>
+
+    <xacro:ma1400 parent="r750" suffix="r1_" color="blue">
+        <origin xyz="0 -.25 0.1600" rpy="${15*TO_RAD} 0 0"/>
+    </xacro:ma1400>
+    <xacro:ma1400 parent="r750" suffix="r2_" color="blue">
+        <origin xyz="0 .25 0.1600" rpy="-${15*TO_RAD} 0 0"/>
+    </xacro:ma1400>
+
+    <xacro:gripper parent="tip_link" suffix="r1_" color="blue">
+        <origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
+    </xacro:gripper>
+    <xacro:gripper parent="tip_link" suffix="r2_" color="blue">
+        <origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
+    </xacro:gripper>
+
+
+    <link name="box_pc">
+        <visual>
+            <geometry>
+                <box size="1.0 1.00 0.6" />
+            </geometry>
+            <material name="grey" />
+            </visual>
+        <collision>
+            <geometry>
+                <box size="1.0 1.00 0.6" />
+            </geometry>
+        </collision>
+    </link>
+    
+    <joint name="joint_fbox_pc" type="fixed">
+        <origin xyz="0 1.0 0.3" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="box_pc"/>
+    </joint>s
+    
+    <link name="cable_holder">
+        <visual>
+            <geometry>
+                <box size="0.4 0.40 0.40" />
+            </geometry>
+            <material name="grey" />
+            </visual>
+        <collision>
+            <geometry>
+                <box size="0.4 0.40 0.40" />
+            </geometry>
+        </collision>
+    </link>
+    
+    <joint name="joint_fcable_holder" type="fixed">
+        <origin xyz="0 1.6 2.0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="cable_holder"/>
+    </joint>
+
+    <link name="camera_stick">
+        <visual>
+            <geometry>
+                <box size="0.1 0.15 1.6" />
+            </geometry>
+            <material name="grey" />
+            <origin xyz="-0.00 0 0.80"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.15 1.6" />
+            </geometry>
+            <origin xyz="-0.00 0 0.80"/>
+        </collision>
+    </link>
+
+    <link name="camera_holder">
+        <visual>
+            <geometry>
+                <box size="0.04 0.20 0.04" />
+            </geometry>
+            <origin xyz="0 -0.1 0" rpy="0 0 0"/>
+            <material name="grey" />
+            </visual>
+        <collision>
+            <geometry>
+                <box size="0.04 0.20 0.04" />
+            </geometry>
+            <origin xyz="0 -0.1 0" rpy="0 0 0"/>
+        </collision>
+    </link>
+
+<!--
+    <link name="camera_box">
+        <visual>
+            <geometry>
+                <box size="0.4 0.40 0.40" />
+            </geometry>
+            <material name="grey" />
+            </visual>
+        <collision>
+            <geometry>
+                <box size="0.4 0.40 0.40" />
+            </geometry>
+        </collision>
+    </link>
+-->
+
+<!--
+    <joint name="frobot_head" type="fixed">
+        <child link="camera_box"/>
+        <parent link="camera_holder"/>
+        <origin xyz="0 -0.2 0.2" rpy="0 0 0"/>
+    </joint>
+-->
+
+    <joint name="joint_fcamera_stick" type="fixed">
+        <origin xyz="-0.450 0 0.12" rpy="0 0 0"/>
+        <parent link="r750"/>
+        <child link="camera_stick"/>
+    </joint>
+
+
+    <joint name="joint_fcamera_holder" type="fixed">
+        <origin xyz="0.05 0 1.27" rpy="0 0 ${PI/2}"/>
+        <parent link="camera_stick"/>
+        <child link="camera_holder"/>
+    </joint>
+
+    <xacro:xtion parent="r2_link_6" suffix="2" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+    <xacro:xtion parent="r1_link_6" suffix="1" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+
+    
+<!-- table r2 -->
+    <xacro:table parent="base_link" suffix="t2_" color="grey" height="0.72" deskx="0.8" desky="0.8">
+        <origin xyz="1.3 0 0.72" rpy="0 0 0"/>
+    </xacro:table>
+
+
+<!-- table r1 -->
+    <xacro:table parent="base_link" suffix="t1_" color="grey" height="0.72" deskx="0.8" desky="1.5">
+        <origin xyz="-1.15 0 0.72" rpy="0 0 0"/>
+    </xacro:table>
+
+<!-- front table  -->
+ <!--   <xacro:table parent="base_link" suffix="t3_" color="grey" height="0.72" deskx="0.8" desky="0.8">
+        <origin xyz=" 0 -1.3 0.72" rpy="0 0 0"/>
+    </xacro:table>
+-->
+<!--
+    <xacro:table parent="base_link" suffix="t2_" color="grey" height="0.72">
+        <origin xyz="1 -1.1 0.68" rpy="0 0 0"/>
+    </xacro:table>
+
+-->
+
+    <xacro:dx100 parent="base_link" color="grey" height="2">
+            <origin xyz="-1.215 1.895 0.0" rpy="0 0 0"/>
+    </xacro:dx100>
+
+<!--
+    <xacro:xtion3 parent="base_link" color="red" height="0.10">
+        <origin xyz="0.1 0.42 1.19" rpy="0 0 0"/>
+    </xacro:xtion3>
+-->
+
+ <xacro:xtion suffix="3" parent="torso_link"  prefix="" color="red" >
+        <origin xyz="0.1 0.42 1.19" rpy="0 ${PI/2} 0"/>
+    </xacro:xtion>
+
+<link name="torso_link"/>
+<joint name="torso_link_f" type="fixed">
+	<child link="torso_link"/>
+	<parent link="r750"/>
+	<origin xyz="0 0 -0.51" rpy="0 0 ${PI/2}"/>
+</joint>
+
+<link name="r1_gg"/>
+<joint name="r1_gg_joint_t" type="fixed">
+	<child link="r1_gg"/>
+	<parent link="r1_ee"/>
+	<origin xyz="-0.025 0 0" rpy="0 0 0"/>
+</joint>
+
+<link name="r2_gg"/>
+<joint name="r2_gg_joint_t" type="fixed">
+	<child link="r2_gg"/>
+	<parent link="r2_ee"/>
+	<origin xyz="-0.025 0 0" rpy="0 0 0"/>
+</joint>
+
+<!--	<xacro:robot_head parent="torso_link" b_roll="-5.46840811e-03" b_pitch="3.52775940e-04" b_yaw="1.01127140e-02" b_x="-2.91812569e-01" b_y="1.04384287e-03" b_z="2.32755276e-03">
+		<origin rpy="${45*TO_RAD} 0 0" xyz="1.6529e-06 0.45 2.31511"/>
+    </xacro:robot_head>
+-->
+<!--	<xacro:robot_head parent="torso_link" b_roll="-5.01130484e-02" b_pitch="1.19494963e-02" b_yaw="-1.87861547e-02" b_x="-2.86471426e-01" b_y=" 1.95423290e-01" b_z="-1.66482721e-02">
+		<origin rpy="${45*TO_RAD} 0 0" xyz="1.6529e-06 0.45 2.31511"/>
+    </xacro:robot_head>-->
+
+
+<xacro:alvar_marker parent="r1_tip_link" suffix="r1" width="0.052">
+        <origin xyz="-0.015 0.0259 0.065" rpy=" ${PI/6} ${-PI/2} ${-PI/2} "/>
+    </xacro:alvar_marker>
+
+<!--	<xacro:robot_head  parent="camera_holder" b_roll="-5.46840811e-03" b_pitch="3.52775940e-04" b_yaw="1.01127140e-02" b_x="-2.91812569e-01" b_y="1.04384287e-03" b_z="2.32755276e-03">
+		<origin rpy="0 0 0" xyz="0 -0.25 0"/>
+    </xacro:robot_head>
+-->
+<!--    <xacro:robot_head parent="base_link" color="green" height="1.0">
+        <origin xyz="0.1 0.42 1.4" rpy="0 0 0"/>
+    </xacro:robot_head>
+-->
+</robot>
+

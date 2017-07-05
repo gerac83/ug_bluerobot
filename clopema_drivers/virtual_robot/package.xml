@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>virtual_robot</name>
+  <version>0.0.0</version>
+  <description>The virtual_robot package consists of virtual robot and virtual gripper node</description>
+
+  <maintainer email="vladko.petrik@gmail.com">Vladimir Petrik</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <test_depend>gtest</test_depend>
+  <test_depend>rostest</test_depend>
+  
+  <build_depend>industrial_msgs</build_depend>
+  <run_depend>industrial_msgs</run_depend>
+  
+  <build_depend>roscpp</build_depend>
+  <run_depend>roscpp</run_depend>
+  
+  <build_depend>actionlib</build_depend>
+  <run_depend>actionlib</run_depend>
+  
+  <build_depend>clopema_drivers_msgs</build_depend>
+  <run_depend>clopema_drivers_msgs</run_depend>
+
+</package>

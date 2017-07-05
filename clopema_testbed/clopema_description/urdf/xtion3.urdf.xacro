@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="xtion3" params="*origin parent color height"> 
+		<link name="xtion3_link">
+			<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<box size="0.05 0.05 0.2" />
+				</geometry>
+				<material name="${color}" />
+				<origin xyz="0 0 0.1"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.05 0.05 0.2" />
+				</geometry>
+				<origin xyz="0 0 0.1"/>
+			</collision>
+		</link>
+		<joint name="joint_f_xtion3" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="xtion3_link"/>
+		</joint>
+
+	    <link name="xtion3_rgb_optical_frame"/>
+	    <link name="xtion3_link_ee"/>	
+
+		<joint name="joint_f_xtion3_frame" type="fixed">
+			<parent link="xtion3_link"/>
+			<child link="xtion3_link_ee"/>
+		</joint>
+
+		<joint name="joint_f_xtion3_optical_frame" type="fixed">
+			<parent link="xtion3_link_ee"/>
+			<child link="xtion3_rgb_optical_frame"/>
+		</joint>
+
+
+	</xacro:macro>
+</robot>

@@ -1,0 +1,23 @@
+### Description ###
+# Definition of garment flattening on the table using RH 
+# displacement_threshold - pulling displacement of the arm(s) in meters
+# table - table, where garment is located {t1, t2, t3}
+# --
+# final_iterations - final iterations taken to flatten a garment
+# final_min_displacement - final pulling displacement of the arm(s) in meters
+# success - True or false, if the robot succesfully flattens a garment or not
+# --
+# iterations - number of iterations of flattening
+
+### Goal Definition ###
+float32 displacement_threshold
+string table
+int16 max_iterations
+---
+### Result Definition ###
+int16 final_iterations
+float32 final_min_displacement
+bool success
+---
+### Feedback Definition ###
+int16 iterations

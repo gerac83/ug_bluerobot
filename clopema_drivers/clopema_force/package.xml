@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+    <name>clopema_force</name>
+    <version>0.0.0</version>
+    <description>The clopema_force package - package with code for processing of force sensors data.</description>
+    <maintainer email="petrivl3@fel.cvut.cz">Vladimir Petrik</maintainer>
+    <license>BSD</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+  
+    <build_depend>roscpp</build_depend>
+    <run_depend>roscpp</run_depend>
+    <build_depend>tf</build_depend>
+    <run_depend>tf</run_depend>
+    <build_depend>tf_conversions</build_depend>
+    <run_depend>tf_conversions</run_depend>
+    <build_depend>urdf</build_depend>
+    <run_depend>urdf</run_depend>
+
+  <export>
+  </export>
+</package>

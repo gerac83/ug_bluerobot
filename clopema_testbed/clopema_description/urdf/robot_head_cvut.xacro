@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	
+	<!-- ************************************************* Variables ************************************************* -->
+	<xacro:property name="baseline" value="0.3" />
+	
+	<!-- Left pan to right pan transformation as given in out_gripper2camera.xml -->
+	<xacro:property name="baseline_roll" value="-1.26971034e-02" /> <!-- in radians -->
+	<xacro:property name="baseline_pitch" value="4.94077289e-03" /> <!-- in radians -->
+	<xacro:property name="baseline_yaw" value="1.84224639e-02" /> <!-- in radians -->
+	<xacro:property name="baseline_x" value="-3.92048061e-01" /> <!-- in meters -->
+	<xacro:property name="baseline_y" value="1.74035043e-01" /> <!-- in meters -->
+	<xacro:property name="baseline_z" value="-2.52250861e-03" /> <!-- in meters -->
+	
+	<xacro:property name="pi" value = "3.14159265" />
+	<xacro:property name="toRad" value = "0.017453292" />
+	<xacro:property name="maxmin_pan" value="90" /> <!-- in degrees -->
+	<xacro:property name="maxmin_tilt" value="40" /> <!-- in degrees -->
+
+	<!-- ************************************************* Link names ************************************************* -->
+	<xacro:property name="suffix_left" value="left_" />
+	<xacro:property name="suffix_right" value="right_" />
+
+    <!-- Change from base_link to ips_bar when integrated with the dual-arm robot -->
+	<xacro:property name="ips_bar" value="base_link" />
+
+	<xacro:property name="base_ptu" value="base" />
+	<xacro:property name="pan_ptu" value="pan" />
+	<xacro:property name="tilt_ptu" value="tilt_ptu" />
+	<xacro:property name="opticFrame_ptu" value="tilt_optic" /> <!-- Rotated such that it is aligned to the camera frame -->
+
+	<!-- ************************************************* Robot head dimensions ************************************************* -->
+	<xacro:property name="ipsX" value="0.4" />
+	<xacro:property name="ipsY" value="0.04" />
+	<xacro:property name="ipsZ" value="0.04" />
+
+	<xacro:property name="base_ptuX" value="0.06858" />
+	<xacro:property name="base_ptuY" value="0.09017" />
+	<xacro:property name="base_ptuZ" value="0.04572" />
+
+	<xacro:property name="pan_ptuX" value="0.04191" />
+	<xacro:property name="pan_blockY" value="0.04318" /> <!-- Motor not included -->
+	<xacro:property name="pan_ptuY" value="0.09017" />
+	<xacro:property name="pan_ptuZ" value="0.06541" />
+
+	<xacro:property name="space_btwn_basepan" value="0.00105" />
+
+	<xacro:property name="right_clearspace" value="0.02276" /> <!-- In X axis, frontal view (motors at the back) btwn pan and rightmost corner of tilt-->
+
+	<xacro:property name="tilt_ptuX" value="0.06414" />
+	<xacro:property name="tilt_ptuY" value="0.02540" />
+	<xacro:property name="tilt_ptuZ" value="0.00635" />
+	
+	<xacro:property name="to_tilt" value="0.04371" />
+
+	<xacro:property name="space_btwn_pantilt" value="0.01107" />
+
+	<xacro:property name="tilt_bracesX" value="0.01" />
+	<xacro:property name="tilt_bracesY" value="0.025" />
+	<xacro:property name="tilt_bracesZ" value="0.045" />
+	
+	<xacro:property name="nikonX" value="0.15" />
+	<xacro:property name="nikonY" value="0.12" />
+	<xacro:property name="nikonZ" value="0.08" />
+
+	<!--  ========== Geometric templates ==========-->
+	<xacro:macro name="box_macro" params="name size *origin *material">
+	<link name="${name}">
+		<visual>
+			<xacro:insert_block name="origin" />
+			<geometry>
+				<box size="${size}" />
+			</geometry>
+			<xacro:insert_block name="material" />
+		</visual>
+	</link>
+	</xacro:macro>
+	
+	<xacro:macro name="cylinder_macro" params="name radius length *origin *material">
+	<link name="${name}">
+		<visual>
+			<xacro:insert_block name="origin" />
+			<geometry>
+				<cylinder radius="${radius}" length="${length}" />
+			</geometry>
+
+			<xacro:insert_block name="material" />
+		</visual>
+	</link>
+	</xacro:macro>
+	
+	<xacro:macro name="fixedjoint" params="name parent child *origin">
+	<joint name="${name}" type="fixed">
+		<xacro:insert_block name="origin" />
+		<parent link="${parent}"/>
+		<child link="${child}"/>
+	</joint>
+	</xacro:macro>
+	
+	
+	    <!-- ****************************************** Camera and tilt ptu frames ************************************************* -->
+	<xacro:macro name="robot_head" params="*origin parent"> 	
+	
+		<link name="left_camera" />
+		<link name="right_camera" />
+
+		<joint name="left_camera_joint" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="left_camera"/>
+		</joint>
+		
+		<joint name="right_camera_joint" type="fixed">
+			<origin rpy="-2.40094 0.056343 -3.08183 " xyz="-0.193484 0.239013 2.312 "/>
+			<parent link="torso_link"/>
+			<child link="right_camera"/>
+		</joint>
+		
+	
+		<xacro:box_macro name="left_tilt_ptu" size="${tilt_ptuY} ${tilt_ptuZ} ${tilt_ptuX}">
+			<origin xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ/2)+space_btwn_pantilt} 0"/>
+			<material name="grey" />
+		</xacro:box_macro>
+		
+		<xacro:box_macro name="right_tilt_ptu" size="${tilt_ptuY} ${tilt_ptuZ} ${tilt_ptuX}">
+			<origin xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ/2)+space_btwn_pantilt} 0"/>
+			<material name="grey" />
+		</xacro:box_macro>
+		
+		<joint name="left_tilt_ptu_joint" type="fixed">
+			<origin rpy="1.8797 -1.55808 -1.87974 " xyz="-0.00354185 0.0789548 -0.128822 "/>
+			<parent link="left_camera"/>
+			<child link="left_tilt_ptu"/>
+		</joint>
+			
+		<joint name="right_tilt_ptu_joint" type="fixed">
+			<origin rpy="1.80732 -1.56734 -1.7956 " xyz="-0.00510007 0.0870721 -0.109254 "/>
+			<origin rpy="1.80732 -1.56734 -1.7956 " xyz="-0.00510007 0.0870721 -0.109254 "/>
+			<parent link="right_camera"/>
+			<child link="right_tilt_ptu"/>
+		</joint>
+
+		
+	    <!-- ************************************************* Left optical frame ************************************************* -->
+		<!-- Rotate optical frame in order to align them wrt the camera frame -->
+		<xacro:box_macro name="${suffix_left}${opticFrame_ptu}" size="0.0001 0.0001 0.001">
+			<origin />
+			<material name="gray_dark" />
+		</xacro:box_macro>
+
+		<xacro:fixedjoint name="${suffix_left}to_opticalframe" parent="${suffix_left}${tilt_ptu}" child="${suffix_left}${opticFrame_ptu}">
+			<origin rpy="0 ${90*toRad} 0" xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ/2)+space_btwn_pantilt} 0"/>
+		</xacro:fixedjoint>
+			
+		<!-- ************************************************* Right optical frame ************************************************* -->
+		<!-- Rotate optical frame in order to align them wrt the camera frame -->
+		<xacro:box_macro name="${suffix_right}${opticFrame_ptu}" size="0.0001 0.0001 0.0001">
+			<origin />
+			<material name="gray_dark" />
+		</xacro:box_macro>
+
+		<xacro:fixedjoint name="${suffix_right}to_opticalframe" parent="${suffix_right}${tilt_ptu}" child="${suffix_right}${opticFrame_ptu}">
+			<origin rpy="0 ${90*toRad} 0" xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ/2)+space_btwn_pantilt} 0"/>
+		</xacro:fixedjoint>
+		
+		<!-- ************************************************* Cameras and lenses ************************************************* -->
+		<!-- ** FOR DISPLAY PURPOSES, NOT ACTUAL MODEL ** -->
+		<xacro:box_macro name="${suffix_left}camera_virtual" size="0.125 0.07 0.105">
+			<origin />
+			<material name="grey" />
+		</xacro:box_macro>
+
+		<xacro:fixedjoint name="${suffix_left}camera_virtual" parent="${suffix_left}${tilt_ptu}" child="${suffix_left}camera_virtual">
+			<origin rpy="${90*toRad} -${90*toRad} 0" xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ)+space_btwn_pantilt+(0.105/2)} 0"/>
+		</xacro:fixedjoint>
+
+		<xacro:cylinder_macro name="${suffix_left}lens_virtual" radius="0.035" length="0.07">
+			<origin />
+			<material name="grey" />
+		</xacro:cylinder_macro>
+
+		<xacro:fixedjoint name="${suffix_left}to_lens_virtual" parent="${suffix_left}camera_virtual" child="${suffix_left}lens_virtual">
+			<origin rpy="-${90*toRad} 0 0" xyz="0 -0.07 0"/>
+		</xacro:fixedjoint>
+
+		<xacro:box_macro name="${suffix_right}camera_virtual" size="0.125 0.07 0.105">
+			<origin />
+			<material name="grey" />
+		</xacro:box_macro>
+
+		<xacro:fixedjoint name="${suffix_right}camera_virtual" parent="${suffix_right}${tilt_ptu}" child="${suffix_right}camera_virtual">
+			<origin rpy="${90*toRad} -${90*toRad} 0" xyz="0 -${(pan_ptuZ-to_tilt)+(tilt_ptuZ)+space_btwn_pantilt+(0.105/2)} 0"/>
+		</xacro:fixedjoint>
+
+		<xacro:cylinder_macro name="${suffix_right}lens_virtual" radius="0.035" length="0.07">
+			<origin />
+			<material name="grey" />
+		</xacro:cylinder_macro>
+
+		<xacro:fixedjoint name="${suffix_right}to_lens_virtual" parent="${suffix_right}camera_virtual" child="${suffix_right}lens_virtual">
+			<origin rpy="-${90*toRad} 0 0" xyz="0 -0.07 0"/>
+		</xacro:fixedjoint>
+		
+
+	</xacro:macro>
+</robot>

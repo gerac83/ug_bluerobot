@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="local" default="false"/>
+    <arg name="r1_port" default="/dev/ttyUSB1"/>
+    <arg name="r2_port" default="/dev/ttyUSB2"/>
+    <arg name="machine" default="kinect1"/>
+    <arg name="output" default="screen"/>
+    <arg name="calibrate" default="true"/>
+    <arg name="stifness" default="10"/>
+
+
+    <include file="$(find clopema_config)/launch/clopema.launch" />
+
+    <include file="$(find clopema_rubbing)/launch/rubbing_node.xml">
+        <arg name="port" value="$(arg r1_port)" />
+        <arg name="limb" value="1" />
+        <arg name="machine" value="$(arg machine)" />
+        <arg name="output" value="$(arg output)" />
+        <arg name="name" value="r1_rubbing"/>
+        <arg name="local" value="$(arg local)"/>
+    </include>
+
+    <include file="$(find clopema_rubbing)/launch/rubbing_node.xml">
+        <arg name="port" value="$(arg r2_port)" />
+        <arg name="limb" value="2" />
+        <arg name="machine" value="$(arg machine)" />
+        <arg name="output" value="$(arg output)" />
+        <arg name="name" value="r2_rubbing"/>
+        <arg name="local" value="$(arg local)"/>
+    </include>
+
+    <group if="$(arg calibrate)">
+        <node name="r1_calibrate" pkg="clopema_rubbing" type="srv_call.sh" args="/r1_gripper/CalibrateRubbing"/>
+        <node name="r1_set_stifness" pkg="clopema_rubbing" type="set_stifness.sh" args="1 $(arg stifness)"/>
+        <node name="r2_calibrate" pkg="clopema_rubbing" type="srv_call.sh" args="/r2_gripper/CalibrateRubbing"/>
+        <node name="r2_set_stifness" pkg="clopema_rubbing" type="set_stifness.sh" args="2 $(arg stifness)"/>
+    </group>
+
+</launch>
+

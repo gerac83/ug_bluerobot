@@ -1,0 +1,72 @@
+controller_list:
+  - name: fake_r1_arm_controller
+    joints:
+      - r1_joint_s
+      - r1_joint_l
+      - r1_joint_u
+      - r1_joint_r
+      - r1_joint_b
+      - r1_joint_t
+  - name: fake_r2_arm_controller
+    joints:
+      - r2_joint_s
+      - r2_joint_l
+      - r2_joint_u
+      - r2_joint_r
+      - r2_joint_b
+      - r2_joint_t
+  - name: fake_r1_gripper_controller
+    joints:
+      - r1_joint_grip
+  - name: fake_r2_gripper_controller
+    joints:
+      - r2_joint_grip
+  - name: fake_arms_controller
+    joints:
+      - r1_joint_s
+      - r1_joint_l
+      - r1_joint_u
+      - r1_joint_r
+      - r1_joint_b
+      - r1_joint_t
+      - r2_joint_s
+      - r2_joint_l
+      - r2_joint_u
+      - r2_joint_r
+      - r2_joint_b
+      - r2_joint_t
+  - name: fake_ext_controller
+    joints:
+      - ext_axis
+  - name: fake_r1_xtion_controller
+    joints:
+      - r1_joint_s
+      - r1_joint_l
+      - r1_joint_u
+      - r1_joint_r
+      - r1_joint_b
+  - name: fake_xtions_controller
+    joints:
+      - r1_joint_s
+      - r1_joint_l
+      - r1_joint_u
+      - r1_joint_r
+      - r1_joint_b
+      - r2_joint_s
+      - r2_joint_l
+      - r2_joint_u
+      - r2_joint_r
+      - r2_joint_b
+  - name: fake_r2_xtion_controller
+    joints:
+      - r2_joint_s
+      - r2_joint_l
+      - r2_joint_u
+      - r2_joint_r
+      - r2_joint_b
+  - name: fake_r1_xtion_ee_controller
+    joints:
+      []
+  - name: fake_r2_xtion_ee_controller
+    joints:
+      []

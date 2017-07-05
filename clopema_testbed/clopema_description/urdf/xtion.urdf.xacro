@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+<xacro:macro name="xtion" params="*origin parent suffix color prefix">
+	<link name="${prefix}xtion${suffix}_link_ee"/>
+	<link name="${prefix}xtion${suffix}_rgb_optical_frame"/>
+	<link name="${prefix}xtion${suffix}_depth_optical_frame"/>
+	<link name="${prefix}xtion${suffix}_rgb_frame"/>
+	<link name="${prefix}xtion${suffix}_depth_frame"/>
+	<link name="${prefix}xtion${suffix}_link">
+		<xacro:default_inertial/>
+		<visual>
+			<geometry>
+				<box size="0.20 0.05 0.05" />
+			</geometry>
+			<material name="${color}"/>
+			<origin xyz="0.0225 0 0"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.20 0.05 0.05" />
+			</geometry>
+			<origin xyz="0.0225 0 0"/>
+		</collision>
+	</link>
+
+	<!-- Optical frames -->
+	<joint name="${prefix}joint_fxtion${suffix}_rgb_optical_frame" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<parent link="${prefix}xtion${suffix}_link_ee"/>
+		<child link="${prefix}xtion${suffix}_rgb_optical_frame"/>
+	</joint>
+	<joint name="${prefix}joint_fxtion${suffix}_depth_optical_frame" type="fixed">
+		<origin xyz="-0.025 0 0" rpy="0 0 0"/>
+		<parent link="${prefix}xtion${suffix}_rgb_optical_frame"/>
+		<child link="${prefix}xtion${suffix}_depth_optical_frame"/>
+	</joint>
+
+	<!-- Collision and IKT links -->
+	<joint name="${prefix}joint_fxtion${suffix}_link" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<parent link="${prefix}xtion${suffix}_link_ee"/>
+		<child link="${prefix}xtion${suffix}_link"/>
+	</joint>
+	<joint name="${prefix}joint_fxtion${suffix}_link_ee" type="fixed">
+		<insert_block name="origin"/>
+		<parent link="${parent}"/>
+		<child link="${prefix}xtion${suffix}_link_ee"/>
+	</joint>
+
+	<!--Non optical frames-->
+	<joint name="${prefix}joint_fxtion${suffix}_rgb_frame" type="fixed">
+		<origin xyz="0 0 0" rpy="${PI/2} -${PI/2} 0"/>
+		<parent link="${prefix}xtion${suffix}_rgb_optical_frame"/>
+		<child link="${prefix}xtion${suffix}_rgb_frame"/>
+	</joint>
+	<joint name="${prefix}joint_fxtion${suffix}_depth_frame" type="fixed">
+		<origin xyz="0 0 0" rpy="${PI/2} -${PI/2} 0"/>
+		<parent link="${prefix}xtion${suffix}_depth_optical_frame"/>
+		<child link="${prefix}xtion${suffix}_depth_frame"/>
+	</joint>
+</xacro:macro>
+</robot>

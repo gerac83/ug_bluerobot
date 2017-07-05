@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+        <xacro:macro name="gripper_v3" params="*origin parent suffix color"> 
+                <link name="${suffix}gripper">
+                        <xacro:default_inertial/>
+                        <visual>
+                                <geometry>
+                                        <mesh scale="0.001 0.001 0.001" filename="package://clopema_description/meshes/gripper_v3.stl"/>
+                                </geometry>
+                                <material name="${color}" />
+                                <origin xyz="0 0 .116" rpy="${-PI/2} 0 0"/>
+                        </visual>
+                        <collision>
+                                <geometry>
+                                    <!-- 
+                                    Min=<-46.000000,-182.841156,-57.557457>, Max=<44.510326,116.000000,54.999977>
+                                        0.0905    0.2988    0.1126
+                                    -->
+                                        <box size="0.1 0.35 0.12"/>
+                                </geometry>
+                                <origin xyz="0 0 0.125" rpy="${-PI/2} 0 0"/>
+                        </collision>
+                </link>
+                <joint name="${suffix}joint_fgrip" type="fixed">
+                        <child link="${suffix}gripper"/>
+                        <insert_block name="origin" /> 
+                        <parent link="${suffix}${parent}"/>
+                </joint>
+                <link name="${suffix}ee"/>
+                <joint name="${suffix}joint_fee" type="fixed">
+                        <child link="${suffix}ee"/>
+                        <parent link="${suffix}gripper"/>
+                        <origin xyz="0.0025 0 0.295" rpy="0 0 0"/>
+                </joint>
+                <link name="${suffix}ee_par"/>
+                <joint name="${suffix}joint_fee_par" type="fixed">
+                        <child link="${suffix}ee_par"/>
+                        <parent link="${suffix}gripper"/>
+                        <origin xyz="0.0025 0 0.295" rpy="0 ${-PI/9} 0"/>
+                </joint>
+                <link name="${suffix}ps"/>
+                <joint name="${suffix}joint_fps" type="fixed">
+                    <child link="${suffix}ps"/>
+                    <parent link="${suffix}gripper"/>
+                    <origin xyz="0.03 0 0.185" rpy="0 ${PI/2 - PI/8} 0"/>
+                </joint>
+                <link name="${suffix}gripper_status"/>
+                <joint name="${suffix}joint_grip" type="prismatic">
+                        <axis xyz="0 1 0"/>
+                        <limit lower="0" upper="1" velocity="1000.0" effort="1000.0" />
+                        <child link="${suffix}gripper_status"/>
+                        <insert_block name="origin" /> 
+                        <parent link="${suffix}gripper"/>
+                </joint>
+                
+        </xacro:macro>
+</robot>

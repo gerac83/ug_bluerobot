@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<launch>
+    <node pkg="virtual_robot" type="virtual_robot" name="ptu_controller" output="screen">
+        <rosparam param="joint_names">
+            ["right_to_pan", "right_to_tilt", "left_to_pan", "left_to_tilt"]
+        </rosparam>
+        <rosparam param="default_positions"> [0.0, 0.0, 0.0, 0.0] </rosparam>
+        <param name="set_power_down_service" value="" />
+        <param name="synchronization_service" value="" />
+        
+        <param name="allow_joint_states" value="true" />
+        <param name="allow_robot_status" value="false" />
+        <param name="allow_point_streaming" value="false" />
+        <param name="allow_path_actionlib" value="false" />
+        <param name="allow_path_service" value="false" />
+        <param name="allow_stop_motion" value="false" />
+        <param name="allow_path_topic" value="false" />
+        
+        <remap from="~joint_states" to="/joint_states" />
+    </node>
+</launch>

@@ -1,0 +1,11 @@
+### Description ###
+# Definition of Unfold action
+# armName - arm used for picking up {r1, r2}
+
+### Goal Definition ###
+string armName
+---
+### Result Definition ###
+int64 clothType
+---
+### Feedback Definition ###

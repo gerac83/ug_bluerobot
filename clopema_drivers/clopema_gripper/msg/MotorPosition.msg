@@ -1,0 +1,2 @@
+float32 motorPosition
+uint16 motorPositionSteps

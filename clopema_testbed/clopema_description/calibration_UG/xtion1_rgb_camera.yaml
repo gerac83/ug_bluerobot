@@ -1,0 +1,20 @@
+image_width: 640
+image_height: 480
+camera_name: xtion1_rgb
+camera_matrix:
+    rows: 3
+    cols: 3
+    data: [540.884120, 0.000000, 322.649805, 0.000000, 539.125424, 239.428601, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+    rows: 1
+    cols: 5
+    data: [0.020598, -0.098738, -0.001657, 0.000591, 0.000000]
+rectification_matrix:
+    rows: 3
+    cols: 3
+    data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+    rows: 3
+    cols: 4
+    data: [540.884120, 0.000000, 322.649805, 0, 0.000000, 539.125424, 239.428601, 0, 0.000000, 0.000000, 1.000000, 0]

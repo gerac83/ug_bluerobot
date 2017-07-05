@@ -1,0 +1,11 @@
+# A set of udev rules for clopema project
+ACTION!="add|change", GOTO="clopema_end"
+
+# Gripper rubbing driver
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB[0-9]*", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", GROUP="plugdev", MODE="0660", SYMLINK+="gripper"
+
+# Nikons
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04b0", ATTRS{idProduct}=="0429", ATTR{serial}=="000006623780", GROUP="plugdev", MODE="0660", SYMLINK="nikon_left"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04b0", ATTRS{idProduct}=="0429", ATTR{serial}=="000006372504", GROUP="plugdev", MODE="0660", SYMLINK="nikon_right"
+
+LABEL="clopema_end"

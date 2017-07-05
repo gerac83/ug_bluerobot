@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='ASCII'?>
+<library path="lib/libclopema_kinematics_plugin">
+    <class name="ClopemaArmKinematicsPlugin" type="ClopemaArmKinematicsPlugin" base_class_type="kinematics::KinematicsBase">
+        <description>Clopema MA1400 arm kinematics plugin</description>
+    </class>
+</library>

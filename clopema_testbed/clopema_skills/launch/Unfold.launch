@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="run_xtion" default="true" />
+
+    <include file="$(find clopema_launch)/launch/xtion3.launch" if="$(arg run_xtion)">
+        <arg name="run_grab" value="true"/>
+    </include>
+    <node pkg="certh_unfolding" name="unfold_server" type="unfolding" output="screen">
+    </node>
+</launch>

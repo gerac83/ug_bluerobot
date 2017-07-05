@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <name>clopema_calibration</name>
+  <version>0.0.0</version>
+  <description>The clopema_calibration package</description>
+
+  <maintainer email="wagnelib@cmp.felk.cvut.cz">Libor Wagner</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>opencv</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  
+  <build_depend>message_runtime</build_depend>
+  <build_depend>clopema_robot</build_depend>
+  <build_depend>clopema_moveit</build_depend>
+  <build_depend>Eigen3</build_depend>
+  <build_depend>image_geometry</build_depend>
+  
+  <run_depend>rospy</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>opencv</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  
+  <run_depend>message_runtime</run_depend>
+  <run_depend>clopema_robot</run_depend>
+  <run_depend>clopema_moveit</run_depend>
+  <run_depend>Eigen3</run_depend>
+  <run_depend>image_geometry</run_depend>
+</package>

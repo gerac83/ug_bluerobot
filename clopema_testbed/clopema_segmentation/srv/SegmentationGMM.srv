@@ -1,0 +1,23 @@
+# Source image
+sensor_msgs/Image image
+
+# Region of intereset as an polygon
+geometry_msgs/Point[] roi
+
+# Model name
+string model
+
+# Fold index, 0 represents spread garments
+int8 fold_index
+
+# Fold line, two points that represents desired fold line.
+# Note that the order of points are crutial as it encodes the direction of the
+# fold.
+geometry_msgs/Point[2] fold_line
+---
+# Segmetation mask
+sensor_msgs/Image mask
+
+# Cloth polygon and vertices names
+string[] names
+geometry_msgs/Point[] poly

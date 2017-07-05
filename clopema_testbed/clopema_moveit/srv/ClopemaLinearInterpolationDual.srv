@@ -1,0 +1,9 @@
+Header header
+string ik_link_name_1
+string ik_link_name_2
+geometry_msgs/Pose[] poses_1
+geometry_msgs/Pose[] poses_2
+---
+trajectory_msgs/JointTrajectory joint_trajectory
+string error
+

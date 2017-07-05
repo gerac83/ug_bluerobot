@@ -1,0 +1,3 @@
+sensor_msgs/Image image
+---
+clopema_calibration/Dotmatrix dotmatrix

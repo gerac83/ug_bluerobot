@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+    <name>clopema_segmentation</name>
+    <version>0.0.0</version>
+    <description>The clopema_segmentation package</description>
+    <maintainer email="vladko.petrik@gmail.com">Vladimir Petrik</maintainer>
+    <license>BSD</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>roscpp</build_depend>
+    <build_depend>tf</build_depend>
+    <build_depend>tf_conversions</build_depend>
+    <build_depend>message_generation</build_depend>
+    
+    <run_depend>roscpp</run_depend>
+    <run_depend>tf</run_depend>
+    <run_depend>tf_conversions</run_depend>
+    <run_depend>message_runtime</run_depend>
+    
+    <build_depend>image_geometry</build_depend>
+    <run_depend>image_geometry</run_depend>
+    
+    <build_depend>cv_bridge</build_depend>
+    <run_depend>cv_bridge</run_depend>
+
+    <build_depend>segmentation</build_depend>
+    <run_depend>segmentation</run_depend>
+    
+    <build_depend>clopema_libs</build_depend>
+    <run_depend>clopema_libs</run_depend>
+    
+</package>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="local" default="false"/>
+    <arg name="port" default="/dev/ttyUSB1"/>
+    <arg name="machine" default="kinect1"/>
+    <arg name="output" default="screen"/>
+    <arg name="name" value="r1_rubbing_node"/>
+
+    <include file="$(find clopema_config)/launch/clopema.launch" />
+
+    <node unless="$(arg local)"
+        name="$(arg name)"
+        pkg="clopema_rubbing"
+        type="rubbing_node"
+        machine="$(arg machine)"
+        output="$(arg output)"
+        args="$(arg port)" />
+
+    <node if="$(arg local)"
+        name="$(arg name)"
+        pkg="clopema_rubbing"
+        type="rubbing_node"
+        output="$(arg output)"
+        args="$(arg port)" />
+
+</launch>
+

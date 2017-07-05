@@ -1,0 +1,14 @@
+### Description ###
+# Definition of Capturing Images using RH
+# mode = full or preview
+
+### Goal Definition ###
+string mode
+---
+### Result Definition ###
+sensor_msgs/Image imgLeft
+sensor_msgs/Image imgRight
+sensor_msgs/CameraInfo infoLeft
+sensor_msgs/CameraInfo infoRight
+---
+### Feedback Definition ###

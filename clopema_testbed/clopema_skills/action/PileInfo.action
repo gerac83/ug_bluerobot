@@ -1,0 +1,20 @@
+### Description ###
+#table_put - name of table where we want cloths to put on - {"t1_desk", "t2_desk", "t3_desk"}
+## Pile information ##
+#pile1 - 1 corner coordinates of pile (pile1[0] - x coordinate, pile1[1] - y coordinate, pile1[2] - z coordinate)
+#pile2 - 1 corner coordinates of pile (pile2[0] - x coordinate, pile2[1] - y coordinate, pile2[2] - z coordinate)
+#pile3 - 1 corner coordinates of pile (pile3[0] - x coordinate, pile3[1] - y coordinate, pile3[2] - z coordinate)
+#pile4 - 1 corner coordinates of pile (pile4[0] - x coordinate, pile4[1] - y coordinate, pile4[2] - z coordinate)
+#high - high of pile
+
+### Goal definition ###
+string table_put
+---
+### Result definition ###
+float32[] pile1
+float32[] pile2
+float32[] pile3
+float32[] pile4
+float32 high
+---
+### FeedBack definition ###

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="machine"/>
+    <node
+        pkg="clopema_stereo" type="get_camera_image_server" 
+        name="get_camera_image_server_left" output="screen" machine="$(arg machine)"
+        args="/clopema_drivers/stereo/GetCameraImageLeft /dev/nikon_left left_camera">
+    </node>
+
+    <node
+        pkg="clopema_stereo" type="get_camera_image_server"
+        name="get_camera_image_server_right" output="screen" machine="$(arg machine)"
+        args="/clopema_drivers/stereo/GetCameraImageRight /dev/nikon_right right_camera"> 
+    </node>
+    
+    <node 
+        pkg="clopema_stereo" type="get_stereo_pair_server" name="get_stereo_pair_server" 
+        output="screen" machine="$(arg machine)">
+    </node>
+</launch>
+

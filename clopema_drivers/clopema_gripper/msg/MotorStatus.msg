@@ -1,0 +1,5 @@
+bool opening
+bool closing
+bool position_calibrated
+bool force_calibrated
+bool ambient_and_proximity_calibrated

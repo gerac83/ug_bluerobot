@@ -1,0 +1,25 @@
+### Description ###
+# This action puts garment either on the table over its edge, or hangs it on the string
+#
+# Definition of PutOverEdge action
+# table_desk - the name of the table desk where the garment will be put on { t1, t2, t3 }
+# targe_type - type of target where to put the garment ( 0 - table, 1 - string )
+# hold_manually - if the garment has to be manually inserted to grippes before putting on the table { 0, 1 }
+# spread_garment - if the force sensor is used for spreading of the garment { 0, 1 }
+# allow_tilt_arm - if table is too far from the robot, tilting of gripper can help to plan trajectory { 0, 1 }
+# hold_manually_init_spread - initial distance between grippers in meters (used only in case that holding = 1)
+# garment_length - length of garment (from the top to bottom while hanging)
+
+### Goal Definition ###
+string table_desk
+int16 target_type
+int16 hold_manually
+int16 spread_garment
+int16 allow_tilt_arm
+float32 hold_manually_init_spread
+float32 garment_length
+---
+### Result Definition ###
+---
+### Feedback Definition ###
+

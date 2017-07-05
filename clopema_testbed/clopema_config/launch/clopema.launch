@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+This is a CloPeMa configuration launch-file. It will include a site specific
+launch-file based on the CLOPEMA_PARTNER environment variable or display error.
+
+This launch-file should be included in every launch file that is intended to be
+launched directly by roslaunch.
+
+Libor Wagner on February  8, 2013
+-->
+<launch>
+
+    <!-- Include common configuration file -->
+    <include file="$(find clopema_config)/launch/clopema_common.launch"/>
+
+    <!-- Include site specific configuration file -->
+    <include file="$(find clopema_config)/launch/clopema_$(optenv CLOPEMA_PARTNER error).launch"/>
+
+</launch>

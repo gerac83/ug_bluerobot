@@ -1,0 +1,23 @@
+### Description ###
+# Definition of grasping of the garment from table using RH 
+# table - table, where the garment is located {t1, t2, t3}
+# arm - arm used for picking up {r1_arm, r2_arm}
+# coarseLevel - low-resolution foveated level for pre-attentive search (e.g. 6)
+# midLevel - intermediate foveated level when grasping candidate was not found after a pre-attentive-attentive cycle (e.g. 3)
+# fineLevel - high-resolution foveated level for attentive search (e.g. 0)
+# treshold - Euclidean distance treshold that denotes whether a grasping candidate has been verified
+
+### Goal Definition ###
+string table
+string arm
+int16 coarseLevel
+int16 midLevel
+int16 fineLevel
+float32 treshold
+---
+### Result Definition ###
+bool status
+bool goodCandidates
+---
+### Feedback Definition ###
+bool candidateFound

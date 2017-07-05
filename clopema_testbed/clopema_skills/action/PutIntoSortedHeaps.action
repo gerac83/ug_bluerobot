@@ -1,0 +1,19 @@
+### Description ###
+# Definition of PutIntoSortedHeaps action
+# table_desk - the name of the table desk where the garment will be put on { t1, t2, t3 }
+# arm - arm used for picking up {r1, r2}
+# num_segments_x - number of table segments in x direction
+# num_segments_y - number of table segments in y direction
+# index - index of segment where to put garment on
+
+### Goal Definition ###
+string table_desk
+string arm
+int16 num_segments_x
+int16 num_segments_y
+int16 index
+---
+### Result Definition ###
+---
+### Feedback Definition ###
+

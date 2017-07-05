@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot name="ptu_d46"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+        
+    <!-- ************************************************* Templates ************************************************* -->
+    <xacro:macro name="cylinder_macro" params="name radius length *origin *material">
+        <link name="${name}">
+            <visual>
+                    <xacro:insert_block name="origin" />
+                    <geometry>
+                            <cylinder radius="${radius}" length="${length}" />
+                    </geometry>
+                    <xacro:insert_block name="material" />
+            </visual>
+        </link>
+        </xacro:macro>
+
+        <xacro:macro name="box_macro" params="name size *origin *material">
+        <link name="${name}">
+            <visual>
+                    <xacro:insert_block name="origin" />
+                    <geometry>
+                            <box size="${size}" />
+                    </geometry>
+                    <xacro:insert_block name="material" />
+            </visual>
+        </link>
+        </xacro:macro>
+
+        <xacro:macro name="fixedjoint" params="name parent child *origin">
+        <joint name="${name}" type="fixed">
+                <xacro:insert_block name="origin" />
+                <parent link="${parent}"/>
+                <child link="${child}"/>
+        </joint>
+    </xacro:macro>
+</robot>

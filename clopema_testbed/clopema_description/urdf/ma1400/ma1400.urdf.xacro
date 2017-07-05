@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_1.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_2.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_3.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_4.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_5.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/link_6.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/tip_link.urdf.xacro" />	
+	
+	<xacro:macro name="ma1400" params="*origin parent suffix color">	
+
+		<xacro:link_1 parent="${parent}" suffix="${suffix}" color="${color}">
+			<insert_block name="origin" />
+		</xacro:link_1>
+		<xacro:link_2 parent="link_1" suffix="${suffix}" color="${color}">
+			<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+		</xacro:link_2>
+		<xacro:link_3 parent="link_2" suffix="${suffix}" color="${color}">
+			<origin xyz="0.150 0 ${0.2715+0.1785}" rpy="-${PI/2} 0 0"/>
+		</xacro:link_3>
+		<xacro:link_4 parent="link_3" suffix="${suffix}" color="${color}">
+			<origin xyz="0.0 -0.614 0" rpy="${PI} 0 ${-PI/2}"/>
+		</xacro:link_4>
+		<xacro:link_5 parent="link_4" suffix="${suffix}" color="${color}">
+			<origin xyz="0.2 0 0.0" rpy="${-PI/2} 0 0"/>
+		</xacro:link_5>
+		<xacro:link_6 parent="link_5" suffix="${suffix}" color="${color}">
+			<origin xyz="0 0 -0.640" rpy="${PI/2} 0 0"/>
+		</xacro:link_6>
+		<xacro:tip_link parent="link_6" suffix="${suffix}" color="${color}">
+			<origin xyz="0 -0.03 0" rpy="${PI/2} 0 ${-PI/2}"/>
+		</xacro:tip_link>
+	</xacro:macro>
+</robot>

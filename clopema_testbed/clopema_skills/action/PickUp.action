@@ -1,0 +1,15 @@
+### Description ###
+# Definition of PickUp action
+# table_desk - table, where the garment is located {t1, t2, t3}
+# arm - arm used for picking up {r1, r2}
+# holding_control_type - {0 - CERTH vision control(default), 1 - CVUT tactile control}
+
+### Goal Definition ###
+string arm
+string table_desk
+int16 holding_control_type
+---
+### Result Definition ###
+---
+### Feedback Definition ###
+

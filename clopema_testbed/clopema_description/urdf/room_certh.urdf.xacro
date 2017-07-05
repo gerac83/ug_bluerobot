@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="room_certh"> 
+		<link name="certh_floor">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="4.220 5.535 0.3"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0"/>
+			</collision>
+		</link>
+		<link name="certh_roof">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="4.220 5.535 0.2"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0"/>
+			</collision>
+		</link>
+		<link name="certh_wall_1">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="4.813 0.2 2.45"/>
+				</geometry>
+				<origin xyz="-2.4065 0.0 0" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="certh_wall_2">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="4.220 0.2 2.45"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="certh_wall_3">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.2 3.370 2.45"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<link name="certh_wall_4">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="0.200 5.535 2.45"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+			</collision>
+		</link>
+		<joint name="certh_f_floor" type="fixed">
+                        <origin xyz="-0.015 0.2975 0.0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="certh_floor"/>
+                </joint>
+		<joint name="certh_f_roof_1" type="fixed">
+                        <origin xyz="-0.015 0.2975 2.45" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="certh_roof"/>
+                </joint>
+		<joint name="certh_f_wall_1" type="fixed">
+			<origin xyz="0.0 1.6085 0.0" rpy="0 0 ${-30*TO_RAD}"/>
+                        <parent link="certh_wall_3"/>
+                        <child link="certh_wall_1"/>
+                </joint>
+		<joint name="certh_f_wall_2" type="fixed">
+			<origin xyz="-0.01 -2.47 1.225" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="certh_wall_2"/>
+                </joint>
+		<joint name="certh_f_wall_3" type="fixed">
+			<origin xyz="2.09 -0.785 1.225" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="certh_wall_3"/>
+                </joint>
+		<joint name="certh_f_wall_4" type="fixed">
+			<origin xyz="-2.11 0.2975 1.225" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="certh_wall_4"/>
+                </joint>
+	</xacro:macro>
+</robot>

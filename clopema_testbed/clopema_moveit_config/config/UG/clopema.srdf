@@ -1,0 +1,852 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="clopema">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="r1_arm">
+        <link name="r1_link_2" />
+        <link name="r1_link_3" />
+        <link name="r1_link_4" />
+        <link name="r1_link_5" />
+        <link name="r1_link_6" />
+        <link name="r1_link_7" />
+        <link name="r1_tip_link" />
+        <joint name="r1_joint_s" />
+        <joint name="r1_joint_l" />
+        <joint name="r1_joint_u" />
+        <joint name="r1_joint_r" />
+        <joint name="r1_joint_b" />
+        <joint name="r1_joint_t" />
+    </group>
+    <group name="r2_arm">
+        <link name="r2_link_2" />
+        <link name="r2_link_3" />
+        <link name="r2_link_4" />
+        <link name="r2_link_5" />
+        <link name="r2_link_6" />
+        <link name="r2_link_7" />
+        <link name="r2_tip_link" />
+        <joint name="r2_joint_s" />
+        <joint name="r2_joint_l" />
+        <joint name="r2_joint_u" />
+        <joint name="r2_joint_r" />
+        <joint name="r2_joint_b" />
+        <joint name="r2_joint_t" />
+    </group>
+    <group name="r1_gripper">
+        <link name="r1_gripper" />
+        <link name="r1_ee" />
+        <link name="r1_gripper_status" />
+    </group>
+    <group name="r2_gripper">
+        <link name="r2_gripper" />
+        <link name="r2_ee" />
+        <link name="r2_gripper_status" />
+    </group>
+    <group name="arms">
+        <group name="r1_arm" />
+        <group name="r2_arm" />
+    </group>
+    <group name="ext">
+        <joint name="ext_axis" />
+    </group>
+    <group name="all">
+        <group name="ext" />
+        <group name="arms" />
+    </group>
+    <group name="r1_xtion">
+        <link name="r1_link_2" />
+        <link name="r1_link_3" />
+        <link name="r1_link_4" />
+        <link name="r1_link_5" />
+        <link name="r1_link_6" />
+        <link name="xtion1_link_ee" />
+        <joint name="r1_joint_s" />
+        <joint name="r1_joint_l" />
+        <joint name="r1_joint_u" />
+        <joint name="r1_joint_r" />
+        <joint name="r1_joint_b" />
+    </group>
+    <group name="xtions">
+        <group name="r1_xtion" />
+        <group name="r2_xtion" />
+    </group>
+    <group name="r2_xtion">
+        <link name="r2_link_2" />
+        <link name="r2_link_3" />
+        <link name="r2_link_4" />
+        <link name="r2_link_5" />
+        <link name="r2_link_6" />
+        <link name="xtion2_link_ee" />
+        <joint name="r2_joint_s" />
+        <joint name="r2_joint_l" />
+        <joint name="r2_joint_u" />
+        <joint name="r2_joint_r" />
+        <joint name="r2_joint_b" />
+    </group>
+    <group name="r1_xtion_ee">
+        <link name="xtion1_link" />
+    </group>
+    <group name="r2_xtion_ee">
+        <link name="xtion2_link" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="xtion1_above_table" group="arms">
+        <joint name="r1_joint_s" value="0.421" />
+        <joint name="r1_joint_l" value="0.284" />
+        <joint name="r1_joint_u" value="0.204" />
+        <joint name="r1_joint_r" value="0.260" />
+        <joint name="r1_joint_b" value="-0.038" />
+        <joint name="r1_joint_t" value="0.433" />
+        <joint name="r2_joint_b" value="0" />
+        <joint name="r2_joint_l" value="0" />
+        <joint name="r2_joint_r" value="0" />
+        <joint name="r2_joint_s" value="0" />
+        <joint name="r2_joint_t" value="0" />
+        <joint name="r2_joint_u" value="0" />
+    </group_state>
+    <group_state name="xtion2_above_table" group="arms">
+        <joint name="r1_joint_s" value="0" />
+        <joint name="r1_joint_l" value="0" />
+        <joint name="r1_joint_u" value="0" />
+        <joint name="r1_joint_r" value="0" />
+        <joint name="r1_joint_b" value="0" />
+        <joint name="r1_joint_t" value="0" />
+
+        <joint name="r2_joint_s" value="-0.432" />
+        <joint name="r2_joint_l" value="0.18" />
+        <joint name="r2_joint_u" value="0.0622" />
+        <joint name="r2_joint_r" value="-0.0674" />
+        <joint name="r2_joint_b" value="0.1211" />
+        <joint name="r2_joint_t" value="-0.7188" />
+    </group_state>
+    <group_state name="home_arms" group="arms">
+        <joint name="r1_joint_b" value="0" />
+        <joint name="r1_joint_l" value="0" />
+        <joint name="r1_joint_r" value="0" />
+        <joint name="r1_joint_s" value="0" />
+        <joint name="r1_joint_t" value="0" />
+        <joint name="r1_joint_u" value="0" />
+        <joint name="r2_joint_b" value="0" />
+        <joint name="r2_joint_l" value="0" />
+        <joint name="r2_joint_r" value="0" />
+        <joint name="r2_joint_s" value="0" />
+        <joint name="r2_joint_t" value="0" />
+        <joint name="r2_joint_u" value="0" />
+    </group_state>
+    <group_state name="home_ext" group="ext">
+        <joint name="ext_axis" value="0" />
+    </group_state>
+    <group_state name="home_r1" group="r1_arm">
+        <joint name="r1_joint_b" value="0" />
+        <joint name="r1_joint_l" value="0" />
+        <joint name="r1_joint_r" value="0" />
+        <joint name="r1_joint_s" value="0" />
+        <joint name="r1_joint_t" value="0" />
+        <joint name="r1_joint_u" value="0" />
+    </group_state>
+    <group_state name="home_r2" group="r2_arm">
+        <joint name="r2_joint_b" value="0" />
+        <joint name="r2_joint_l" value="0" />
+        <joint name="r2_joint_r" value="0" />
+        <joint name="r2_joint_s" value="0" />
+        <joint name="r2_joint_t" value="0" />
+        <joint name="r2_joint_u" value="0" />
+    </group_state>
+    <group_state name="home" group="all">
+        <joint name="r1_joint_b" value="0" />
+        <joint name="r1_joint_l" value="0" />
+        <joint name="r1_joint_r" value="0" />
+        <joint name="r1_joint_s" value="0" />
+        <joint name="r1_joint_t" value="0" />
+        <joint name="r1_joint_u" value="0" />
+        <joint name="r2_joint_b" value="0" />
+        <joint name="r2_joint_l" value="0" />
+        <joint name="r2_joint_r" value="0" />
+        <joint name="r2_joint_s" value="0" />
+        <joint name="r2_joint_t" value="0" />
+        <joint name="r2_joint_u" value="0" />
+        <joint name="ext_axis" value="0" />
+    </group_state>
+    <group_state name="ext_plus_90" group="ext">
+        <joint name="ext_axis" value="1.5707" />
+    </group_state>
+    <group_state name="ext_minus_90" group="ext">
+        <joint name="ext_axis" value="-1.5707" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="r1_ee" parent_link="r1_tip_link" group="r1_gripper" parent_group="r1_arm" />
+    <end_effector name="r2_ee" parent_link="r2_tip_link" group="r2_gripper" parent_group="r2_arm" />
+    <end_effector name="r1_xtion_ee" parent_link="xtion1_link_ee" group="r1_xtion_ee" parent_group="r1_xtion" />
+    <end_effector name="r2_xtion_ee" parent_link="xtion2_link_ee" group="r2_xtion_ee" parent_group="r2_xtion" />
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="world_to_base_fjoint" type="fixed" parent_frame="world" child_link="base_link" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="camera" link2="camera_stick" reason="Adjacent" />
+    <disable_collisions link1="camera" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_roof_1" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_roof_2" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_roof_3" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_wall_1" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_wall_2" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_wall_3" reason="Never" />
+    <disable_collisions link1="camera" link2="ctu_wall_4" reason="Never" />
+    <disable_collisions link1="camera" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="camera" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="camera" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="camera" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="camera" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="camera" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="camera" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="camera" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="camera" link2="r750" reason="Never" />
+    <disable_collisions link1="camera" link2="r750_base" reason="Never" />
+    <disable_collisions link1="camera" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="camera" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="camera" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="camera" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="camera" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="camera" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="camera" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="camera" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="camera" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="camera" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_roof_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_roof_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_roof_3" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_wall_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_wall_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_wall_3" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="ctu_wall_4" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="r750" reason="Adjacent" />
+    <disable_collisions link1="camera_stick" link2="r750_base" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="t3_leg_4" reason="Never" />
+    
+<!--    <disable_collisions link1="camera_stick" link2="ips_bar" reason="Never" />-->
+    <disable_collisions link1="camera_stick" link2="left_base_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_base_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="left_pan_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_pan_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="left_tilt_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_tilt_ptu" reason="Never" />
+    
+    <disable_collisions link1="ctu_floor" link2="ctu_roof_1" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_roof_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_roof_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_wall_1" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_wall_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_floor" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="t1_leg_1" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t1_leg_2" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t1_leg_3" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t1_leg_4" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="t2_leg_1" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t2_leg_2" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t2_leg_3" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t2_leg_4" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_floor" link2="t3_leg_1" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t3_leg_2" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t3_leg_3" reason="Default" />
+    <disable_collisions link1="ctu_floor" link2="t3_leg_4" reason="Default" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_roof_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_roof_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_wall_1" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_wall_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_1" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="ctu_roof_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="ctu_wall_1" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="ctu_wall_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_2" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="ctu_wall_1" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="ctu_wall_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_roof_3" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_roof_3" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="ctu_wall_2" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_1" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="ctu_wall_3" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r1_link_6" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r2_link_6" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_2" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="ctu_wall_4" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r1_link_6" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r2_link_6" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_3" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_3" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_3" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_3" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_3" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_cable_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r2_link_6" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r750" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_4" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_4" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_4" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="ctu_wall_4" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="ctu_wall_4" link2="xtion2_link" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_1" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_2" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_3" reason="Adjacent" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="r1_link_6" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r1_cable_1" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_6" reason="Adjacent" />
+    <disable_collisions link1="r1_gripper" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="r1_link_2" reason="Adjacent" />
+    <disable_collisions link1="r1_link_1" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="r750" reason="Adjacent" />
+    <disable_collisions link1="r1_link_1" link2="r750_base" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r1_link_3" reason="Adjacent" />
+    <disable_collisions link1="r1_link_2" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r750" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r750_base" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="r1_link_4" reason="Adjacent" />
+    <disable_collisions link1="r1_link_3" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_3" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="r1_link_5" reason="Adjacent" />
+    <disable_collisions link1="r1_link_4" link2="r1_link_6" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r1_link_4" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="r1_link_5" link2="r1_link_6" reason="Adjacent" />
+    <disable_collisions link1="r1_link_5" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="r1_link_6" link2="xtion1_link" reason="Adjacent" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_1" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_3" reason="Adjacent" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="r2_link_6" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r2_cable_1" link2="xtion2_link" reason="Never" />
+    <disable_collisions link1="r2_gripper" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="r2_gripper" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="r2_gripper" link2="r2_link_6" reason="Adjacent" />
+    <disable_collisions link1="r2_gripper" link2="xtion2_link" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="r2_link_2" reason="Adjacent" />
+    <disable_collisions link1="r2_link_1" link2="r750" reason="Adjacent" />
+    <disable_collisions link1="r2_link_1" link2="r750_base" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="r2_link_3" reason="Adjacent" />
+    <disable_collisions link1="r2_link_2" link2="r2_link_4" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="r750" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="r750_base" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="r2_link_4" reason="Adjacent" />
+    <disable_collisions link1="r2_link_3" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_3" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="r2_link_5" reason="Adjacent" />
+    <disable_collisions link1="r2_link_4" link2="r2_link_6" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r2_link_4" link2="xtion2_link" reason="Never" />
+    <disable_collisions link1="r2_link_5" link2="r2_link_6" reason="Adjacent" />
+    <disable_collisions link1="r2_link_5" link2="xtion2_link" reason="Never" />
+    <disable_collisions link1="r2_link_6" link2="xtion2_link" reason="Adjacent" />
+    <disable_collisions link1="r750" link2="r750_base" reason="Adjacent" />
+    <disable_collisions link1="r750" link2="t1_desk" reason="Never" />
+    <disable_collisions link1="r750" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r750" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r750" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r750" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r750" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="r750" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r750" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r750" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r750" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r750" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="r750" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r750" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r750" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r750" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t1_desk" reason="Adjacent" />
+    <disable_collisions link1="r750_base" link2="t1_leg_1" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="r750_base" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="r750_base" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="r750_base" link2="t3_leg_4" reason="Never" />
+    
+    <disable_collisions link1="t1_desk" link2="t1_leg_1" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t1_leg_2" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t1_leg_3" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t1_leg_4" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t2_desk" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t3_desk" reason="Adjacent" />
+    <disable_collisions link1="t1_desk" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t1_desk" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t1_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t1_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t1_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_3" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t3_desk" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t3_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_4" link2="t3_leg_4" reason="Never" />
+    
+    <disable_collisions link1="t2_desk" link2="t2_leg_1" reason="Adjacent" />
+    <disable_collisions link1="t2_desk" link2="t2_leg_2" reason="Adjacent" />
+    <disable_collisions link1="t2_desk" link2="t2_leg_3" reason="Adjacent" />
+    <disable_collisions link1="t2_desk" link2="t2_leg_4" reason="Adjacent" />
+    <disable_collisions link1="t2_desk" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="t2_leg_1" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t2_leg_1" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t2_leg_1" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t2_leg_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t2_leg_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t2_leg_3" link2="t2_leg_4" reason="Never" />
+    
+    <disable_collisions link1="t3_desk" link2="t3_leg_1" reason="Adjacent" />
+    <disable_collisions link1="t3_desk" link2="t3_leg_2" reason="Adjacent" />
+    <disable_collisions link1="t3_desk" link2="t3_leg_3" reason="Adjacent" />
+    <disable_collisions link1="t3_desk" link2="t3_leg_4" reason="Adjacent" />
+    <disable_collisions link1="t3_leg_1" link2="t3_leg_2" reason="Never" />
+    <disable_collisions link1="t3_leg_1" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t3_leg_1" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t3_leg_2" link2="t3_leg_3" reason="Never" />
+    <disable_collisions link1="t3_leg_2" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="t3_leg_3" link2="t3_leg_4" reason="Never" />
+    
+    <disable_collisions link1="r1_link_2" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="xtion3_link" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="camera" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_tilt_ptu" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_lens_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_lens_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="right_camera_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="left_lens_virtual" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_ptu" link2="right_tilt_optic" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_ptu" link2="left_tilt_optic" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="left_tilt_optic" reason="Never" />-->
+    <disable_collisions link1="right_tilt_ptu" link2="r750_base" reason="Never" /> 
+    <disable_collisions link1="left_tilt_ptu" link2="r750_base" reason="Never" />   
+<!--    <disable_collisions link1="right_tilt_optic" link2="r750_base" reason="Never" />        -->
+<!--    <disable_collisions link1="left_tilt_optic" link2="r750_base" reason="Never" />  -->
+    <disable_collisions link1="right_lens_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="xtion3_link" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="ctu_floor" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="ctu_floor" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="ctu_floor" reason="Never" />-->
+    <disable_collisions link1="left_tilt_ptu" link2="right_camera_virtual" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="left_camera_virtual" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="right_camera_virtual" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="left_camera_virtual" reason="Never" />-->
+    <disable_collisions link1="right_camera_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="xtion3_link" link2="ctu_floor" reason="Never" /> 
+    <disable_collisions link1="left_lens_virtual" link2="right_lens_virtual" reason="Never" />
+<!--    <disable_collisions link1="ips_bar" link2="camera" reason="Never" />-->
+    <disable_collisions link1="left_base_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_base_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_pan_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_pan_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="right_tilt_ptu" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_lens_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="left_tilt_ptu" reason="Never" />-->
+<!--    <disable_collisions link1="left_tilt_optic" link2="camera" reason="Never" />-->
+    <disable_collisions link1="left_tilt_ptu" link2="camera" reason="Never" />	
+    <disable_collisions link1="right_camera_virtual" link2="camera" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_tilt_ptu" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_lens_virtual" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="right_tilt_optic" link2="right_tilt_ptu" reason="Never" />-->
+<!--	<disable_collisions link1="right_tilt_optic" link2="camera" reason="Never" />-->
+    <disable_collisions link1="right_tilt_ptu" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="ips_bar" link2="camera" reason="Adjacent" />-->
+<!--    <disable_collisions link1="ips_bar" link2="left_base_ptu" reason="Adjacent" />-->
+<!--    <disable_collisions link1="ips_bar" link2="right_base_ptu" reason="Adjacent" />-->
+</robot>

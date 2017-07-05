@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch> 
+  <arg name="rate" default="1000" />
+  <arg name="period" default="0.08"/>
+  
+  <node pkg="netft_rdt_driver" name="r2_force_driver" args="192.168.0.104 --frame-id r2_force_sensor --rate $(arg rate)"
+     type="netft_node" output="screen">
+    <remap from="netft_data" to="r2_force_data"/>
+  </node>  
+
+  <node pkg="clopema_force" name="r2_force_downsample" type="filter_force" output="screen">
+    <remap from="in" to="r2_force_data"/>
+    <remap from="out" to="r2_force_data_downsampled"/>
+    <param name="period" value="$(arg period)"/>
+  </node>
+
+  <node pkg="clopema_force" name="r2_force_filter_gripper" type="filter_gripper" output="screen">
+    <remap from="in" to="r2_force_data_downsampled"/>
+    <remap from="out" to="r2_force_data_filtered"/>
+  </node>
+  <node pkg="netft_rdt_driver" name="r1_force_driver" args="192.168.0.105 --frame-id r1_force_sensor --rate $(arg rate)"
+     type="netft_node" output="screen">
+    <remap from="netft_data" to="r1_force_data"/>
+  </node>
+
+  <node pkg="clopema_force" name="r1_force_downsample" type="filter_force" output="screen">
+    <remap from="in" to="r1_force_data"/>
+    <remap from="out" to="r1_force_data_downsampled"/>
+    <param name="period" value="$(arg period)"/>
+  </node>
+  
+  <node pkg="clopema_force" name="r1_force_filter_gripper" type="filter_gripper" output="screen">
+    <remap from="in" to="r1_force_data_downsampled"/>
+    <remap from="out" to="r1_force_data_filtered"/>
+  </node>
+
+</launch>

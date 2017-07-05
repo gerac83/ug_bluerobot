@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="run_xtion" default="true" />
+
+    <include file="$(find clopema_launch)/launch/xtion1.launch" if="$(arg run_xtion)">
+        <arg name="run_grab" value="true"/>
+    </include>
+
+    <node pkg="certh_pickup" name="pickup_server" type="pickup_actionlib_server" output="screen">
+    </node>
+</launch>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="link_4" params="*origin parent suffix color"> 
+		<link name="${suffix}link_4">
+			<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<mesh scale="0.001 0.001 0.001" filename="package://clopema_description/meshes/link4.stl"/>
+				</geometry>
+				<material name="${color}" />
+				<origin xyz="-1.064 0.15 0" rpy="${-PI/2} 0 ${-PI/2}"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.3500 0.3600 0.39"/>
+				</geometry>
+				<origin xyz="0.115 -0.005 0.0225" rpy="${-PI/2} 0 ${-PI/2}"/>
+			</collision>
+		</link>
+		<joint name="${suffix}joint_u" type="revolute">
+			<axis xyz="0 0 1" />
+			<limit lower="-${80*TO_RAD}" upper="${92*TO_RAD}" velocity="${220*TO_RAD}" effort="1000.0" />
+			<child link="${suffix}link_4"/>
+			<insert_block name="origin" /> 
+			<parent link="${suffix}${parent}"/>
+		</joint>
+	</xacro:macro>
+</robot>

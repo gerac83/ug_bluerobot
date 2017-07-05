@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+This is a clopema config launch file, which is included when CLOPEMA_PARTNER
+environment variable is not set.
+
+Libor Wagner on February  8, 2013
+-->
+<launch>
+    <!-- This node will display a message and die, making in required this will kill entire launch. -->
+    <node name="$(anon error)" pkg="clopema_config" type="var_not_set.sh" required="true" output="screen"/>
+</launch>

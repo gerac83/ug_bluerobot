@@ -1,0 +1,6 @@
+moveit_msgs/RobotState start_state
+moveit_msgs/RobotTrajectory trajectory
+string group
+---
+bool success
+moveit_msgs/RobotTrajectory parametrized_trajectory

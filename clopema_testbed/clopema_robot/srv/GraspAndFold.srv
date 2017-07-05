@@ -1,0 +1,40 @@
+# Grasp from table with r?_ee links. Both combination (r1 for poses_1 and r2_ for poses_1) are considered.
+# Result is the list of trajectories describing the motion from start_state through grasping and folding to the final points.
+
+#Frame in which all poses are specified
+string frame_id
+
+#Table desk frame, z-axis pointing upward, all poses are
+#projected to this frame
+string table_desk
+
+#Possible poses, z-axis specify direction of the grasping
+#YAW of the gripper is computed automatically
+geometry_msgs/Pose[] poses_1
+geometry_msgs/Pose[] poses_2
+
+#Final points where garment should be placed
+geometry_msgs/Point final_point_1
+geometry_msgs/Point final_point_2
+
+#Positive numbers which specifies offsets of the grasping
+#Default = 0
+float64 offset_minus
+float64 offset_plus
+
+#Positive numbers which specifies offsets of the grasping
+#w.r.t. table (table z-axis)
+float64 offset_table_minus
+float64 offset_table_plus
+
+#Angle of the grasing
+float64 grasping_angle
+
+#If not specified the current state will be used
+moveit_msgs/RobotState start_state
+---
+#Start state of gfold
+moveit_msgs/RobotState start_state
+
+#List of trajectories, containing also gripper commands
+trajectory_msgs/JointTrajectory[] joint_trajectories

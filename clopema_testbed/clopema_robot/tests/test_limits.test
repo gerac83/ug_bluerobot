@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find clopema_launch)/launch/virtual_robot.launch">
+        <arg name="rviz" value="false" />
+    </include>
+    <test time-limit="10" test-name="test_limits" pkg="clopema_robot" type="test_limits.py" />
+</launch>

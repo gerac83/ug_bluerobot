@@ -1,0 +1,21 @@
+add_rostest_gtest(gtest_virtual_robot
+    virtual_robot.test
+    virtual_robot.cpp
+)
+target_link_libraries(gtest_virtual_robot
+    ${catkin_LIBRARIES}
+)
+add_dependencies(gtest_virtual_robot
+    ${catkin_EXPORTED_TARGETS}
+)
+
+add_rostest_gtest(gtest_virtual_gripper
+    virtual_gripper.test
+    virtual_gripper.cpp
+)
+target_link_libraries(gtest_virtual_gripper
+    ${catkin_LIBRARIES}
+)
+add_dependencies(gtest_virtual_gripper
+    ${catkin_EXPORTED_TARGETS}
+)

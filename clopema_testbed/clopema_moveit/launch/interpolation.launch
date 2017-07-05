@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+	<node pkg="clopema_moveit" name="interpolation" type="interpolation" output="screen">
+		<rosparam command="load" file="$(find clopema_moveit_config)/config/kinematics.yaml"/>
+		<param name="joint_step" value="0.01"/>
+		<param name="linear_step" value="0.01"/>
+		<param name="linear_rot_step" value="0.025"/>
+		<param name="max_joint_angle" value="0.05"/>
+	</node>
+</launch>

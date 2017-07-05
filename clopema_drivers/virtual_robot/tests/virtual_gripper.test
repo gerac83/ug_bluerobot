@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="virtual_robot" type="virtual_gripper" name="virtual_gripper" output="screen">
+        <param name="joint_name" value="joint" />
+        <param name="default_position" value="0.5" />
+    </node>
+    <test test-name="gtest_virtual_gripper" pkg="virtual_robot" type="gtest_virtual_gripper" />
+</launch>

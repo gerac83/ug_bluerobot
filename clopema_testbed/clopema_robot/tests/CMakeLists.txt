@@ -1,0 +1,23 @@
+add_rostest_gtest(gtest_execute_nonparameterized
+    execute_nonparameterized.test
+    execute_nonparameterized.cpp
+)
+target_link_libraries(gtest_execute_nonparameterized
+    ${catkin_LIBRARIES}
+    ${PROJECT_NAME}
+)
+add_dependencies(gtest_execute_nonparameterized
+    ${catkin_EXPORTED_TARGETS}
+)
+
+add_rostest_gtest(gtest_plan_from_start_pos
+    plan_from_start_pos.test
+    plan_from_start_pos.cpp
+)
+target_link_libraries(gtest_plan_from_start_pos
+    ${catkin_LIBRARIES}
+    ${PROJECT_NAME}
+)
+add_dependencies(gtest_plan_from_start_pos
+    ${catkin_EXPORTED_TARGETS}
+)

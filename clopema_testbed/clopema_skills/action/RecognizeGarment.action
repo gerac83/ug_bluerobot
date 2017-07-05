@@ -1,0 +1,12 @@
+### Description ###
+# Definition of recognition of garment, which is located on the table
+# table - table, where the garment is located {t1, t2, t3}
+# garment_type - recognized type of the garment {tshirt_short, pants, towel, tshirt_long, shorts}
+
+### Goal Definition
+string table
+---
+### Result Definition ###
+string garment_type
+---
+### Feedback Definition ###

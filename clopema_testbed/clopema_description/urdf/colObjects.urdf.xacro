@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="cable_1" params="*origin parent suffix">
+		<link name="${suffix}cable_1">
+			<collision>
+				<geometry>
+					<box size="0.12 0.8 0.12" />
+				</geometry>
+				<origin xyz="0.0 -0.40 0"/>
+			</collision>
+		</link>	
+		<joint name="${suffix}joint_f_cable_1" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${suffix}cable_1"/>
+		</joint>
+	</xacro:macro>
+	<xacro:macro name="kinekt" params="*origin parent suffix color prefix">
+
+		<link name="${prefix}xtion${suffix}_ee">
+		</link>
+		<link name="${prefix}xtion${suffix}">
+			<xacro:default_inertial/>
+			<visual>
+				<geometry>
+					<box size="0.20 0.05 0.05" />
+				</geometry>
+				<material name="${color}"/>
+				<origin xyz="0 -0.00 0"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.20 0.05 0.05" />
+				</geometry>
+				<origin xyz="0 -0.00 0"/>
+			</collision>
+		</link>
+
+		<joint name="${prefix}joint_fkinect${suffix}" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${prefix}xtion${suffix}"/>
+		</joint>
+		<joint name="${prefix}joint_fkinect${suffix}_ee" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${prefix}xtion${suffix}_ee"/>
+		</joint>
+	</xacro:macro>
+	<xacro:macro name="camera" params="*origin parent suffix color">
+		<link name="${suffix}camera_stick">
+			<xacro:default_inertial/>		
+			<visual>
+				<geometry>
+					<box size="0.20 0.20 1.6" />
+				</geometry>
+				<material name="${color}" />
+				<origin xyz="-0.00 0 0.80"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.20 0.20 1.6" />
+				</geometry>
+				<origin xyz="-0.00 0 0.80"/>
+			</collision>
+		</link>
+
+		<link name="${suffix}camera">
+			<xacro:default_inertial/>
+<!--			<visual>-->
+<!--				<geometry>-->
+<!--					<box size="0.40 0.60 0.4" />-->
+<!--				</geometry>-->
+<!--				<material name="${color}" />-->
+<!--				<origin xyz="-0.00 0 0.10"/>-->
+<!--			</visual>-->
+			<collision>
+				<geometry>
+					<box size="0.40 0.60 0.4" />
+				</geometry>
+				<origin xyz="-0.00 0 0.10"/>
+			</collision>
+		</link>
+		<joint name="${suffix}joint_fcamera_stick" type="fixed">
+			<insert_block name="origin" />
+			<parent link="${parent}"/>
+			<child link="${suffix}camera_stick"/>
+		</joint>
+		<joint name="${suffix}joint_fcamera" type="fixed">
+			<origin xyz="0.000 0 1.5" rpy="0 0 0"/>
+			<parent link="${suffix}camera_stick"/>
+			<child link="${suffix}camera"/>
+		</joint>
+	</xacro:macro>
+	<xacro:macro name="colObjects">
+		<xacro:cable_1 parent="r1_link_3" suffix="r1_">
+			<origin xyz="-0.04 0 -0.27" rpy="0 0 0"/>
+		</xacro:cable_1>
+		<xacro:cable_1 parent="r2_link_3" suffix="r2_">
+			<origin xyz="-0.04 0 -0.27" rpy="0 0 0"/>
+		</xacro:cable_1>
+		<xacro:camera parent="r750" suffix="" color="grey">
+			<origin xyz="-0.450 0 0.12" rpy="0 0 0"/>
+		</xacro:camera>
+	</xacro:macro>
+</robot>

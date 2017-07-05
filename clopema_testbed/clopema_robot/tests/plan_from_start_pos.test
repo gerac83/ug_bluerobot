@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find clopema_launch)/launch/virtual_robot.launch">
+        <arg name="rviz" value="false" />
+    </include>
+    <test test-name="gtest_plan_from_start_pos" pkg="clopema_robot" type="gtest_plan_from_start_pos" />
+</launch>

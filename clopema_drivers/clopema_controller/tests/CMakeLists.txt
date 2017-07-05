@@ -1,0 +1,21 @@
+add_rostest_gtest(gtest_controller_actionlib
+    controller_actionlib.test
+    controller_actionlib.cpp
+)
+target_link_libraries(gtest_controller_actionlib
+    ${catkin_LIBRARIES}
+)
+add_dependencies(gtest_controller_actionlib
+    ${catkin_EXPORTED_TARGETS}
+)
+
+add_rostest_gtest(gtest_robot_state_ready
+    robot_state_ready.test
+    robot_state_ready.cpp
+)
+target_link_libraries(gtest_robot_state_ready
+    ${catkin_LIBRARIES}
+)
+add_dependencies(gtest_robot_state_ready
+    ${catkin_EXPORTED_TARGETS}
+)

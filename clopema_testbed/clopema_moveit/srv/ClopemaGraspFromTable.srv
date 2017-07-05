@@ -1,0 +1,38 @@
+#Frame in which all poses are specified
+string frame_id
+
+#Link using for IKT solver
+string ik_link
+
+#Table desk frame, z-axis pointing upward, all poses are
+#projected to this frame
+string table_desk
+
+#Possible poses, z-axis specify direction of the grasping
+#YAW of the gripper is computed automatically
+geometry_msgs/Pose[] poses
+
+#Positive numbers which specifies offsets of the grasping
+#Default = 0
+float64 offset_minus
+float64 offset_plus
+
+#Positive numbers which specifies offsets of the grasping
+#w.r.t. table (table z-axis)
+float64 offset_table_minus
+float64 offset_table_plus
+
+#Angle of the grasing
+float64 grasping_angle
+
+#Optional, specify final state of the arm after the grasping
+geometry_msgs/Pose[] final_poses
+
+moveit_msgs/RobotState start_state
+---
+
+#List of trajectories, containing also gripper commands
+trajectory_msgs/JointTrajectory[] joint_trajectories
+
+#Error, empty if successful
+string error

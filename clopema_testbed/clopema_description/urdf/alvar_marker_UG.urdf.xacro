@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="alvar_marker" params="*origin parent prefix width offset"> 
+		
+		<link name="alvar_${prefix}_corrOrient"></link>
+		<link name="alvar_${prefix}_center"></link>
+		<link name="alvar_${prefix}_leftDown"></link>
+		<link name="alvar_${prefix}_rightDown"></link>
+		<link name="alvar_${prefix}_leftUp"></link>
+		<link name="alvar_${prefix}_rightUp"></link>
+		
+		<joint name="alvar_${prefix}_corrOrient_joint" type="fixed">
+			<insert_block name="origin"/>
+			<parent link="${parent}"/>
+			<child link="alvar_${prefix}_corrOrient" />
+		</joint>
+		
+		<joint name="alvar_${prefix}_center_joint" type="fixed">
+			<origin xyz="${offset} 0 0" rpy="0 0 0"/>
+			<parent link="alvar_${prefix}_corrOrient"/>
+			<child link="alvar_${prefix}_center" />
+		</joint>
+		
+		
+		<joint name="alvar_${prefix}_leftDown_joint" type="fixed">
+			<origin xyz="0 ${width/2} ${width/2}" rpy="0 0 0"/>
+			<parent link="alvar_${prefix}_center"/>
+			<child link="alvar_${prefix}_leftDown"/>
+		</joint>
+        
+        <joint name="alvar_${prefix}_rightDown_joint" type="fixed">
+			<origin xyz="0 ${width/2} ${-width/2}" rpy="0 0 0"/>
+			<parent link="alvar_${prefix}_center"/>
+			<child link="alvar_${prefix}_rightDown"/>
+        </joint>
+        
+        <joint name="alvar_${prefix}_leftUp_joint" type="fixed">
+			<origin xyz="0 ${-width/2} ${width/2}" rpy="0 0 0"/>
+			<parent link="alvar_${prefix}_center"/>
+			<child link="alvar_${prefix}_leftUp"/>
+        </joint>
+        
+        <joint name="alvar_${prefix}_rightUp_joint" type="fixed">
+			<origin xyz="0 ${-width/2} ${-width/2}" rpy="0 0 0"/>
+			<parent link="alvar_${prefix}_center"/>
+			<child link="alvar_${prefix}_rightUp"/>
+        </joint>
+
+                
+	</xacro:macro>
+</robot>

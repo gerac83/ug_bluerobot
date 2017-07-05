@@ -1,0 +1,6 @@
+# logs
+log.out
+run.log
+taxel*
+/CMakeLists.txt
+*.swp

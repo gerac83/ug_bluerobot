@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>clopema_robot</name>
+  <version>0.1.0</version>
+  <description>Common interface for CloPeMa robot.</description>
+
+  <maintainer email="wagnelib@cmp.felk.cvut.cz">Libor Wagner</maintainer>
+
+  <license>Closed</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>clopema_moveit</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <run_depend>clopema_moveit</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+</package>

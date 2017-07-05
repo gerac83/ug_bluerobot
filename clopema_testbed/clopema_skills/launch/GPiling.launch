@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="run_xtion" default="true" />
+    <arg name="run_gmm" default="true" />
+
+    <include file="$(find clopema_launch)/launch/xtion1.launch" if="$(arg run_xtion)" >
+	<arg name="run_grab" value="true" />
+    </include>
+     
+  
+    <!-- skills for g-pilling -->
+    <node name="g_piling_actionlib_server" type="g_piling_actionlib_server" pkg="clopema_gpiling" output="screen">	
+	<param name="xtion1" value="xtion1" />
+	<param name="xtion1_optical_frame" value="xtion1_rgb_optical_frame" />
+	<param name="segmentation_service" value="/seg_gc_gmm" />
+
+	<param name="thresh" value="100" />
+	<param name="max_thresh" value="255" />
+      
+	<param name="table_put" value="t1_desk" />
+	<param name="table_grasp" value="t3_desk" />
+	
+	<param name="robot_slow_speed" value="0.2" />
+	<param name="robot_faster_speed" value="0.2" />
+    </node>    
+    
+    <node name="pile_info_actionlib_server" type="pile_info_actionlib_server" pkg="clopema_gpiling" output="screen">
+
+	<param name="xtion1" value="xtion1" />
+	<param name="xtion1_optical_frame" value="xtion1_rgb_optical_frame" />
+	<param name="segmentation_service" value="/seg_gc_gmm" />
+
+	<param name="thresh" value="100" />
+	<param name="max_thresh" value="255" />
+      
+	<param name="table_put" value="t1_desk" />
+	<param name="table_grasp" value="t3_desk" />
+	
+	<param name="robot_slow_speed" value="0.2" />
+	<param name="robot_faster_speed" value="0.2" />
+    </node>
+
+    <node name="seg_service" type="segmentation_gc_gmm_service" pkg="clopema_segmentation" output="screen" if="$(arg run_gmm)"/>   
+   
+</launch>

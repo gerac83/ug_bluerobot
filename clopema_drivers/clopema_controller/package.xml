@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+    <name>clopema_controller</name>
+    <version>0.0.0</version>
+    <description>The clopema_controller package for interface with DX100 controller</description>
+
+    <maintainer email="vladko.petrik@gmail.com">Vladimir Petrik</maintainer>
+    <license>BSD</license>
+
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>industrial_msgs</build_depend>
+    <build_depend>industrial_robot_client</build_depend>
+    <build_depend>industrial_utils</build_depend>
+    <run_depend>industrial_msgs</run_depend>
+    <run_depend>industrial_robot_client</run_depend>
+    <run_depend>industrial_utils</run_depend>
+
+    <build_depend>motoman_driver</build_depend>
+    <run_depend>motoman_driver</run_depend>
+   
+    <build_depend>simple_message</build_depend>
+    <run_depend>simple_message</run_depend>
+   
+    <build_depend>clopema_drivers_msgs</build_depend>
+    <run_depend>clopema_drivers_msgs</run_depend>
+    
+    <build_depend>virtual_robot</build_depend>
+    <run_depend>virtual_robot</run_depend>
+
+</package>

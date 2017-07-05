@@ -1,0 +1,19 @@
+### Description ###
+# Definition of Computing Point Cloud using RH
+# ptX and ptY -> Returns point the indexed 3D point wrt to left image
+# computePC -> Flag to indicate whether to compute full point cloud (subject to sampling_rate)
+# sampling_rate -> after how many point a 3D point is computed (valid when computing a point cloud). e.g. sampling _rate = 1 means that the point cloud will have image_width*image_height 3D points.
+
+### Goal Definition ###
+string mode
+int16 ptX
+int16 ptY
+bool computePC
+int16 sampling_rate
+---
+### Result Definition ###
+geometry_msgs/PointStamped point3D
+bool status
+---
+### Feedback Definition ###
+int16 progress

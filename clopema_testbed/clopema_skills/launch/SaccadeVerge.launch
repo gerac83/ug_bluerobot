@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+	After launching this file, it may be necessary to publish the
+	acquisition command. This can be done as below:
+		rostopic pub -1 /RH/cmd/acquire rh_cameras/CamerasSync '{timeStamp: now, data: full}'
+		
+	SoCS, UoG. Gerardo Aragon-Camarasa 
+-->
+
+<launch>
+	
+	<!-- Run cameras and ptus here? -->
+    <arg name="run_drivers" default="false"/>
+
+	<!-- Load machine definitions. -->
+	<include file="$(find clopema_config)/launch/clopema.launch"/>
+
+	<!-- Include Robot Head parameter server configuration. -->
+	<include file="$(find clopema_config)/launch/clopema_$(optenv CLOPEMA_PARTNER error).launch" />
+	<include file="$(find rh_launch)/launch/RH_parameters_$(optenv CLOPEMA_PARTNER error).launch" />
+
+	<!-- Load drivers -->
+	<include file="$(find rh_launch)/launch/start_rh_drivers.launch" if="$(arg run_drivers)" />
+
+	<!-- rh_siftgpu -->
+	<node pkg="rh_feature_extraction" type="RHsiftgpu_node" name="RHsiftgpu_node" output="screen">
+	</node>
+	
+	<!--rh_vergence-->
+	<node pkg="rh_vergence" type="RHvergence_node" name="RHvergence_node" output="screen">
+	</node>
+	<node pkg="rh_vergence" type="RHvergence_main" name="RHvergence_main" output="screen">
+	</node>
+	
+	<!--rh_skills-->
+	<node pkg="rh_skills" type="capturing_actionlib_server" name="capturing_actionlib_server" output="screen">
+	</node>
+		
+</launch>

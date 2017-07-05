@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+    <name>clopema_stereo</name>
+    <version>0.0.0</version>
+    <description>The stereo_cameras package that implements the drivers for the Nikon D5100 of the CloPeMa robot head</description>
+
+    <maintainer email="krehnac@neovision.cz">Karel Krehnac</maintainer>
+    <license>BSD</license>
+    
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>camera_info_manager</build_depend>
+    <build_depend>cv_bridge</build_depend>
+    <build_depend>image_transport</build_depend>
+    <build_depend>libgphoto-dev</build_depend>
+    <build_depend>opencv2</build_depend>
+    <build_depend>roscpp</build_depend>
+    <build_depend>sensor_msgs</build_depend>
+    <build_depend>clopema_drivers_msgs</build_depend>
+    <build_depend>actionlib</build_depend>
+
+    <run_depend>camera_info_manager</run_depend>
+    <run_depend>cv_bridge</run_depend>
+    <run_depend>image_transport</run_depend>
+    <run_depend>opencv2</run_depend>
+    <run_depend>roscpp</run_depend>
+    <run_depend>sensor_msgs</run_depend>
+    <run_depend>clopema_drivers_msgs</run_depend>
+    <run_depend>actionlib</run_depend>
+</package>

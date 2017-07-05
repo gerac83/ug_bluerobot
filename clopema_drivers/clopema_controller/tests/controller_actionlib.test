@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find clopema_controller)/launch/start_controller.launch" />
+    <test test-name="gtest_controller_actionlib" pkg="clopema_controller" type="gtest_controller_actionlib" />
+</launch>

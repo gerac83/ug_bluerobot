@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+This file contains all clopema configuration which are site specific. Each
+variable is here as a argument with some meaningful name, and is stored as a ROS
+parameter wherever it is necessary.
+
+Libor Wagner on February  8, 2013
+-->
+<launch>
+    <!-- Ip address of the robot -->
+    <arg name="robot_ip"/>
+
+    <param name="/clopema_controller/robot_ip_address" value="$(arg robot_ip)"/>
+    <param name="/clopema_controller/robot_state/robot_ip_address" value="$(arg robot_ip)"/>
+
+    <!-- USB Address of the Xtion placed on robot 1 -->
+    <arg name="r1_xtion_port" />
+
+    <param name="/xtion1/driver/device_id" value="$(arg r1_xtion_port)"/>
+
+    <!-- USB Address of the Xtion placed on robot 2 -->
+    <arg name="r2_xtion_port" />
+
+    <param name="/xtion2/driver/device_id" value="$(arg r2_xtion_port)"/>
+    
+    <!-- USB Address of the Xtion3-->
+    <arg name="r3_xtion_port" default="2@0"/>
+
+    <param name="/xtion3/driver/device_id" value="$(arg r3_xtion_port)"/>
+
+    <!-- Is the r1  gripper inverted? It opens when the shunk closes? -->
+    <arg name="r1_gripper_inverted" />
+
+    <param name="/r1_gripper/inverted" value="$(arg r1_gripper_inverted)"/>
+
+    <!-- Is the r2  gripper inverted? It opens when the shunk closes? -->
+    <arg name="r2_gripper_inverted" />
+
+    <param name="/r2_gripper/inverted" value="$(arg r2_gripper_inverted)"/>
+
+    <!-- Used ROS time for the position messages instead of controller time is
+    default behaviour. When set to false make sure the clock are synchronised,
+    i.e. by chrony. -->
+    <arg name="rosi_use_ros_time" default="true"/>
+    <param name="/motoros/use_ros_time" value="$(arg rosi_use_ros_time)"/>
+    
+    <!-- Nikon cameras symbolic addresses -->
+    <param name="/left_camera_device" value="/dev/nikon_left"/>.
+    <param name="/right_camera_device" value="/dev/nikon_right"/>
+</launch>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	<xacro:macro name="room_unige"> 
+		<link name="ctu_floor">
+			<xacro:default_inertial/>
+			<collision>
+				<geometry>
+					<box size="4.000 3.600 0.3"/>
+				</geometry>
+				<origin xyz="0.0 0.0 0.0"/>
+			</collision>
+		</link>
+		<joint name="ctu_f_floor" type="fixed">
+                        <origin xyz="0.0 -0.2 0" rpy="0 0 0"/>
+                        <parent link="base_link"/>
+                        <child link="ctu_floor"/>
+                </joint>
+	</xacro:macro>
+</robot>

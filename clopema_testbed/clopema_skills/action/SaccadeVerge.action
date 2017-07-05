@@ -1,0 +1,18 @@
+### Description ###
+# Definition of Saccade cameras verging using RH
+# ptX - point in pixels in X where to verge on
+# ptY - point in pixels in Y where to verge on
+# im_width - width of image
+# im_height - height of image
+
+### Goal Definition ###
+float32 ptX
+float32 ptY
+int16 im_width
+int16 im_height
+---
+### Result Definition ###
+bool status
+---
+### Feedback Definition ###
+int16 number_iterations

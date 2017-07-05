@@ -1,0 +1,14 @@
+### Description ###
+# Definition of Capturing Images using Stereo
+# mode = full or preview
+
+### Goal Definition ###
+float32 scale
+---
+### Result Definition ###
+sensor_msgs/Image img_left
+sensor_msgs/Image img_right
+sensor_msgs/CameraInfo iminfo_left
+sensor_msgs/CameraInfo iminfo_right
+---
+### Feedback Definition ###

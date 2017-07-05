@@ -1,0 +1,127 @@
+CloPeMa Gripper Module
+===================
+
+    0. Overview
+    -----------
+
+This program, consisting of a driver, an acquisition library, a ROS server,
+a ROS client and its interface library along with a visualization program,
+is part of the CloPeMa Gripper Module.
+
+This program is able to acquire tactile data from a provided CAN interface
+at a configurable rate.  It is possible to acquire these data either directly
+or through a ROS module.  Additionally, it is possible to visually inspect
+the filtered data as well as storing their raw values.
+
+Table of contents:
+1) Prerequisites
+2) Usage
+3) License
+
+    1. Prerequisites
+    ----------------
+
+To compile this module, you need the following compilers:
+
+- gcc : for compiling the acquisition library
+- g++ : for compiling the ros module, the visualizer and its necessary
+  libraries
+
+For the server side, you need `pcan` installed for CAN communication
+(from http://www.peak-system.com/fileadmin/media/linux/index.htm)
+and URT installed for real-time abstraction (from
+https://github.com/ShabbyX/URT)
+
+For the ROS module, of course you would need ROS installed.  Make sure
+ros-hydro-audio-common package is installed.
+
+For the visualizer, you need the following additional graphics-related
+libraries.
+
+- SDL: Simple DirectMedia Library (for window handling).  This should
+  already be installed.  If not, do:
+
+    $ sudo apt-get install libsdl1.2-dev
+
+- OpenGL: Graphical rendering (higher than v1.2).  If not installed, do:
+
+    $ sudo apt-get install libgl1-mesa-dev
+
+- GLU: OpenGL utilities library.  If not installed, do:
+
+    $ sudo apt-get install libglu1-mesa-dev
+
+
+    2. Usage
+    --------
+
+After building with `catkin_make` and installing with `catkin_make install`,
+you can run the files normally through `rosrun`.  Some of the more importatn
+options to the executables made are as follows.
+
+- clopema_gripper_driver: The driver of the gripper. It must be run before any
+  other executables can be run.
+  * frequency=xxx: For example `frequency=50`.  Sets the frequency at which
+    the driver tries reading from the CAN interface (in Hz).  This also decides
+    the precision of the time measurements when data are logged.
+
+    Note: Higher frequencies result in more precise measurements.  However,
+    the time spent in real-time functions also increases.  This means that if
+    you set this value too high, your linux may slow down or even stop.  You
+    can experiment with this number on your specific machine to figure out what
+    is the maximum frequency you can get.  Note also that building for debug
+    means no optimization and therefore the maximum attainable frequency is
+    lowered.
+  * device=x: For example `device=0`.  Chooses the port to try reading from.
+
+- clopema_gripper_rosskin_server: The ROS server publishing and handling services
+  related to the skin attached to the gripper.
+  * --calibrate file: Set the location of the calibration file.  If not set,
+    the file at `~/.clopema_view/data/clbr` is taken.
+- clopema_gripper_motor_server: The ROS server publishing and handling services
+  related to the motor controlling the gripper.
+  * --limb L: select the limb to control.  L can take values of either 1 or 2.
+- clopema_gripper_[ros_]view: A visualizer that either directly, or through ROS,
+  controls the gripper and visualizes its output.  This program will create two log
+  files for the purpose of debugging, namely `run.log` and `log.out`.  You can
+  view `log.out` for possible error messages if something went wrong.
+  `run.log` should be empty.
+
+  If the visualization program is instructed to log the sensor values, it will
+  create one file for each taxel **in the directory calling this script**,
+  i.e. taxel00, taxel01, taxel02 etc.
+
+  The output file `taxelXX` is a log of sensor values received for taxel `XX`
+  at different times.  The format is a pair of (time, value) per line.  The
+  lines of output are in order of time, and there should be no repeating time.
+  If there was a repeating time, please report a bug!  Note that the time
+  values are in nanoseconds and do not start from 0.  The sensor values are
+  between 0 and 65535, with 0 being the minimum.  During initialization of
+  hardware, the sensors choose a value to show lack of pressure.  Therefore,
+  it is a good idea not to touch the skin during power up.
+  * --calibrate file: The same as with clopema_gripper_rosskin_server.  This
+    option is meaningful only if the non-ROS version of the viewer is spawned.
+
+    3. License
+    ----------
+
+Copyright (C) 2013-2014  Maclab, Università di Genova
+
+CloPeMa Gripper Module consisting of the driver, visualizer and ROS modules
+are published under the GNU General Public License version 2.0 or later (GPL v2.0+).
+
+CloPeMa Gripper Module is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+CloPeMa Gripper Module is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CloPeMa Gripper Module.  If not, see <http://www.gnu.org/licenses/>.
+
+Other included libraries and software (Ngin, Ngin3d, shImage, shFont)
+have their own licenses and are not part of CloPeMa Gripper Module.

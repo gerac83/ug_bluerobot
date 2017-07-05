@@ -1,0 +1,14 @@
+### Description ###
+# Definition of grasping of the garment from table using RH 
+# table - table, where the garment is located {t1, t2, t3}
+# arm - arm used for picking up {r1_arm, r2_arm}
+
+### Goal Definition ###
+string table
+string arm
+float32 confidence_thres
+---
+### Result Definition ###
+bool status
+---
+### Feedback Definition ###

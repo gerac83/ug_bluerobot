@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <name>clopema_description</name>
+  <version>0.0.0</version>
+  <description>The clopema_description package</description>
+
+  <maintainer email="vladko.petrik@gmail.com">Vladimír Petrík</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>orocos_kdl</build_depend>
+  <run_depend>orocos_kdl</run_depend>
+
+  <run_depend>roslib</run_depend>
+  <build_depend>roslib</build_depend>
+
+  <run_depend>urdf</run_depend>
+  <build_depend>urdf</build_depend>
+
+</package>
+

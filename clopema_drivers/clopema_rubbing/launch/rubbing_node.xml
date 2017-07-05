@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="local" default="false"/>
+    <arg name="output" default="screen"/>
+    <arg name="port"/>
+    <arg name="limb"/>
+    <arg name="machine"/>
+    <arg name="name"/>
+
+    <include file="$(find clopema_config)/launch/clopema.launch" />
+
+    <node unless="$(arg local)"
+        name="$(arg name)"
+        pkg="clopema_rubbing"
+        type="rubbing_node"
+        machine="$(arg machine)"
+        output="$(arg output)"
+        args="--port $(arg port) --limb $(arg limb)" />
+
+    <node if="$(arg local)"
+        name="$(arg name)"
+        pkg="clopema_rubbing"
+        type="rubbing_node"
+        output="$(arg output)"
+        args="--port $(arg port) --limb $(arg limb)" />
+
+</launch>
+

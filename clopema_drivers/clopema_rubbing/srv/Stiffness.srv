@@ -1,0 +1,5 @@
+uint8 stiffness
+---
+int16 count1
+int16 count2
+uint8 stiffness

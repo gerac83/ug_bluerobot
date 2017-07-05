@@ -1,0 +1,9 @@
+S TraceBorder INSIDE BELOW 60
+S MinArea 12
+S MaxArea 400
+S TriangleNormal 3.0 0
+S MaxDerivSubpix 0.05 5 1.5 0.0
+S RequireBelief
+S MinArea 16
+S IsElliptic 0.6 1.0 0.5
+D DotMatrix 0.2

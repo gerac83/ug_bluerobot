@@ -1,0 +1,30 @@
+<library path="libclopema_moveit_capabilities">
+
+  <class name="move_group/MoveGroupCartesianPathServiceDual" 
+         type="move_group::MoveGroupCartesianPathServiceDual" 
+         base_class_type="move_group::MoveGroupCapability">
+
+    <description>
+      Computing straight line Cartesian paths with collision checking via a ROS service for both arms.
+    </description>
+  </class>
+
+  <class name="move_group/GFoldService" 
+         type="move_group::GFoldService" 
+         base_class_type="move_group::MoveGroupCapability">
+
+    <description>
+      Simple GFold interpolation.
+    </description>
+  </class>
+  
+  
+  <class name="move_group/TrajCollisionService" 
+         type="move_group::TrajCollisionService" 
+         base_class_type="move_group::MoveGroupCapability">
+    <description>
+      Check trajectory for collision.
+    </description>
+  </class>
+  
+</library>

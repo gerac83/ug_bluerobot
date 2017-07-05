@@ -1,0 +1,16 @@
+string frame_id
+
+moveit_msgs/RobotState start_state
+
+string ik_link_1
+string ik_link_2
+geometry_msgs/Point final_point_1
+geometry_msgs/Point final_point_2
+
+#Link pairs which have enabled collision during the interpolation
+string[] allow_collision_1
+string[] allow_collision_2
+---
+moveit_msgs/RobotState start_state
+trajectory_msgs/JointTrajectory joint_trajectory
+moveit_msgs/MoveItErrorCodes error_code

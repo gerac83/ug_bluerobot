@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+    <name>clopema_ptu</name>
+    <version>0.0.0</version>
+    <description>The clopema_ptu controller</description>
+
+    <maintainer email="vladko.petrik@gmail.com">Vladimir Petrik</maintainer>
+    <license>BSD</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    
+    <build_depend>virtual_robot</build_depend>
+    <run_depend>virtual_robot</run_depend>
+    
+</package>

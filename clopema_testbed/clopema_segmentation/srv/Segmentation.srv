@@ -1,0 +1,13 @@
+# Source image
+sensor_msgs/Image image
+
+# Region of intereset as an polygon
+geometry_msgs/Point[] roi
+
+# Optional argument specifing used Strategy for extraxtion - 
+# 0 - Extract ALL Contours [Default]
+# 1 - Extract Largest Contour Only
+# 2 - Extract Controut Closest to Image Center
+int32 strategy
+---
+sensor_msgs/Image mask

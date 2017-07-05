@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="algorithm" default="$(find clopema_calibration)/config/algorithm_1.dma" />
+    <arg name="gauge" default="$(find clopema_calibration)/config/gauge30x30.gdf" />
+
+    <node name="dotmatrix" pkg="clopema_calibration" type="dotmatrix_srv" output="screen">
+        <param name="~algorithm" value="$(arg algorithm)"/>
+        <param name="~gauge" value="$(arg gauge)"/>
+    </node>
+
+</launch>

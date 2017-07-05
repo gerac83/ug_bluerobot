@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+
+# Copyright (c) CloPeMa, EU-FP7 - All Rights Reserved
+#
+# Author:      Libor Wagner <wagnelib@cmp.felk.cvut.cz>
+# Institute:   Czech Technical University in Prague
+# Created on:  Nov 28, 2013
+
+
+"""Table calibration check script.
+
+Assuming that the robot and camera is running, and the camera is pointed to the
+table this script will show and errors of the table calibration.
+
+Usage:
+    table_calibration_check.py
+    table_calibration_check.py [options]
+    table_calibration_check.py -h | --help
+
+Options:
+    -t <table>, --table <table>     Which table to check [default: 2]
+    -i <image>, --image <image>     Which image topic to use [default: image]
+    -c <camera>, --camera <camera>  Which camera info topic to use [default: camera_info]
+    -x <xtion>, --xtion <xtion>
+    -h, --help                      Display help message
+"""
+
+import rospy
+import tf2_ros
+import numpy as np
+
+from clopema_libs import docopt
+from clopema_libs.transform import frame2point
+from clopema_calibration.table_calibration import TableCalibrationCheck
+from clopema_robot import get_table_frames, get_xtion_val
+
+if __name__ == '__main__':
+    rospy.init_node('table_calibration_check', anonymous=True)
+
+    args = docopt(__doc__, argv=rospy.myargv()[1:])
+
+    if args['--xtion'] is not None:
+        n = int(args['--xtion'])
+        image_topic_name = get_xtion_val(n, 'rgb_image')
+        camera_info_topic_name = get_xtion_val(n, 'rgb_info')
+    else:
+        image_topic_name = args['--image']
+        camera_info_topic_name = args['--camera']
+
+    rospy.loginfo("Waiting for cache")
+
+    tfb = tf2_ros.Buffer(cache_time = rospy.Duration(5.0))
+    tfl = tf2_ros.TransformListener(tfb)
+    rospy.sleep(1)  # Wait for cache to fill up
+    rospy.loginfo("Done")
+
+    frame_ids = get_table_frames(int(args['--table']))[1:]
+
+    # Get corners
+    corners = np.hstack([frame2point(f, tfb, homegenous=True) for f in frame_ids])
+
+    tcc = TableCalibrationCheck(corners=corners, tfb=tfb)
+    tcc.image_topic_name = image_topic_name
+    tcc.camera_info_topic_name = camera_info_topic_name
+    tcc.start()
+    rospy.spin()
