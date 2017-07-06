@@ -11,7 +11,9 @@ sudo apt-get install ros-kinetic-openni-launch ros-kinetic-perception-pcl os-kin
 
 To test, run after catkin_make and source devel/setup.bash:
 
-roslaunch clopema_launch virtual_robot.launch
+roslaunch clopema_launch virtual_robot.launch_
+
+**Remember to set the planning library in MoveIT pane**
 
 # Notes from Gerardo
 
