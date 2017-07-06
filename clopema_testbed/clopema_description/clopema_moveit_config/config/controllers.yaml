@@ -1,0 +1,31 @@
+controller_list:
+  - name: clopema_controller
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - ext_axis
+      - r1_joint_s
+      - r1_joint_l
+      - r1_joint_u
+      - r1_joint_r
+      - r1_joint_b
+      - r1_joint_t
+      - r2_joint_s
+      - r2_joint_l
+      - r2_joint_u
+      - r2_joint_r
+      - r2_joint_b
+      - r2_joint_t
+  - name: r1_gripper
+    type: GripperCommand
+    action_ns: command
+    default: true
+    joints:
+      - r1_joint_grip
+  - name: r2_gripper
+    type: GripperCommand
+    action_ns: command
+    default: true
+    joints:
+      - r2_joint_grip
