@@ -1,4 +1,4 @@
 clopema_description/robots/clopema.urdf
-clopema_description/robots/dh.yaml
+
 clopema_moveit_config/default_warehouse_mongo_db/*
 *.pyc

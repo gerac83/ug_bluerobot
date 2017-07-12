@@ -1,0 +1,17 @@
+DH:
+  r1:
+    '0': {a: 0, alpha: 0, d: 0, theta: 0}
+    '1': {a: 0.15, alpha: -1.5708, d: 0.45, theta: 0}
+    '2': {a: 0.614, alpha: 3.14159, d: 0, theta: 4.71239}
+    '3': {a: 0.2, alpha: -1.5708, d: 0, theta: 0}
+    '4': {a: 0, alpha: 1.5708, d: -0.64, theta: 0}
+    '5': {a: 0.03, alpha: 1.5708, d: 0, theta: 4.71239}
+    '6': {a: 0, alpha: 0, d: 0.2, theta: 0}
+  r2:
+    '0': {a: 0, alpha: 0, d: 0, theta: 0}
+    '1': {a: 0.15, alpha: -1.5708, d: 0.45, theta: 0}
+    '2': {a: 0.614, alpha: 3.14159, d: 0, theta: 4.71239}
+    '3': {a: 0.2, alpha: -1.5708, d: 0, theta: 0}
+    '4': {a: 0, alpha: 1.5708, d: -0.64, theta: 0}
+    '5': {a: 0.03, alpha: 1.5708, d: 0, theta: 4.71239}
+    '6': {a: 0, alpha: 0, d: 0.2, theta: 0}
