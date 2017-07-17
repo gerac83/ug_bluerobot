@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(clopema_moveit_config)
+project(clopema_shadow_moveit_config)
 
 find_package(catkin REQUIRED)
 

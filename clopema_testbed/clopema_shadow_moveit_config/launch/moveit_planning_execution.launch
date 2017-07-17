@@ -5,20 +5,20 @@
   <arg name="rviz" default="true" />
   <arg name="output" default="screen" />
 
-  <rosparam command="load" file="$(find clopema_moveit_config)/config/kinematics.yaml"/>
+  <rosparam command="load" file="$(find clopema_shadow_moveit_config)/config/kinematics.yaml"/>
   <!-- load the robot_description parameter before launching ROS-I nodes -->
-  <include file="$(find clopema_moveit_config)/launch/planning_context.launch" >
+  <include file="$(find clopema_shadow_moveit_config)/launch/planning_context.launch" >
     <arg name="load_robot_description" value="true" />
   </include>
 
   <!-- publish the robot state (tf transforms) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  output="$(arg output)"/>
 
-  <include file="$(find clopema_moveit_config)/launch/move_group.launch">
+  <include file="$(find clopema_shadow_moveit_config)/launch/move_group.launch">
     <arg name="publish_monitored_planning_scene" value="true" />
   </include>
 
-  <include file="$(find clopema_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
+  <include file="$(find clopema_shadow_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
     <arg name="config" value="true"/>
   </include>
   
