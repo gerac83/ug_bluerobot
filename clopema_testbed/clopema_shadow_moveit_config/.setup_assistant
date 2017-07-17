@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: clopema_description
+    relative_path: robots/clopema.urdf
+  SRDF:
+    relative_path: config/clopema.srdf
+  CONFIG:
+    generated_timestamp: 1382527380
