@@ -18,10 +18,6 @@ r2_arm:
 
   projection_evaluator: joints(r2_joint_s,r2_joint_l)
   longest_valid_segment_fraction: 0.005
-r1_gripper:
-  planner_configs:
-    - RRTstarmoddedkConfigDefault
-    - RRTConnectkConfigDefault
 
 r2_gripper:
   planner_configs:

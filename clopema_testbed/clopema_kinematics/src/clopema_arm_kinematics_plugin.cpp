@@ -296,7 +296,7 @@ bool ClopemaArmKinematicsPlugin::initialize(
     node_handle.param(full_urdf_xml, xml_string, std::string());
     robot_model.initString(xml_string);
 
-    if (group_name == "r1_arm" || group_name == "r2_arm") {
+    if (group_name == "r1_arm" || group_name == "r2_arm" || group_name == "r1_arm_and_manipulator") {
         num_joints_ = 6;
         ik_solver_ = new clopema_kinematics::IKSolver;
 

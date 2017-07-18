@@ -26,19 +26,23 @@
 		<origin xyz="0 .25 0.1600" rpy="-${15*TO_RAD} 0 0"/>
 	</xacro:ma1400>
 
-	<!--xacro:gripper parent="tip_link" suffix="r1_" color="blue">
-		<origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
-	</xacro:gripper-->
-	<!-- Box representation of hand -->
-	<xacro:include filename="$(find sr_box_ur10_moveit_config)/config/hand_box.xacro" />
+	<!-- Box representation of Shadow hand -->
+	<xacro:include filename="$(find clopema_description)/urdf/hand_box.xacro" />
 	<xacro:hand_box name="hand_box" width="0.22" depth="0.17" height="0.24"/>
-
-	<!-- Join arm and hand -->
-	<joint name="ra_arm_to_hand1" type="fixed">
+	<joint name="r1_joint_box" type="fixed">
 		<parent link="r1_tip_link"/>
 		<child link="hand_base_attach"/>
-		<origin rpy="1.570796325 3.14159265 1.570796325" xyz="0.012 0.0 0.0"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.012"/>
 	</joint>
+
+	<!-- Shadow hand -->
+	<!--xacro:include filename="$(find fh_description)/robots/hand_h_v2_to_attach.xacro"/>
+    <joint name="r1_joint_shadow" type="fixed">
+      <parent link="r1_tip_link"/>
+      <child link="H1_base_attach"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.012"/>
+    </joint-->
+
 	<xacro:gripper parent="tip_link" suffix="r2_" color="blue">
 		<origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
 	</xacro:gripper>

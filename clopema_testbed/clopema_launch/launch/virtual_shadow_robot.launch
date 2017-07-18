@@ -17,7 +17,7 @@ Libor Wagner and Vladimir Petrík on July 19, 2013
     
     <include file="$(find clopema_controller)/launch/virtual_controller.launch" />
     <include file="$(find clopema_ptu)/launch/virtual_ptu.launch" />
-    <include file="$(find clopema_gripper)/launch/virtual_gripper.launch" />
+    <include file="$(find clopema_gripper)/launch/virtual_gripper_shadow.launch" />
     
     <include file="$(find clopema_shadow_moveit_config)/launch/moveit_planning_execution.launch">
         <arg name="rviz" value="$(arg rviz)"/>

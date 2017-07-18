@@ -44,11 +44,6 @@ joint_limits:
     max_velocity: 2.1293
     has_acceleration_limits: false
     max_acceleration: 0
-  r1_joint_grip:
-    has_velocity_limits: true
-    max_velocity: 1000
-    has_acceleration_limits: false
-    max_acceleration: 0
   r2_joint_s:
     has_velocity_limits: true
     max_velocity: 0.767944

@@ -15,9 +15,6 @@ controller_list:
       - r2_joint_r
       - r2_joint_b
       - r2_joint_t
-  - name: fake_r1_gripper_controller
-    joints:
-      - r1_joint_grip
   - name: fake_r2_gripper_controller
     joints:
       - r2_joint_grip

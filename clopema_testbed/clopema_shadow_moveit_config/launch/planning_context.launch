@@ -10,7 +10,7 @@
   <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro --inorder '$(find clopema_description)/robots/clopema_SHADOW.urdf.xacro'"/>
 
   <!-- The semantic description that corresponds to the URDF -->
-  <param name="$(arg robot_description)_semantic" textfile="$(find clopema_shadow_moveit_config)/config/$(env CLOPEMA_PARTNER)/clopema.srdf" />
+  <param name="$(arg robot_description)_semantic" textfile="$(find clopema_shadow_moveit_config)/config/$(env CLOPEMA_PARTNER)/clopema_shadow.srdf" />
 
   <!-- Load updated joint limits (override information from URDF) -->
   <group ns="$(arg robot_description)_planning">

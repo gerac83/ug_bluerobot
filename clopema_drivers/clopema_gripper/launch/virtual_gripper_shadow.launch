@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="virtual_robot" name="r2_gripper" type="virtual_gripper" output="screen">
+        <remap from="~joint_states" to="/joint_states" />
+        <param name="joint_name" value="r2_joint_grip" />
+    </node>
+</launch>
