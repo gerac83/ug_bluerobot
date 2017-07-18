@@ -43,6 +43,9 @@
         <link name="hand_base_attach" />
         <link name="hand_manipulator" />
     </group>
+    <group name="robot_base">
+        <chain base_link="base_link" tip_link="r1_link_1"/>
+    </group>
     <group name="r2_gripper">
         <link name="r2_gripper" />
         <link name="r2_ee" />
@@ -186,7 +189,7 @@
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="r1_ee" parent_link="r1_tip_link" group="r1_shadow_box" parent_group="r1_arm" />
-    <end_effector group="r1_arm_and_manipulator" name="r1_arm_and_manipulator_ee" parent_link="r1_link_1"/>
+    <end_effector group="r1_arm_and_manipulator" name="r1_arm_and_manipulator_ee" parent_link="r1_link_1" parent_group="robot_base"/>
     <end_effector name="r2_ee" parent_link="r2_tip_link" group="r2_gripper" parent_group="r2_arm" />
     <end_effector name="r1_xtion_ee" parent_link="xtion1_link_ee" group="r1_xtion_ee" parent_group="r1_xtion" />
     <end_effector name="r2_xtion_ee" parent_link="xtion2_link_ee" group="r2_xtion_ee" parent_group="r2_xtion" />
