@@ -38,21 +38,6 @@ controller_list:
   - name: fake_ext_controller
     joints:
       - ext_axis
-  - name: fake_all_controller
-    joints:
-      - ext_axis
-      - r1_joint_s
-      - r1_joint_l
-      - r1_joint_u
-      - r1_joint_r
-      - r1_joint_b
-      - r1_joint_t
-      - r2_joint_s
-      - r2_joint_l
-      - r2_joint_u
-      - r2_joint_r
-      - r2_joint_b
-      - r2_joint_t
   - name: fake_r1_xtion_controller
     joints:
       - r1_joint_s

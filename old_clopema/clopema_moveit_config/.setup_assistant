@@ -5,6 +5,4 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/clopema.srdf
   CONFIG:
-    author_name: clopema
-    author_email: clopema@glasgow.ac.uk
-    generated_timestamp: 1500395013
+    generated_timestamp: 1382527380
