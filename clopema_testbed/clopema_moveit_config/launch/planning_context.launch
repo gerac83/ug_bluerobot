@@ -16,6 +16,9 @@
     <rosparam command="load" file="$(find clopema_moveit_config)/config/joint_limits.yaml"/>
   </group>
 
+   <!-- Load robot DH notation -->
+   <rosparam command="load" file="$(find clopema_description)/robots/dh.yaml"/>
+
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
     <rosparam command="load" file="$(find clopema_moveit_config)/config/kinematics.yaml"/>

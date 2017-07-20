@@ -1,50 +1,12 @@
-# joint_limits.yaml allows the dynamics properties specified in the URDF to be overwritten or augmented as needed
-# Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
-# Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
   ext_axis:
     has_velocity_limits: true
-    max_velocity: 2.844886596
+    max_velocity: 0.568978
     has_acceleration_limits: false
     max_acceleration: 0
-  r1_joint_b:
+  r2_joint_t:
     has_velocity_limits: true
-    max_velocity: 7.15584972
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_grip:
-    has_velocity_limits: true
-    max_velocity: 1000
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_l:
-    has_velocity_limits: true
-    max_velocity: 3.4906584
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_r:
-    has_velocity_limits: true
-    max_velocity: 7.15584972
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_s:
-    has_velocity_limits: true
-    max_velocity: 3.83972424
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_t:
-    has_velocity_limits: true
-    max_velocity: 10.64650812
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r1_joint_u:
-    has_velocity_limits: true
-    max_velocity: 3.83972424
-    has_acceleration_limits: false
-    max_acceleration: 0
-  r2_joint_b:
-    has_velocity_limits: true
-    max_velocity: 7.15584972
+    max_velocity: 2.1293
     has_acceleration_limits: false
     max_acceleration: 0
   r2_joint_grip:
@@ -52,28 +14,63 @@ joint_limits:
     max_velocity: 1000
     has_acceleration_limits: false
     max_acceleration: 0
-  r2_joint_l:
+  r1_joint_s:
     has_velocity_limits: true
-    max_velocity: 3.4906584
+    max_velocity: 0.767944
     has_acceleration_limits: false
     max_acceleration: 0
-  r2_joint_r:
+  r1_joint_l:
     has_velocity_limits: true
-    max_velocity: 7.15584972
+    max_velocity: 3.49066
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r1_joint_u:
+    has_velocity_limits: true
+    max_velocity: 0.698132
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r1_joint_r:
+    has_velocity_limits: true
+    max_velocity: 1.43117
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r1_joint_b:
+    has_velocity_limits: true
+    max_velocity: 1.43117
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r1_joint_t:
+    has_velocity_limits: true
+    max_velocity: 2.1293
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r1_joint_grip:
+    has_velocity_limits: true
+    max_velocity: 1000
     has_acceleration_limits: false
     max_acceleration: 0
   r2_joint_s:
     has_velocity_limits: true
-    max_velocity: 3.83972424
+    max_velocity: 0.767944
     has_acceleration_limits: false
     max_acceleration: 0
-  r2_joint_t:
+  r2_joint_l:
     has_velocity_limits: true
-    max_velocity: 10.64650812
+    max_velocity: 0.698132
     has_acceleration_limits: false
     max_acceleration: 0
   r2_joint_u:
     has_velocity_limits: true
-    max_velocity: 3.83972424
+    max_velocity: 0.767944
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r2_joint_r:
+    has_velocity_limits: true
+    max_velocity: 1.43117
+    has_acceleration_limits: false
+    max_acceleration: 0
+  r2_joint_b:
+    has_velocity_limits: true
+    max_velocity: 1.43117
     has_acceleration_limits: false
     max_acceleration: 0

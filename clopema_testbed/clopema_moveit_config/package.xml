@@ -5,8 +5,8 @@
   <description>
      An automatically generated package with all the configuration and launch files for using the clopema with the MoveIt! Motion Planning Framework
   </description>
-  <author email="clopema@glasgow.ac.uk">clopema</author>
-  <maintainer email="clopema@glasgow.ac.uk">clopema</maintainer>
+  <author email="gg@a.com">gg</author>
+  <maintainer email="gg@a.com">gg</maintainer>
 
   <license>BSD</license>
 

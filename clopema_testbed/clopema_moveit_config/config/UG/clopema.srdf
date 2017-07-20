@@ -98,12 +98,12 @@
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="xtion1_above_table" group="arms">
-        <joint name="r1_joint_b" value="-0.038" />
-        <joint name="r1_joint_l" value="0.284" />
-        <joint name="r1_joint_r" value="0.26" />
         <joint name="r1_joint_s" value="0.421" />
-        <joint name="r1_joint_t" value="0.433" />
+        <joint name="r1_joint_l" value="0.284" />
         <joint name="r1_joint_u" value="0.204" />
+        <joint name="r1_joint_r" value="0.260" />
+        <joint name="r1_joint_b" value="-0.038" />
+        <joint name="r1_joint_t" value="0.433" />
         <joint name="r2_joint_b" value="0" />
         <joint name="r2_joint_l" value="0" />
         <joint name="r2_joint_r" value="0" />
@@ -112,18 +112,19 @@
         <joint name="r2_joint_u" value="0" />
     </group_state>
     <group_state name="xtion2_above_table" group="arms">
-        <joint name="r1_joint_b" value="0" />
-        <joint name="r1_joint_l" value="0" />
-        <joint name="r1_joint_r" value="0" />
         <joint name="r1_joint_s" value="0" />
-        <joint name="r1_joint_t" value="0" />
+        <joint name="r1_joint_l" value="0" />
         <joint name="r1_joint_u" value="0" />
-        <joint name="r2_joint_b" value="0.1211" />
-        <joint name="r2_joint_l" value="0.18" />
-        <joint name="r2_joint_r" value="-0.0674" />
+        <joint name="r1_joint_r" value="0" />
+        <joint name="r1_joint_b" value="0" />
+        <joint name="r1_joint_t" value="0" />
+
         <joint name="r2_joint_s" value="-0.432" />
-        <joint name="r2_joint_t" value="-0.7188" />
+        <joint name="r2_joint_l" value="0.18" />
         <joint name="r2_joint_u" value="0.0622" />
+        <joint name="r2_joint_r" value="-0.0674" />
+        <joint name="r2_joint_b" value="0.1211" />
+        <joint name="r2_joint_t" value="-0.7188" />
     </group_state>
     <group_state name="home_arms" group="arms">
         <joint name="r1_joint_b" value="0" />
@@ -159,7 +160,6 @@
         <joint name="r2_joint_u" value="0" />
     </group_state>
     <group_state name="home" group="all">
-        <joint name="ext_axis" value="0" />
         <joint name="r1_joint_b" value="0" />
         <joint name="r1_joint_l" value="0" />
         <joint name="r1_joint_r" value="0" />
@@ -172,6 +172,7 @@
         <joint name="r2_joint_s" value="0" />
         <joint name="r2_joint_t" value="0" />
         <joint name="r2_joint_u" value="0" />
+        <joint name="ext_axis" value="0" />
     </group_state>
     <group_state name="ext_plus_90" group="ext">
         <joint name="ext_axis" value="1.5707" />
@@ -196,11 +197,6 @@
     <disable_collisions link1="camera" link2="ctu_wall_2" reason="Never" />
     <disable_collisions link1="camera" link2="ctu_wall_3" reason="Never" />
     <disable_collisions link1="camera" link2="ctu_wall_4" reason="Never" />
-    <disable_collisions link1="camera" link2="left_base_ptu" reason="Never" />
-    <disable_collisions link1="camera" link2="left_camera_virtual" reason="Never" />
-    <disable_collisions link1="camera" link2="left_lens_virtual" reason="Never" />
-    <disable_collisions link1="camera" link2="left_pan_ptu" reason="Never" />
-    <disable_collisions link1="camera" link2="left_tilt_ptu" reason="Never" />
     <disable_collisions link1="camera" link2="r1_cable_1" reason="Never" />
     <disable_collisions link1="camera" link2="r1_link_1" reason="Never" />
     <disable_collisions link1="camera" link2="r1_link_2" reason="Never" />
@@ -211,26 +207,21 @@
     <disable_collisions link1="camera" link2="r2_link_3" reason="Never" />
     <disable_collisions link1="camera" link2="r750" reason="Never" />
     <disable_collisions link1="camera" link2="r750_base" reason="Never" />
-    <disable_collisions link1="camera" link2="right_base_ptu" reason="Never" />
-    <disable_collisions link1="camera" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="camera" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="camera" link2="right_pan_ptu" reason="Never" />
-    <disable_collisions link1="camera" link2="right_tilt_ptu" reason="Never" />
     <disable_collisions link1="camera" link2="t1_desk" reason="Never" />
     <disable_collisions link1="camera" link2="t1_leg_1" reason="Never" />
     <disable_collisions link1="camera" link2="t1_leg_2" reason="Never" />
     <disable_collisions link1="camera" link2="t1_leg_3" reason="Never" />
     <disable_collisions link1="camera" link2="t1_leg_4" reason="Never" />
-    <disable_collisions link1="camera" link2="t2_desk" reason="Never" />
-    <disable_collisions link1="camera" link2="t2_leg_1" reason="Never" />
-    <disable_collisions link1="camera" link2="t2_leg_2" reason="Never" />
-    <disable_collisions link1="camera" link2="t2_leg_3" reason="Never" />
-    <disable_collisions link1="camera" link2="t2_leg_4" reason="Never" />
     <disable_collisions link1="camera" link2="t3_desk" reason="Never" />
     <disable_collisions link1="camera" link2="t3_leg_1" reason="Never" />
     <disable_collisions link1="camera" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="camera" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="camera" link2="t3_leg_4" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_desk" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="camera" link2="t2_leg_4" reason="Never" />
     <disable_collisions link1="camera_stick" link2="ctu_floor" reason="Never" />
     <disable_collisions link1="camera_stick" link2="ctu_roof_1" reason="Never" />
     <disable_collisions link1="camera_stick" link2="ctu_roof_2" reason="Never" />
@@ -239,18 +230,12 @@
     <disable_collisions link1="camera_stick" link2="ctu_wall_2" reason="Never" />
     <disable_collisions link1="camera_stick" link2="ctu_wall_3" reason="Never" />
     <disable_collisions link1="camera_stick" link2="ctu_wall_4" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="left_base_ptu" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="left_pan_ptu" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="left_tilt_ptu" reason="Never" />
     <disable_collisions link1="camera_stick" link2="r1_link_1" reason="Never" />
     <disable_collisions link1="camera_stick" link2="r1_link_2" reason="Never" />
     <disable_collisions link1="camera_stick" link2="r2_link_1" reason="Never" />
     <disable_collisions link1="camera_stick" link2="r2_link_2" reason="Never" />
     <disable_collisions link1="camera_stick" link2="r750" reason="Adjacent" />
     <disable_collisions link1="camera_stick" link2="r750_base" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="right_base_ptu" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="right_pan_ptu" reason="Never" />
-    <disable_collisions link1="camera_stick" link2="right_tilt_ptu" reason="Never" />
     <disable_collisions link1="camera_stick" link2="t1_desk" reason="Never" />
     <disable_collisions link1="camera_stick" link2="t1_leg_1" reason="Never" />
     <disable_collisions link1="camera_stick" link2="t1_leg_2" reason="Never" />
@@ -266,6 +251,15 @@
     <disable_collisions link1="camera_stick" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="camera_stick" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="camera_stick" link2="t3_leg_4" reason="Never" />
+    
+<!--    <disable_collisions link1="camera_stick" link2="ips_bar" reason="Never" />-->
+    <disable_collisions link1="camera_stick" link2="left_base_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_base_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="left_pan_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_pan_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="left_tilt_ptu" reason="Never" />
+    <disable_collisions link1="camera_stick" link2="right_tilt_ptu" reason="Never" />
+    
     <disable_collisions link1="ctu_floor" link2="ctu_roof_1" reason="Adjacent" />
     <disable_collisions link1="ctu_floor" link2="ctu_roof_2" reason="Adjacent" />
     <disable_collisions link1="ctu_floor" link2="ctu_roof_3" reason="Adjacent" />
@@ -273,9 +267,6 @@
     <disable_collisions link1="ctu_floor" link2="ctu_wall_2" reason="Adjacent" />
     <disable_collisions link1="ctu_floor" link2="ctu_wall_3" reason="Adjacent" />
     <disable_collisions link1="ctu_floor" link2="ctu_wall_4" reason="Adjacent" />
-    <disable_collisions link1="ctu_floor" link2="left_camera_virtual" reason="Never" />
-    <disable_collisions link1="ctu_floor" link2="left_lens_virtual" reason="Never" />
-    <disable_collisions link1="ctu_floor" link2="left_tilt_ptu" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="r1_cable_1" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="r1_link_1" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="r1_link_2" reason="Never" />
@@ -286,9 +277,6 @@
     <disable_collisions link1="ctu_floor" link2="r2_link_3" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="r750" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="r750_base" reason="Adjacent" />
-    <disable_collisions link1="ctu_floor" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="ctu_floor" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="ctu_floor" link2="right_tilt_ptu" reason="Never" />
     <disable_collisions link1="ctu_floor" link2="t1_desk" reason="Adjacent" />
     <disable_collisions link1="ctu_floor" link2="t1_leg_1" reason="Default" />
     <disable_collisions link1="ctu_floor" link2="t1_leg_2" reason="Default" />
@@ -304,7 +292,6 @@
     <disable_collisions link1="ctu_floor" link2="t3_leg_2" reason="Default" />
     <disable_collisions link1="ctu_floor" link2="t3_leg_3" reason="Default" />
     <disable_collisions link1="ctu_floor" link2="t3_leg_4" reason="Default" />
-    <disable_collisions link1="ctu_floor" link2="xtion3_link" reason="Never" />
     <disable_collisions link1="ctu_roof_1" link2="ctu_roof_2" reason="Adjacent" />
     <disable_collisions link1="ctu_roof_1" link2="ctu_roof_3" reason="Adjacent" />
     <disable_collisions link1="ctu_roof_1" link2="ctu_wall_1" reason="Adjacent" />
@@ -532,18 +519,6 @@
     <disable_collisions link1="ctu_wall_4" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="ctu_wall_4" link2="t3_leg_4" reason="Never" />
     <disable_collisions link1="ctu_wall_4" link2="xtion2_link" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="left_lens_virtual" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="left_tilt_ptu" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="r750_base" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="left_camera_virtual" link2="right_tilt_ptu" reason="Never" />
-    <disable_collisions link1="left_lens_virtual" link2="r750_base" reason="Never" />
-    <disable_collisions link1="left_lens_virtual" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="left_lens_virtual" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="left_tilt_ptu" link2="r750_base" reason="Never" />
-    <disable_collisions link1="left_tilt_ptu" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="left_tilt_ptu" link2="right_tilt_ptu" reason="Never" />
     <disable_collisions link1="r1_cable_1" link2="r1_link_1" reason="Never" />
     <disable_collisions link1="r1_cable_1" link2="r1_link_2" reason="Never" />
     <disable_collisions link1="r1_cable_1" link2="r1_link_3" reason="Adjacent" />
@@ -583,7 +558,6 @@
     <disable_collisions link1="r1_link_1" link2="t3_leg_4" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="r1_link_3" reason="Adjacent" />
     <disable_collisions link1="r1_link_2" link2="r1_link_4" reason="Never" />
-    <disable_collisions link1="r1_link_2" link2="r1_link_5" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="r2_link_1" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="r2_link_2" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="r750" reason="Never" />
@@ -603,7 +577,6 @@
     <disable_collisions link1="r1_link_2" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="r1_link_2" link2="t3_leg_4" reason="Never" />
-    <disable_collisions link1="r1_link_2" link2="xtion3_link" reason="Never" />
     <disable_collisions link1="r1_link_3" link2="r1_link_4" reason="Adjacent" />
     <disable_collisions link1="r1_link_3" link2="t1_leg_1" reason="Never" />
     <disable_collisions link1="r1_link_3" link2="t1_leg_2" reason="Never" />
@@ -660,7 +633,6 @@
     <disable_collisions link1="r2_link_1" link2="t3_leg_4" reason="Never" />
     <disable_collisions link1="r2_link_2" link2="r2_link_3" reason="Adjacent" />
     <disable_collisions link1="r2_link_2" link2="r2_link_4" reason="Never" />
-    <disable_collisions link1="r2_link_2" link2="r2_link_5" reason="Never" />
     <disable_collisions link1="r2_link_2" link2="r750" reason="Never" />
     <disable_collisions link1="r2_link_2" link2="r750_base" reason="Never" />
     <disable_collisions link1="r2_link_2" link2="t1_desk" reason="Never" />
@@ -713,9 +685,6 @@
     <disable_collisions link1="r750" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="r750" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="r750" link2="t3_leg_4" reason="Never" />
-    <disable_collisions link1="r750_base" link2="right_camera_virtual" reason="Never" />
-    <disable_collisions link1="r750_base" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="r750_base" link2="right_tilt_ptu" reason="Never" />
     <disable_collisions link1="r750_base" link2="t1_desk" reason="Adjacent" />
     <disable_collisions link1="r750_base" link2="t1_leg_1" reason="Never" />
     <disable_collisions link1="r750_base" link2="t1_leg_2" reason="Never" />
@@ -731,9 +700,7 @@
     <disable_collisions link1="r750_base" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="r750_base" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="r750_base" link2="t3_leg_4" reason="Never" />
-    <disable_collisions link1="r750_base" link2="xtion3_link" reason="Never" />
-    <disable_collisions link1="right_camera_virtual" link2="right_lens_virtual" reason="Never" />
-    <disable_collisions link1="right_camera_virtual" link2="right_tilt_ptu" reason="Never" />
+    
     <disable_collisions link1="t1_desk" link2="t1_leg_1" reason="Adjacent" />
     <disable_collisions link1="t1_desk" link2="t1_leg_2" reason="Adjacent" />
     <disable_collisions link1="t1_desk" link2="t1_leg_3" reason="Adjacent" />
@@ -768,6 +735,10 @@
     <disable_collisions link1="t1_leg_2" link2="t2_leg_2" reason="Never" />
     <disable_collisions link1="t1_leg_2" link2="t2_leg_3" reason="Never" />
     <disable_collisions link1="t1_leg_2" link2="t2_leg_4" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_1" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_2" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_3" reason="Never" />
+    <disable_collisions link1="t1_leg_2" link2="t2_leg_4" reason="Never" />
     <disable_collisions link1="t1_leg_2" link2="t3_desk" reason="Never" />
     <disable_collisions link1="t1_leg_2" link2="t3_leg_1" reason="Never" />
     <disable_collisions link1="t1_leg_2" link2="t3_leg_2" reason="Never" />
@@ -794,6 +765,7 @@
     <disable_collisions link1="t1_leg_4" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="t1_leg_4" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="t1_leg_4" link2="t3_leg_4" reason="Never" />
+    
     <disable_collisions link1="t2_desk" link2="t2_leg_1" reason="Adjacent" />
     <disable_collisions link1="t2_desk" link2="t2_leg_2" reason="Adjacent" />
     <disable_collisions link1="t2_desk" link2="t2_leg_3" reason="Adjacent" />
@@ -805,6 +777,7 @@
     <disable_collisions link1="t2_leg_2" link2="t2_leg_3" reason="Never" />
     <disable_collisions link1="t2_leg_2" link2="t2_leg_4" reason="Never" />
     <disable_collisions link1="t2_leg_3" link2="t2_leg_4" reason="Never" />
+    
     <disable_collisions link1="t3_desk" link2="t3_leg_1" reason="Adjacent" />
     <disable_collisions link1="t3_desk" link2="t3_leg_2" reason="Adjacent" />
     <disable_collisions link1="t3_desk" link2="t3_leg_3" reason="Adjacent" />
@@ -815,4 +788,65 @@
     <disable_collisions link1="t3_leg_2" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="t3_leg_2" link2="t3_leg_4" reason="Never" />
     <disable_collisions link1="t3_leg_3" link2="t3_leg_4" reason="Never" />
+    
+    <disable_collisions link1="r1_link_2" link2="r2_link_2" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="r2_link_2" link2="r2_link_5" reason="Never" />
+    <disable_collisions link1="r1_link_2" link2="xtion3_link" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="camera" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_tilt_ptu" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_lens_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="left_lens_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="right_camera_virtual" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="left_lens_virtual" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_ptu" link2="right_tilt_optic" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_ptu" link2="left_tilt_optic" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="left_tilt_optic" reason="Never" />-->
+    <disable_collisions link1="right_tilt_ptu" link2="r750_base" reason="Never" /> 
+    <disable_collisions link1="left_tilt_ptu" link2="r750_base" reason="Never" />   
+<!--    <disable_collisions link1="right_tilt_optic" link2="r750_base" reason="Never" />        -->
+<!--    <disable_collisions link1="left_tilt_optic" link2="r750_base" reason="Never" />  -->
+    <disable_collisions link1="right_lens_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="xtion3_link" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="ctu_floor" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="ctu_floor" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="ctu_floor" reason="Never" />-->
+    <disable_collisions link1="left_tilt_ptu" link2="right_camera_virtual" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="left_camera_virtual" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="right_camera_virtual" reason="Never" />-->
+<!--    <disable_collisions link1="right_tilt_optic" link2="left_camera_virtual" reason="Never" />-->
+    <disable_collisions link1="right_camera_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="left_camera_virtual" link2="r750_base" reason="Never" />
+    <disable_collisions link1="xtion3_link" link2="ctu_floor" reason="Never" /> 
+    <disable_collisions link1="left_lens_virtual" link2="right_lens_virtual" reason="Never" />
+<!--    <disable_collisions link1="ips_bar" link2="camera" reason="Never" />-->
+    <disable_collisions link1="left_base_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_base_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_pan_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_pan_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="right_tilt_ptu" link2="camera" reason="Never" />
+    <disable_collisions link1="left_tilt_ptu" link2="right_tilt_ptu" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_lens_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="ctu_floor" reason="Never" />
+    <disable_collisions link1="left_lens_virtual" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="left_tilt_optic" link2="left_tilt_ptu" reason="Never" />-->
+<!--    <disable_collisions link1="left_tilt_optic" link2="camera" reason="Never" />-->
+    <disable_collisions link1="left_tilt_ptu" link2="camera" reason="Never" />	
+    <disable_collisions link1="right_camera_virtual" link2="camera" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_tilt_ptu" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_camera_virtual" link2="right_lens_virtual" reason="Never" />
+    <disable_collisions link1="right_lens_virtual" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="right_tilt_optic" link2="right_tilt_ptu" reason="Never" />-->
+<!--	<disable_collisions link1="right_tilt_optic" link2="camera" reason="Never" />-->
+    <disable_collisions link1="right_tilt_ptu" link2="camera" reason="Never" />
+<!--    <disable_collisions link1="ips_bar" link2="camera" reason="Adjacent" />-->
+<!--    <disable_collisions link1="ips_bar" link2="left_base_ptu" reason="Adjacent" />-->
+<!--    <disable_collisions link1="ips_bar" link2="right_base_ptu" reason="Adjacent" />-->
 </robot>
