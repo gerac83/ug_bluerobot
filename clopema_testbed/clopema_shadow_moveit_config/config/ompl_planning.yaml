@@ -11,6 +11,16 @@ r1_arm:
 
   projection_evaluator: joints(r1_joint_s,r1_joint_l)
   longest_valid_segment_fraction: 0.005
+
+r1_arm_and_manipulator:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+  default_planner_config: RRTConnectkConfigDefault
+
 r2_arm:
   planner_configs:
     - RRTstarmoddedkConfigDefault
