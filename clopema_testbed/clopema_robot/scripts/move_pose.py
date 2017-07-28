@@ -82,8 +82,8 @@ if __name__ == '__main__':
     else:
         r = ask("Execute trajectory? ", {'Y':'Yes','n':'No'})
         if r == 'y':
-            if args['--speed'] is not None:
-                robot.set_robot_speed(float(args['--speed']))
+#            if args['--speed'] is not None:
+#                robot.set_robot_speed(float(args['--speed']))
 
             robot.execute(traj)
 
