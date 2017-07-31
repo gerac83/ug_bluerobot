@@ -1,0 +1,20 @@
+r1_arm:
+  kinematics_solver: ClopemaArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+r2_arm:
+  kinematics_solver: ClopemaArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+r1_xtion:
+  kinematics_solver: ClopemaArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+r2_xtion:
+  kinematics_solver: ClopemaArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3

@@ -1,0 +1,80 @@
+planner_configs:
+  RRTstarmoddedkConfigDefault:
+    type: geometric::RRTstarmodded
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+
+r1_arm:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+r2_arm:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r2_joint_s,r2_joint_l)
+  longest_valid_segment_fraction: 0.005
+r1_gripper:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+r2_gripper:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+arms:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+ext:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+all:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+
+r1_xtion:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+xtions:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r1_joint_s,r1_joint_l)
+  longest_valid_segment_fraction: 0.005
+r2_xtion:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+  projection_evaluator: joints(r2_joint_s,r2_joint_l)
+  longest_valid_segment_fraction: 0.005
+r1_xtion_ee:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+
+r2_xtion_ee:
+  planner_configs:
+    - RRTstarmoddedkConfigDefault
+    - RRTConnectkConfigDefault
+

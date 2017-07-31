@@ -9,7 +9,7 @@
   <param if="$(arg load_robot_description)" name="$(arg robot_description)" textfile="$(find clopema_description)/robots/clopema.urdf"/>
 
   <!-- The semantic description that corresponds to the URDF -->
-  <param name="$(arg robot_description)_semantic" textfile="$(find clopema_moveit_config)/config/clopema.srdf" />
+  <param name="$(arg robot_description)_semantic" textfile="$(find clopema_moveit_config)/config/$(env CLOPEMA_PARTNER)/clopema.srdf" />
   
   <!-- Load updated joint limits (override information from URDF) -->
   <group ns="$(arg robot_description)_planning">
