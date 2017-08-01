@@ -30,6 +30,7 @@ Libor Wagner and Vladimir Petrik on July 19, 2013
     <include unless="$(arg run_grippers)" file="$(find clopema_gripper)/launch/virtual_gripper.launch" />
     
     <!-- RH ptu interface - virtual RH is necessary for model to load. -->
+    <include file="$(find clopema_ptu)/launch/virtual_ptu.launch"/>
     <include if="$(arg run_rh)" file="$(find rh_ptu)/launch/RH_ptu_launch.launch">
         <arg name="foveated" value="$(arg foveated)"/>
     </include>
