@@ -99,7 +99,7 @@
         </xacro:box_macro>
 	    
 	    <xacro:fixedjoint name="${ips_bar}_joint" parent="${parent}" child="${ips_bar}">
-	        <insert_block name="origin" />
+	        <xacro:insert_block name="origin" />
 	    </xacro:fixedjoint>
 	    
 		<!-- ************************************************* Left base ptu ************************************************* -->

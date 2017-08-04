@@ -5,8 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Base1
+        - /Base1/RobotModel1
+        - /Base1/TF1
         - /Base1/TF1/Frames1
-        - /MoveIT1
         - /MoveIT1/Planning Request1
         - /MoveIT1/Planning Metrics1
         - /MoveIT1/Planned Path1
@@ -516,19 +517,362 @@ Visualization Manager:
           Reference Frame: <Fixed Frame>
           Value: false
         - Class: rviz/TF
-          Enabled: false
+          Enabled: true
           Frame Timeout: 15
           Frames:
             All Enabled: false
+            alvar_r1_center:
+              Value: false
+            alvar_r1_corrOrient:
+              Value: false
+            alvar_r1_leftDown:
+              Value: false
+            alvar_r1_leftUp:
+              Value: false
+            alvar_r1_rightDown:
+              Value: false
+            alvar_r1_rightUp:
+              Value: false
+            base_link:
+              Value: false
+            calib_target:
+              Value: false
+            camera:
+              Value: false
+            camera_depth_frame:
+              Value: true
+            camera_depth_optical_frame:
+              Value: true
+            camera_link:
+              Value: true
+            camera_rgb_frame:
+              Value: true
+            camera_rgb_optical_frame:
+              Value: true
+            camera_stick:
+              Value: false
+            ctu_floor:
+              Value: false
+            ctu_roof_1:
+              Value: false
+            ctu_roof_2:
+              Value: false
+            ctu_roof_3:
+              Value: false
+            ctu_wall_1:
+              Value: false
+            ctu_wall_2:
+              Value: false
+            ctu_wall_3:
+              Value: false
+            ctu_wall_4:
+              Value: false
+            left_base_ptu:
+              Value: false
+            left_camera_virtual:
+              Value: false
+            left_lens_virtual:
+              Value: false
+            left_mount_ptu:
+              Value: false
+            left_pan_ptu:
+              Value: false
+            left_tilt_ptu:
+              Value: false
+            left_tilted_ptu:
+              Value: false
+            r1_cable_1:
+              Value: false
+            r1_ee:
+              Value: false
+            r1_gripper:
+              Value: false
+            r1_gripper_status:
+              Value: false
+            r1_link_1:
+              Value: false
+            r1_link_2:
+              Value: false
+            r1_link_3:
+              Value: false
+            r1_link_4:
+              Value: false
+            r1_link_5:
+              Value: false
+            r1_link_6:
+              Value: false
+            r1_link_7:
+              Value: false
+            r1_ps:
+              Value: false
+            r1_tip_link:
+              Value: false
+            r2_cable_1:
+              Value: false
+            r2_ee:
+              Value: false
+            r2_gripper:
+              Value: false
+            r2_gripper_status:
+              Value: false
+            r2_link_1:
+              Value: false
+            r2_link_2:
+              Value: false
+            r2_link_3:
+              Value: false
+            r2_link_4:
+              Value: false
+            r2_link_5:
+              Value: false
+            r2_link_6:
+              Value: false
+            r2_link_7:
+              Value: false
+            r2_ps:
+              Value: false
+            r2_tip_link:
+              Value: false
+            r750:
+              Value: false
+            r750_base:
+              Value: false
+            right_base_ptu:
+              Value: false
+            right_camera_virtual:
+              Value: false
+            right_lens_virtual:
+              Value: false
+            right_mount_ptu:
+              Value: false
+            right_pan_ptu:
+              Value: false
+            right_tilt_ptu:
+              Value: false
+            right_tilted_ptu:
+              Value: false
+            t1_desk:
+              Value: false
+            t1_leg_1:
+              Value: false
+            t1_leg_2:
+              Value: false
+            t1_leg_3:
+              Value: false
+            t1_leg_4:
+              Value: false
+            t2_desk:
+              Value: false
+            t2_leg_1:
+              Value: false
+            t2_leg_2:
+              Value: false
+            t2_leg_3:
+              Value: false
+            t2_leg_4:
+              Value: false
+            t3_desk:
+              Value: false
+            t3_leg_1:
+              Value: false
+            t3_leg_2:
+              Value: false
+            t3_leg_3:
+              Value: false
+            t3_leg_4:
+              Value: false
+            torso_link:
+              Value: false
+            xtion1_depth_frame:
+              Value: false
+            xtion1_depth_optical_frame:
+              Value: false
+            xtion1_link:
+              Value: false
+            xtion1_link_ee:
+              Value: false
+            xtion1_rgb_frame:
+              Value: false
+            xtion1_rgb_optical_frame:
+              Value: false
+            xtion2_depth_frame:
+              Value: false
+            xtion2_depth_optical_frame:
+              Value: false
+            xtion2_link:
+              Value: false
+            xtion2_link_ee:
+              Value: false
+            xtion2_rgb_frame:
+              Value: false
+            xtion2_rgb_optical_frame:
+              Value: false
+            xtion3_depth_frame:
+              Value: false
+            xtion3_depth_optical_frame:
+              Value: false
+            xtion3_link:
+              Value: false
+            xtion3_link_ee:
+              Value: false
+            xtion3_rgb_frame:
+              Value: false
+            xtion3_rgb_optical_frame:
+              Value: false
           Marker Scale: 0.5
           Name: TF
           Show Arrows: true
           Show Axes: true
           Show Names: false
           Tree:
-            {}
+            base_link:
+              calib_target:
+                {}
+              camera_link:
+                camera_depth_frame:
+                  camera_depth_optical_frame:
+                    {}
+                camera_rgb_frame:
+                  camera_rgb_optical_frame:
+                    {}
+              ctu_floor:
+                {}
+              ctu_roof_1:
+                {}
+              ctu_roof_2:
+                {}
+              ctu_roof_3:
+                {}
+              ctu_wall_1:
+                {}
+              ctu_wall_2:
+                {}
+              ctu_wall_3:
+                {}
+              ctu_wall_4:
+                {}
+              r750_base:
+                r750:
+                  camera_stick:
+                    camera:
+                      {}
+                  left_base_ptu:
+                    left_pan_ptu:
+                      left_tilt_ptu:
+                        left_tilted_ptu:
+                          left_mount_ptu:
+                            left_camera_virtual:
+                              left_lens_virtual:
+                                {}
+                    right_base_ptu:
+                      right_pan_ptu:
+                        right_tilt_ptu:
+                          right_tilted_ptu:
+                            right_mount_ptu:
+                              right_camera_virtual:
+                                right_lens_virtual:
+                                  {}
+                  r1_link_1:
+                    r1_link_2:
+                      r1_link_3:
+                        r1_cable_1:
+                          {}
+                        r1_link_4:
+                          r1_link_5:
+                            r1_link_6:
+                              r1_link_7:
+                                r1_tip_link:
+                                  alvar_r1_corrOrient:
+                                    alvar_r1_center:
+                                      alvar_r1_leftDown:
+                                        {}
+                                      alvar_r1_leftUp:
+                                        {}
+                                      alvar_r1_rightDown:
+                                        {}
+                                      alvar_r1_rightUp:
+                                        {}
+                                  r1_gripper:
+                                    r1_ee:
+                                      {}
+                                    r1_gripper_status:
+                                      {}
+                                    r1_ps:
+                                      {}
+                              xtion1_link_ee:
+                                xtion1_link:
+                                  {}
+                                xtion1_rgb_optical_frame:
+                                  xtion1_depth_optical_frame:
+                                    xtion1_depth_frame:
+                                      {}
+                                  xtion1_rgb_frame:
+                                    {}
+                  r2_link_1:
+                    r2_link_2:
+                      r2_link_3:
+                        r2_cable_1:
+                          {}
+                        r2_link_4:
+                          r2_link_5:
+                            r2_link_6:
+                              r2_link_7:
+                                r2_tip_link:
+                                  r2_gripper:
+                                    r2_ee:
+                                      {}
+                                    r2_gripper_status:
+                                      {}
+                                    r2_ps:
+                                      {}
+                              xtion2_link_ee:
+                                xtion2_link:
+                                  {}
+                                xtion2_rgb_optical_frame:
+                                  xtion2_depth_optical_frame:
+                                    xtion2_depth_frame:
+                                      {}
+                                  xtion2_rgb_frame:
+                                    {}
+                  torso_link:
+                    xtion3_link_ee:
+                      xtion3_link:
+                        {}
+                      xtion3_rgb_optical_frame:
+                        xtion3_depth_optical_frame:
+                          xtion3_depth_frame:
+                            {}
+                        xtion3_rgb_frame:
+                          {}
+              t1_desk:
+                t1_leg_1:
+                  {}
+                t1_leg_2:
+                  {}
+                t1_leg_3:
+                  {}
+                t1_leg_4:
+                  {}
+              t2_desk:
+                t2_leg_1:
+                  {}
+                t2_leg_2:
+                  {}
+                t2_leg_3:
+                  {}
+                t2_leg_4:
+                  {}
+              t3_desk:
+                t3_leg_1:
+                  {}
+                t3_leg_2:
+                  {}
+                t3_leg_3:
+                  {}
+                t3_leg_4:
+                  {}
           Update Interval: 0
-          Value: false
+          Value: true
       Enabled: true
       Name: Base
     - Class: moveit_rviz_plugin/MotionPlanning
@@ -1473,7 +1817,7 @@ Visualization Manager:
       Marker Topic: /scan_he_markers
       Name: Marker
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -1491,24 +1835,24 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.76661468
+      Distance: 4.20719624
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0176934674
-        Y: -0.410597056
-        Z: 1.03063536
+        X: -0.532390893
+        Y: 0.253699571
+        Z: 0.714509249
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.654797256
+      Pitch: 0.0197985023
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 3.41451979
+      Yaw: 3.29451275
     Saved: ~
 Window Geometry:
   Displays:

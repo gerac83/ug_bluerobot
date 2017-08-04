@@ -42,7 +42,7 @@
 		</joint>
 
 		<joint name="${suffix}joint_f0" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="${suffix}r750_base"/>
 		</joint>

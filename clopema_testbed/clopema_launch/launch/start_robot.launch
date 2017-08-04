@@ -24,6 +24,10 @@ Libor Wagner and Vladimir Petrik on July 19, 2013
     <include file="$(find clopema_moveit_config)/launch/moveit_planning_execution.launch">
         <arg name="rviz" value="$(arg rviz)"/>
     </include>
+    
+<!--    <include file="$(find clopema_shadow_moveit_config)/launch/moveit_planning_execution.launch">-->
+<!--        <arg name="rviz" value="$(arg rviz)"/>-->
+<!--    </include>-->
 
     <!-- Gripper interface -->
     <include if="$(arg run_grippers)" file="$(find clopema_gripper)/launch/start_gripper_$(optenv CLOPEMA_PARTNER error).launch"/>

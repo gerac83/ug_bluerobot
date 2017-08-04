@@ -105,7 +105,7 @@
 		<link name="right_camera" />
 
 		<joint name="left_camera_joint" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="left_camera"/>
 		</joint>

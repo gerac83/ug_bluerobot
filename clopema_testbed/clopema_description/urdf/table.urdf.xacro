@@ -13,7 +13,7 @@
 			</visual>
 		</link>
 		<joint name="${suffix}joint_ftable_leg" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="${suffix}"/>
 		</joint>
@@ -30,7 +30,7 @@
 			</visual>
 		</link>
 		<joint name="${suffix}joint_ftable" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="${suffix}desk"/>
 		</joint>

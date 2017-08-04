@@ -12,7 +12,7 @@
            </inertial>
        </link>
        <joint name="${suffix}force_sensor_joint_f" type="fixed">
-           <insert_block name="origin" />
+           <xacro:insert_block name="origin" />
            <parent link="${suffix}${parent}"/>
            <child link="${suffix}force_sensor"/>
         </joint>

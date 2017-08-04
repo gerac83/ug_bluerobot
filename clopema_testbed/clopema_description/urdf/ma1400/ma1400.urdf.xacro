@@ -12,7 +12,7 @@
 	<xacro:macro name="ma1400" params="*origin parent suffix color">	
 
 		<xacro:link_1 parent="${parent}" suffix="${suffix}" color="${color}">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 		</xacro:link_1>
 		<xacro:link_2 parent="link_1" suffix="${suffix}" color="${color}">
 			<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>

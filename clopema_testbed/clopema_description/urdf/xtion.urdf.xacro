@@ -42,7 +42,7 @@
 		<child link="${prefix}xtion${suffix}_link"/>
 	</joint>
 	<joint name="${prefix}joint_fxtion${suffix}_link_ee" type="fixed">
-		<insert_block name="origin"/>
+		<xacro:insert_block name="origin"/>
 		<parent link="${parent}"/>
 		<child link="${prefix}xtion${suffix}_link_ee"/>
 	</joint>

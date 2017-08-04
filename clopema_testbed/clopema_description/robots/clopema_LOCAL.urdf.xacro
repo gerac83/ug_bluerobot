@@ -1,1 +1,102 @@
-clopema_UG.urdf.xacro
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="clopema">
+	<xacro:include filename="$(find clopema_description)/urdf/common.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/room_ug.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/base_link.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/ma1400/ma1400.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/gripper.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/r750.urdf.xacro" />	
+<!--	<xacro:include filename="$(find clopema_description)/urdf/table.urdf.xacro" />	-->
+	<xacro:include filename="$(find clopema_description)/urdf/table_adjustable.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/colObjects.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/xtion.urdf.xacro" />	
+	<xacro:include filename="$(find clopema_description)/urdf/alvar_marker_UG.urdf.xacro" />
+	<xacro:include filename="$(find clopema_description)/urdf/robot_head_UG.xacro" />
+
+	<xacro:base_link/>
+	<xacro:room_ug/>
+	<xacro:r750 parent="base_link" suffix="" color="blue">
+		<origin xyz="0.0 0.0 0.011" rpy="0 0 0"/>
+	</xacro:r750>
+
+	<xacro:ma1400 parent="r750" suffix="r1_" color="blue">
+		<origin xyz="0 -.25 0.1600" rpy="${15*TO_RAD} 0 0"/>
+	</xacro:ma1400>
+	<xacro:ma1400 parent="r750" suffix="r2_" color="blue">
+		<origin xyz="0 .25 0.1600" rpy="-${15*TO_RAD} 0 0"/>
+	</xacro:ma1400>
+
+	<xacro:gripper parent="tip_link" suffix="r1_" color="blue">
+		<origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
+	</xacro:gripper>
+	<xacro:gripper parent="tip_link" suffix="r2_" color="blue">
+		<origin xyz="0.000 0 0.02" rpy="0 0 ${PI/2+PI/6}"/>
+	</xacro:gripper>
+	
+	<link name="torso_link"/>
+	<joint name="torso_link_f" type="fixed">
+		  <child link="torso_link"/>
+		  <parent link="r750"/>
+		  <origin xyz="0 0 -0.51" rpy="0 0 ${PI/2}"/>
+	</joint>	                 
+     
+<!--	<xacro:robot_head parent="torso_link" b_roll="-7.57715255e-02" b_pitch="-2.22676038e-03" b_yaw="9.94329993e-03" b_x="-3.02628815e-01" b_y="3.17237899e-02" b_z="2.15836964e-03">-->
+<!--		<origin rpy="${45*TO_RAD} 0 0" xyz="1.6529e-06 0.45 2.31511"/>-->
+<!--    </xacro:robot_head>-->
+
+    <xacro:robot_head parent="r750">
+        <origin rpy="0 0 0" xyz="-0.45 0.15 1.68"/>
+    </xacro:robot_head>
+ 
+	<xacro:alvar_marker parent="r1_tip_link" prefix="r1" width="0.052" offset="-0.0322">
+        <origin xyz="0 0 0.06288" rpy="0 0 -${60*TO_RAD}"/>
+    </xacro:alvar_marker>
+
+    <link name="calib_target"> </link>
+    <joint name="calib_target_joint" type="fixed">
+        <origin xyz="0 -0.92 0.70" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="calib_target"/>
+    </joint>
+
+	<xacro:colObjects/>
+	
+	<xacro:xtion parent="r2_link_6" suffix="2" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+    <xacro:xtion parent="r1_link_6" suffix="1" prefix="" color="grey">
+        <origin xyz="-0.13 -0.15 0" rpy="0 ${-PI/2} 0"/>
+    </xacro:xtion>
+    
+    <xacro:xtion parent="torso_link" suffix="3" prefix="" color="grey">
+        <origin xyz="0 0 -50.0" rpy="0 0 0"/> <!-- Go away if not calibrated -->
+    </xacro:xtion>
+
+	<xacro:table parent="base_link" suffix="t1_" color="grey" height="0.70" deskx="0.8" desky="0.8">
+		<origin xyz="1.0 0.0 0.70" rpy="0 0 0"/>
+	</xacro:table>
+	
+	<xacro:table parent="base_link" suffix="t2_" color="grey" height="0.70" deskx="0.8" desky="0.8">
+		<origin xyz="0.0 -1.2 0.70" rpy="0 0 0"/>
+	</xacro:table>
+	
+	<!--Markers on the table for flattening-->
+<!--	<xacro:alvar_marker parent="t2_leg_2" suffix="t2_tL" width="0.06">-->
+<!--        <origin xyz="0.035 0.035 0" rpy="0 0 ${90*TO_RAD}"/>-->
+<!--    </xacro:alvar_marker>-->
+<!--    <xacro:alvar_marker parent="t2_leg_3" suffix="t2_tR" width="0.06">-->
+<!--        <origin xyz="0.035 0.035 0" rpy="0 0 ${180*TO_RAD}"/>-->
+<!--    </xacro:alvar_marker>-->
+<!--    <xacro:alvar_marker parent="t2_leg_1" suffix="t2_bL" width="0.06">-->
+<!--        <origin xyz="0.035 0.035 0" rpy="0 0 0"/>-->
+<!--    </xacro:alvar_marker>-->
+<!--    <xacro:alvar_marker parent="t2_leg_4" suffix="t2_bR" width="0.06">-->
+<!--        <origin xyz="0.035 0.035 0" rpy="0 0 -${90*TO_RAD}"/>-->
+<!--    </xacro:alvar_marker>-->
+    <!--Markers on the table for flattening-->
+	
+	<xacro:table parent="base_link" suffix="t3_" color="grey" height="0.70" deskx="0.8" desky="0.8">
+		<origin xyz="-1.0 0.0 0.70" rpy="0 0 0"/>
+	</xacro:table>
+	
+</robot>

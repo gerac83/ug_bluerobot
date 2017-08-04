@@ -11,7 +11,7 @@
 
 		
 		<joint name="alvar_${suffix}_center_joint" type="fixed">
-			<insert_block name="origin"/>
+			<xacro:insert_block name="origin"/>
 			<parent link="${parent}"/>
 			<child link="alvar_${suffix}_center" />
 		</joint>

@@ -18,7 +18,7 @@
 			</collision>
 		</link>
 		<joint name="joint_f_xtion3" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="xtion3_link"/>
 		</joint>

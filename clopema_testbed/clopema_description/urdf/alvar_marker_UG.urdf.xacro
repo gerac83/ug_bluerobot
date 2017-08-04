@@ -10,7 +10,7 @@
 		<link name="alvar_${prefix}_rightUp"></link>
 		
 		<joint name="alvar_${prefix}_corrOrient_joint" type="fixed">
-			<insert_block name="origin"/>
+			<xacro:insert_block name="origin"/>
 			<parent link="${parent}"/>
 			<child link="alvar_${prefix}_corrOrient" />
 		</joint>

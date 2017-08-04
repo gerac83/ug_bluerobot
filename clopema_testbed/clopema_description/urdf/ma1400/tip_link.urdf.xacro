@@ -11,7 +11,7 @@
 			<axis xyz="0 0 1" />
 			<limit lower="-${199*TO_RAD}" upper="${199*TO_RAD}" velocity="${610*TO_RAD}" effort="1000.0" />
 			<child link="${suffix}link_7"/>
-			<insert_block name="origin" /> 
+			<xacro:insert_block name="origin" /> 
 			<parent link="${suffix}${parent}"/>
 		</joint>
 		<joint name="${suffix}joint_t_f" type="fixed">

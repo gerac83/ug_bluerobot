@@ -4,7 +4,7 @@
 	<xacro:macro name="table_frames_only_leg" params="*origin parent suffix color height"> 
 		<link name="${suffix}"></link>
 		<joint name="${suffix}joint_ftable_frames_only_leg" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="${suffix}"/>
 		</joint>
@@ -12,7 +12,7 @@
 	<xacro:macro name="table_frames_only" params="*origin parent suffix color height deskx desky"> 
 		<link name="${suffix}desk"></link>
 		<joint name="${suffix}joint_frames_only_ftable" type="fixed">
-			<insert_block name="origin" />
+			<xacro:insert_block name="origin" />
 			<parent link="${parent}"/>
 			<child link="${suffix}desk"/>
 		</joint>
