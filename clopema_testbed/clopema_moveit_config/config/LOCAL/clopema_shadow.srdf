@@ -39,23 +39,16 @@
         <joint name="r2_joint_b" />
         <joint name="r2_joint_t" />
     </group>
-    <group name="r1_shadow_box">
-        <link name="hand_base_attach" />
-        <link name="hand_manipulator" />
-    </group>
-    <group name="robot_base">
-        <chain base_link="base_link" tip_link="r1_link_1"/>
+    <group name="r1_gripper">
+        <link name="r1_gripper" />
+        <link name="r1_ee" />
+        <link name="r1_gripper_status" />
     </group>
     <group name="r2_gripper">
         <link name="r2_gripper" />
         <link name="r2_ee" />
         <link name="r2_gripper_status" />
     </group>
-    <group name="r1_arm_and_manipulator">
-        <group name="r1_arm" />
-        <group name="r1_shadow_box" />
-    </group>
-
     <group name="arms">
         <group name="r1_arm" />
         <group name="r2_arm" />
@@ -188,8 +181,7 @@
         <joint name="ext_axis" value="-1.5707" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="r1_ee" parent_link="r1_tip_link" group="r1_shadow_box" parent_group="r1_arm" />
-    <end_effector group="r1_arm_and_manipulator" name="r1_arm_and_manipulator_ee" parent_link="r1_link_1" parent_group="robot_base"/>
+    <end_effector name="r1_ee" parent_link="r1_tip_link" group="r1_gripper" parent_group="r1_arm" />
     <end_effector name="r2_ee" parent_link="r2_tip_link" group="r2_gripper" parent_group="r2_arm" />
     <end_effector name="r1_xtion_ee" parent_link="xtion1_link_ee" group="r1_xtion_ee" parent_group="r1_xtion" />
     <end_effector name="r2_xtion_ee" parent_link="xtion2_link_ee" group="r2_xtion_ee" parent_group="r2_xtion" />
@@ -540,10 +532,10 @@
     <disable_collisions link1="r1_cable_1" link2="t3_leg_2" reason="Never" />
     <disable_collisions link1="r1_cable_1" link2="t3_leg_3" reason="Never" />
     <disable_collisions link1="r1_cable_1" link2="xtion1_link" reason="Never" />
-    <disable_collisions link1="hand_base_attach" link2="r1_link_4" reason="Never" />
-    <disable_collisions link1="hand_base_attach" link2="r1_link_5" reason="Never" />
-    <disable_collisions link1="hand_base_attach" link2="r1_link_6" reason="Adjacent" />
-    <disable_collisions link1="hand_base_attach" link2="xtion1_link" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_4" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_5" reason="Never" />
+    <disable_collisions link1="r1_gripper" link2="r1_link_6" reason="Adjacent" />
+    <disable_collisions link1="r1_gripper" link2="xtion1_link" reason="Never" />
     <disable_collisions link1="r1_link_1" link2="r1_link_2" reason="Adjacent" />
     <disable_collisions link1="r1_link_1" link2="r2_link_1" reason="Never" />
     <disable_collisions link1="r1_link_1" link2="r2_link_2" reason="Never" />
