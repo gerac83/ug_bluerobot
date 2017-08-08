@@ -27,12 +27,12 @@
 	</xacro:ma1400>
 
 	<!-- Box representation of Shadow hand -->
-	<xacro:include filename="$(find clopema_description)/urdf/hand_box.xacro" />
-	<xacro:hand_box name="hand_box" width="0.22" depth="0.17" height="0.24"/>
+	<xacro:include filename="$(find clopema_description)/urdf/shadow_hand_simple.xacro" />
+	<xacro:shadow_hand_simple name="shadow_hand_simple" width="0.22" depth="0.17" height="0.24"/>
 	<joint name="r1_joint_box" type="fixed">
 		<parent link="r1_tip_link"/>
 		<child link="hand_base_attach"/>
-		<origin rpy="0 0 0" xyz="0.0 0.0 0.012"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.026"/>
 	</joint>
 
 	<!-- Shadow hand -->

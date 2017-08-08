@@ -2,26 +2,27 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
     <material name="light_grey_transparent">
-      <color rgba="0.75 0.75 0.75 0.5" />
+      <color rgba="0.75 0.75 0.75 1.0" />
     </material>
 
     <xacro:macro name="box_geometry" params="name width depth height">
       </xacro:macro>
 
-    <xacro:macro name="hand_box" params="name width depth height">
+    <xacro:macro name="shadow_hand_simple" params="name width depth height">
       <link name="hand_base_attach">
         <visual>
-          <origin xyz="0.0 0.0 ${height / 2}" rpy="0.0 0.0 0.0" />
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
           <geometry name="${name}">
-            <box size="${width} ${depth} ${height}"/>
+            <mesh filename="package://clopema_description/meshes/shadow_hand_simple.stl"/>
           </geometry>
           <material name="light_grey_transparent"/>
         </visual>
         <collision>
-          <origin xyz="0.0 0.0 ${height / 2}" rpy="0.0 0.0 0.0" />
+          <origin xyz="0.0 0.0 0.0 " rpy="0.0 0.0 0.0" />
           <geometry name="${name}">
-            <box size="${width} ${depth} ${height}"/>
+            <mesh filename="package://clopema_description/meshes/shadow_hand_simple.stl"/>
           </geometry>
+          <material name="light_grey_transparent"/>
         </collision>
       </link>
     </xacro:macro>
