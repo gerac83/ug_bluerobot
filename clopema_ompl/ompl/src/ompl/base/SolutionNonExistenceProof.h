@@ -37,6 +37,8 @@
 #ifndef OMPL_BASE_SOLUTION_NON_EXISTENCE_PROOF_
 #define OMPL_BASE_SOLUTION_NON_EXISTENCE_PROOF_
 
+#include <utility>
+
 #include "ompl/base/SpaceInformation.h"
 #include "ompl/util/ClassForward.h"
 
@@ -50,22 +52,20 @@ namespace ompl
         /// @endcond
 
         /// \class ompl::base::SolutionNonExistenceProofPtr
-        /// \brief A boost shared pointer wrapper for ompl::base::SolutionNonExistenceProof
+        /// \brief A shared pointer wrapper for ompl::base::SolutionNonExistenceProof
 
         /// \brief Abstract definition of a proof for the non-existence of a solution to a problem
         class SolutionNonExistenceProof
         {
-            public:
-                SolutionNonExistenceProof(const SpaceInformationPtr &si) : si_(si)
-                {
-                }
+        public:
+            SolutionNonExistenceProof(SpaceInformationPtr si) : si_(std::move(si))
+            {
+            }
 
-                virtual ~SolutionNonExistenceProof()
-                {
-                }
+            virtual ~SolutionNonExistenceProof() = default;
 
-            protected:
-                SpaceInformationPtr si_;
+        protected:
+            SpaceInformationPtr si_;
         };
     }
 }

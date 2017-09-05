@@ -35,14 +35,14 @@
 /* Author: Ioan Sucan */
 
 #include "ompl/extensions/opende/OpenDEEnvironment.h"
-#include <boost/lexical_cast.hpp>
 
 unsigned int ompl::control::OpenDEEnvironment::getMaxContacts(dGeomID /*geom1*/, dGeomID /*geom2*/) const
 {
     return maxContacts_;
 }
 
-bool ompl::control::OpenDEEnvironment::isValidCollision(dGeomID /*geom1*/, dGeomID /*geom2*/, const dContact& /*contact*/) const
+bool ompl::control::OpenDEEnvironment::isValidCollision(dGeomID /*geom1*/, dGeomID /*geom2*/,
+                                                        const dContact & /*contact*/) const
 {
     return false;
 }
@@ -59,11 +59,10 @@ void ompl::control::OpenDEEnvironment::setupContact(dGeomID /*geom1*/, dGeomID /
 
 std::string ompl::control::OpenDEEnvironment::getGeomName(dGeomID geom) const
 {
-    std::map<dGeomID, std::string>::const_iterator it = geomNames_.find(geom);
+    auto it = geomNames_.find(geom);
     if (it == geomNames_.end())
-        return boost::lexical_cast<std::string>(reinterpret_cast<unsigned long>(geom));
-    else
-        return it->second;
+        return std::to_string(reinterpret_cast<unsigned long>(geom));
+    return it->second;
 }
 
 void ompl::control::OpenDEEnvironment::setGeomName(dGeomID geom, const std::string &name)

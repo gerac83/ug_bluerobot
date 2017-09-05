@@ -42,10 +42,8 @@
 
 namespace ompl
 {
-
     namespace geometric
     {
-
         /**
            @anchor gBKPIECE1
            @par Short description
@@ -68,20 +66,17 @@ namespace ompl
            @par External documentation
            - I.A. Şucan and L.E. Kavraki, Kinodynamic motion planning by interior-exterior cell exploration,
            in <em>Workshop on the Algorithmic Foundations of Robotics</em>, Dec. 2008.<br>
-           <a href="http://ioan.sucan.ro/files/pubs/wafr2008.pdf">[PDF]</a>
-           - R. Bohlin and L.E. Kavraki, Path planning using lazy PRM, in <em>Proc. 2000 IEEE Intl. Conf. on Robotics and Automation</em>, pp. 521–528, 2000. DOI: <a href="http://dx.doi.org/10.1109/ROBOT.2000.844107">10.1109/ROBOT.2000.844107</a><br>
-           <a href="http://ieeexplore.ieee.org/ielx5/6794/18235/00844107.pdf?tp=&arnumber=844107&isnumber=18235">[PDF]
+           [[PDF]](http://ioan.sucan.ro/files/pubs/wafr2008.pdf)
         */
 
         /** \brief Bi-directional KPIECE with one level of discretization */
         class BKPIECE1 : public base::Planner
         {
         public:
-
             /** \brief Constructor */
             BKPIECE1(const base::SpaceInformationPtr &si);
 
-            virtual ~BKPIECE1();
+            ~BKPIECE1() override;
 
             /** \brief Set the projection evaluator. This class is
                 able to compute the projection of a given state. */
@@ -98,7 +93,7 @@ namespace ompl
             }
 
             /** \brief Get the projection evaluator. */
-            const base::ProjectionEvaluatorPtr& getProjectionEvaluator() const
+            const base::ProjectionEvaluatorPtr &getProjectionEvaluator() const
             {
                 return projectionEvaluator_;
             }
@@ -171,82 +166,74 @@ namespace ompl
                 return minValidPathFraction_;
             }
 
-            virtual void setup();
+            void setup() override;
 
-            virtual base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc);
-            virtual void clear();
+            base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc) override;
+            void clear() override;
 
-            virtual void getPlannerData(base::PlannerData &data) const;
+            void getPlannerData(base::PlannerData &data) const override;
 
         protected:
-
             /** \brief Representation of a motion for this algorithm */
             class Motion
             {
             public:
-
-                Motion() : root(NULL), state(NULL), parent(NULL)
-                {
-                }
+                Motion() = default;
 
                 /** \brief Constructor that allocates memory for the state */
-                Motion(const base::SpaceInformationPtr &si) : root(NULL), state(si->allocState()), parent(NULL)
+                Motion(const base::SpaceInformationPtr &si) : state(si->allocState())
                 {
                 }
 
-                ~Motion()
-                {
-                }
+                ~Motion() = default;
 
                 /** \brief The root state (start state) that leads to this motion */
-                const base::State   *root;
+                const base::State *root{nullptr};
 
                 /** \brief The state contained by this motion */
-                base::State         *state;
+                base::State *state{nullptr};
 
                 /** \brief The parent motion in the exploration tree */
-                Motion              *parent;
+                Motion *parent{nullptr};
             };
 
             /** \brief Free the memory for a motion */
             void freeMotion(Motion *motion);
 
             /** \brief The employed state sampler */
-            base::ValidStateSamplerPtr                 sampler_;
+            base::ValidStateSamplerPtr sampler_;
 
             /** \brief The employed projection evaluator */
-            base::ProjectionEvaluatorPtr               projectionEvaluator_;
+            base::ProjectionEvaluatorPtr projectionEvaluator_;
 
             /** \brief The start tree */
-            Discretization<Motion>                     dStart_;
+            Discretization<Motion> dStart_;
 
             /** \brief The goal tree */
-            Discretization<Motion>                     dGoal_;
+            Discretization<Motion> dGoal_;
 
             /** \brief When extending a motion from a cell, the
                 extension can fail. If it is, the score of the cell is
                 multiplied by this factor. */
-            double                                     failedExpansionScoreFactor_;
+            double failedExpansionScoreFactor_{.5};
 
             /** \brief When extending a motion, the planner can decide
                 to keep the first valid part of it, even if invalid
                 states are found, as long as the valid part represents
                 a sufficiently large fraction from the original
                 motion */
-            double                                     minValidPathFraction_;
+            double minValidPathFraction_{.5};
 
             /** \brief The maximum length of a motion to be added to a tree */
-            double                                     maxDistance_;
+            double maxDistance_{0.};
 
             /** \brief The random number generator */
-            RNG                                        rng_;
+            RNG rng_;
 
             /** \brief The pair of states in each tree connected during planning.  Used for PlannerData computation */
-            std::pair<base::State*, base::State*>      connectionPoint_;
+            std::pair<base::State *, base::State *> connectionPoint_{nullptr, nullptr};
         };
-
     }
 }
-
 
 #endif

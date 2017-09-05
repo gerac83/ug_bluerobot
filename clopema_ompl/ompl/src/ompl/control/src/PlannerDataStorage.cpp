@@ -34,26 +34,12 @@
 
 /* Author: Ryan Luna */
 
-// PlannerDataStorage requires Boost version >= 1.44
-#include <boost/version.hpp>
-#if BOOST_VERSION < 104400
-#warning Boost version >= 1.44 is required for PlannerDataStorage classes
-#else
-
 #include "ompl/control/PlannerDataStorage.h"
 #include <boost/archive/archive_exception.hpp>
 
 /// \cond IGNORE
-static const boost::uint32_t OMPL_PLANNER_DATA_CONTROL_ARCHIVE_MARKER = 0x5044434D; // this spells PDCM
+static const boost::uint32_t OMPL_PLANNER_DATA_CONTROL_ARCHIVE_MARKER = 0x5044434D;  // this spells PDCM
 /// \endcond
-
-ompl::control::PlannerDataStorage::PlannerDataStorage() : base::PlannerDataStorage()
-{
-}
-
-ompl::control::PlannerDataStorage::~PlannerDataStorage()
-{
-}
 
 void ompl::control::PlannerDataStorage::load(const char *filename, base::PlannerData &pd)
 {
@@ -69,7 +55,7 @@ void ompl::control::PlannerDataStorage::load(std::istream &in, base::PlannerData
         return;
     }
 
-    control::PlannerData *pdc = static_cast<control::PlannerData*>(&pd);
+    auto *pdc = static_cast<control::PlannerData *>(&pd);
     pdc->clear();
 
     const SpaceInformationPtr &si = pdc->getSpaceInformation();
@@ -134,8 +120,8 @@ void ompl::control::PlannerDataStorage::store(const base::PlannerData &pd, const
 
 void ompl::control::PlannerDataStorage::store(const base::PlannerData &pd, std::ostream &out)
 {
-    const control::PlannerData *pdc = static_cast<const control::PlannerData*>(&pd);
-    if (!pdc)
+    const auto *pdc = static_cast<const control::PlannerData *>(&pd);
+    if (pdc == nullptr)
     {
         OMPL_WARN("Failed to cast PlannerData to control::PlannerData.  Invoking base::PlannerDataStorage::store");
         base::PlannerDataStorage::store(pd, out);
@@ -174,5 +160,3 @@ void ompl::control::PlannerDataStorage::store(const base::PlannerData &pd, std::
         OMPL_ERROR("Failed to store PlannerData: %s", ae.what());
     }
 }
-
-#endif

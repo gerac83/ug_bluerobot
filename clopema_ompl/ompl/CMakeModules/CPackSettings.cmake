@@ -32,24 +32,17 @@ set(CPACK_SOURCE_IGNORE_FILES
     ".orig$"
     ".log$"
     ".DS_Store"
-    ".tm_properties"
-    "mkwebdocs.sh"
     "/html/"
     "/bindings/"
     "TODO"
-    "exposed_decl.pypp.txt"
     "ompl.pc$"
-    "installPyPlusPlus.bat$"
-    "installPyPlusPlus.sh$"
     "create_symlinks.sh$"
     "uninstall_symlinks.sh$"
     "config.h$"
     ".registered$"
     "download.md$"
     "mainpage.md$"
-    "binding_generator.py$"
-    "gen_validatorv31.js"
-    "/php/")
+    "binding_generator.py$")
 set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
 set(CPACK_GENERATOR "TGZ")
 
@@ -73,7 +66,7 @@ if(APPLE)
 endif()
 
 if(WIN32)
-    set(CPACK_GENERATOR "ZIP;${CPACK_GENERATOR}")
+    set(CPACK_GENERATOR "ZIP")
 endif()
 
 include(CPack)

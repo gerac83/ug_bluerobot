@@ -13,6 +13,8 @@ Gerardo Aragon on May 17, 2013
     <machine name="clopema3" address="mokil" user="$(optenv USER ros)" default="true" env-loader="/home/ros/env.sh"/>
     <machine name="kinect1" address="mokil" user="$(optenv USER ros)" default="true" env-loader="/home/ros/env.sh"/>
     <machine name="robothead_pc" address="mokil" user="$(optenv USER ros)" default="true" env-loader="/home/ros/env.sh"/>
+    
+    <param name="/clopema_planner" value="RRTConnectkConfigDefault"/>
 
 	<!-- Include configuration file which then distributes the parameters. -->
     <include file="$(find clopema_config)/launch/clopema_config.launch" >

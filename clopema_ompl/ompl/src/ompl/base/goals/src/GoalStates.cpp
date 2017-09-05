@@ -37,7 +37,6 @@
 #include "ompl/base/goals/GoalStates.h"
 #include "ompl/base/SpaceInformation.h"
 #include "ompl/util/Exception.h"
-#include <boost/lexical_cast.hpp>
 #include <limits>
 
 ompl::base::GoalStates::~GoalStates()
@@ -53,16 +52,16 @@ void ompl::base::GoalStates::clear()
 
 void ompl::base::GoalStates::freeMemory()
 {
-    for (unsigned int i = 0 ; i < states_.size() ; ++i)
-        si_->freeState(states_[i]);
+    for (auto &state : states_)
+        si_->freeState(state);
 }
 
 double ompl::base::GoalStates::distanceGoal(const State *st) const
 {
     double dist = std::numeric_limits<double>::infinity();
-    for (unsigned int i = 0 ; i < states_.size() ; ++i)
+    for (auto state : states_)
     {
-        double d = si_->distance(st, states_[i]);
+        double d = si_->distance(st, state);
         if (d < dist)
             dist = d;
     }
@@ -72,9 +71,9 @@ double ompl::base::GoalStates::distanceGoal(const State *st) const
 void ompl::base::GoalStates::print(std::ostream &out) const
 {
     out << states_.size() << " goal states, threshold = " << threshold_ << ", memory address = " << this << std::endl;
-    for (unsigned int i = 0 ; i < states_.size() ; ++i)
+    for (auto state : states_)
     {
-        si_->printState(states_[i], out);
+        si_->printState(state, out);
         out << std::endl;
     }
 }
@@ -83,8 +82,13 @@ void ompl::base::GoalStates::sampleGoal(base::State *st) const
 {
     if (states_.empty())
         throw Exception("There are no goals to sample");
+
+    // Roll over the samplePosition_ if it points past the number of states.
+    samplePosition_ = samplePosition_ % states_.size();
+    // Get the next state.
     si_->copyState(st, states_[samplePosition_]);
-    samplePosition_ = (samplePosition_ + 1) % states_.size();
+    // Increment the counter. Do NOT roll over incase a new state is added before sampleGoal is called again.
+    samplePosition_++;
 }
 
 unsigned int ompl::base::GoalStates::maxSampleCount() const
@@ -102,11 +106,11 @@ void ompl::base::GoalStates::addState(const ScopedState<> &st)
     addState(st.get());
 }
 
-const ompl::base::State* ompl::base::GoalStates::getState(unsigned int index) const
+const ompl::base::State *ompl::base::GoalStates::getState(unsigned int index) const
 {
     if (index >= states_.size())
-        throw Exception("Index " + boost::lexical_cast<std::string>(index) + " out of range. Only " +
-                        boost::lexical_cast<std::string>(states_.size()) + " states are available");
+        throw Exception("Index " + std::to_string(index) + " out of range. Only " + std::to_string(states_.size()) +
+                        " states are available");
     return states_[index];
 }
 

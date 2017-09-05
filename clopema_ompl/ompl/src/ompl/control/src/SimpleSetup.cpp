@@ -35,38 +35,25 @@
 /* Author: Ioan Sucan */
 
 #include "ompl/control/SimpleSetup.h"
-#include "ompl/control/planners/rrt/RRT.h"
-#include "ompl/control/planners/kpiece/KPIECE1.h"
+#include "ompl/tools/config/SelfConfig.h"
 
 ompl::base::PlannerPtr ompl::control::getDefaultPlanner(const base::GoalPtr &goal)
 {
-    base::PlannerPtr planner;
-    if (!goal)
-        throw Exception("Unable to allocate default planner for unspecified goal definition");
-
-    SpaceInformationPtr si = boost::static_pointer_cast<SpaceInformation, base::SpaceInformation>(goal->getSpaceInformation());
-    if (si->getStateSpace()->hasDefaultProjection())
-        planner = base::PlannerPtr(new KPIECE1(si));
-    else
-        planner = base::PlannerPtr(new RRT(si));
-
-    return planner;
+    return tools::SelfConfig::getDefaultPlanner(goal);
 }
 
-ompl::control::SimpleSetup::SimpleSetup(const SpaceInformationPtr &si) :
-    configured_(false), planTime_(0.0), last_status_(base::PlannerStatus::UNKNOWN)
+ompl::control::SimpleSetup::SimpleSetup(const SpaceInformationPtr &si)
+  : configured_(false), planTime_(0.0), last_status_(base::PlannerStatus::UNKNOWN)
 {
     si_ = si;
-    pdef_.reset(new base::ProblemDefinition(si_));
-    params_.include(si_->params());
+    pdef_ = std::make_shared<base::ProblemDefinition>(si_);
 }
 
-ompl::control::SimpleSetup::SimpleSetup(const ControlSpacePtr &space) :
-    configured_(false), planTime_(0.0), last_status_(base::PlannerStatus::UNKNOWN)
+ompl::control::SimpleSetup::SimpleSetup(const ControlSpacePtr &space)
+  : configured_(false), planTime_(0.0), last_status_(base::PlannerStatus::UNKNOWN)
 {
-    si_.reset(new SpaceInformation(space->getStateSpace(), space));
-    pdef_.reset(new base::ProblemDefinition(si_));
-    params_.include(si_->params());
+    si_ = std::make_shared<SpaceInformation>(space->getStateSpace(), space);
+    pdef_ = std::make_shared<base::ProblemDefinition>(si_);
 }
 
 void ompl::control::SimpleSetup::setup()
@@ -82,16 +69,13 @@ void ompl::control::SimpleSetup::setup()
             if (!planner_)
             {
                 OMPL_INFORM("No planner specified. Using default.");
-                planner_ = getDefaultPlanner(getGoal());
+                planner_ = tools::SelfConfig::getDefaultPlanner(getGoal());
             }
         }
         planner_->setProblemDefinition(pdef_);
         if (!planner_->isSetup())
             planner_->setup();
 
-        params_.clear();
-        params_.include(si_->params());
-        params_.include(planner_->params());
         configured_ = true;
     }
 }
@@ -104,7 +88,8 @@ void ompl::control::SimpleSetup::clear()
         pdef_->clearSolutionPaths();
 }
 
-// we provide a duplicate implementation here to allow the planner to choose how the time is turned into a planner termination condition
+// we provide a duplicate implementation here to allow the planner to choose how the time is turned into a planner
+// termination condition
 ompl::base::PlannerStatus ompl::control::SimpleSetup::solve(double time)
 {
     setup();
@@ -133,20 +118,21 @@ ompl::base::PlannerStatus ompl::control::SimpleSetup::solve(const base::PlannerT
     return last_status_;
 }
 
-ompl::control::PathControl& ompl::control::SimpleSetup::getSolutionPath() const
+ompl::control::PathControl &ompl::control::SimpleSetup::getSolutionPath() const
 {
     if (pdef_)
     {
         const base::PathPtr &p = pdef_->getSolutionPath();
         if (p)
-            return static_cast<PathControl&>(*p);
+            return static_cast<PathControl &>(*p);
     }
     throw Exception("No solution path");
 }
 
 bool ompl::control::SimpleSetup::haveExactSolutionPath() const
 {
-    return haveSolutionPath() && (!pdef_->hasApproximateSolution() || pdef_->getSolutionDifference() < std::numeric_limits<double>::epsilon());
+    return haveSolutionPath() && (!pdef_->hasApproximateSolution() ||
+                                  pdef_->getSolutionDifference() < std::numeric_limits<double>::epsilon());
 }
 
 void ompl::control::SimpleSetup::getPlannerData(base::PlannerData &pd) const

@@ -36,10 +36,14 @@
 
 #include "ompl/tools/config/SelfConfig.h"
 #include "ompl/tools/config/MagicConstants.h"
+#include "ompl/geometric/planners/rrt/RRTConnect.h"
+#include "ompl/geometric/planners/rrt/RRT.h"
+#include "ompl/geometric/planners/kpiece/LBKPIECE1.h"
+#include "ompl/geometric/planners/kpiece/KPIECE1.h"
+#include "ompl/control/planners/rrt/RRT.h"
+#include "ompl/control/planners/kpiece/KPIECE1.h"
 #include "ompl/util/Console.h"
-#include <boost/thread/mutex.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include <algorithm>
 #include <limits>
 #include <cmath>
@@ -50,15 +54,13 @@ namespace ompl
 {
     namespace tools
     {
-
         class SelfConfig::SelfConfigImpl
         {
             friend class SelfConfig;
 
         public:
-
-            SelfConfigImpl(const base::SpaceInformationPtr &si) :
-                wsi_(si), probabilityOfValidState_(-1.0), averageValidMotionLength_(-1.0)
+            SelfConfigImpl(const base::SpaceInformationPtr &si)
+              : wsi_(si), probabilityOfValidState_(-1.0), averageValidMotionLength_(-1.0)
             {
             }
 
@@ -97,7 +99,8 @@ namespace ompl
                         OMPL_DEBUG("%sPlanner range detected to be %lf", context.c_str(), range);
                     }
                     else
-                        OMPL_ERROR("%sUnable to detect planner range. SpaceInformation instance has expired.", context.c_str());
+                        OMPL_ERROR("%sUnable to detect planner range. SpaceInformation instance has expired.",
+                                   context.c_str());
                 }
             }
 
@@ -134,7 +137,6 @@ namespace ompl
             }
 
         private:
-
             void checkSetup(const base::SpaceInformationPtr &si)
             {
                 if (si)
@@ -155,40 +157,39 @@ namespace ompl
 
             // we store weak pointers so that the SpaceInformation instances are not kept in
             // memory until termination of the program due to the use of a static ConfigMap below
-            boost::weak_ptr<base::SpaceInformation> wsi_;
+            std::weak_ptr<base::SpaceInformation> wsi_;
 
-            double                                  probabilityOfValidState_;
-            double                                  averageValidMotionLength_;
+            double probabilityOfValidState_;
+            double averageValidMotionLength_;
 
-            boost::mutex                            lock_;
+            std::mutex lock_;
         };
-
     }
 }
 
+std::mutex ompl::tools::SelfConfig::staticConstructorLock_;
 /// @endcond
 
-ompl::tools::SelfConfig::SelfConfig(const base::SpaceInformationPtr &si, const std::string &context) :
-    context_(context.empty() ? "" : context + ": ")
+ompl::tools::SelfConfig::SelfConfig(const base::SpaceInformationPtr &si, const std::string &context)
+  : context_(context.empty() ? "" : context + ": ")
 {
-    typedef std::map<base::SpaceInformation*, boost::shared_ptr<SelfConfigImpl> > ConfigMap;
+    using ConfigMap = std::map<base::SpaceInformation *, std::shared_ptr<SelfConfigImpl>>;
 
-    static ConfigMap    SMAP;
-    static boost::mutex LOCK;
+    std::unique_lock<std::mutex> smLock(staticConstructorLock_);
 
-    boost::mutex::scoped_lock smLock(LOCK);
+    static ConfigMap SMAP;
 
     // clean expired entries from the map
-    ConfigMap::iterator dit = SMAP.begin();
+    auto dit = SMAP.begin();
     while (dit != SMAP.end())
     {
         if (dit->second->expired())
             SMAP.erase(dit++);
         else
-          ++dit;
+            ++dit;
     }
 
-    ConfigMap::const_iterator it = SMAP.find(si.get());
+    const auto it = SMAP.find(si.get());
 
     if (it != SMAP.end())
         impl_ = it->second.get();
@@ -199,44 +200,86 @@ ompl::tools::SelfConfig::SelfConfig(const base::SpaceInformationPtr &si, const s
     }
 }
 
-ompl::tools::SelfConfig::~SelfConfig()
-{
-}
+ompl::tools::SelfConfig::~SelfConfig() = default;
 
 /* ------------------------------------------------------------------------ */
 
 double ompl::tools::SelfConfig::getProbabilityOfValidState()
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     return impl_->getProbabilityOfValidState();
 }
 
 double ompl::tools::SelfConfig::getAverageValidMotionLength()
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     return impl_->getAverageValidMotionLength();
 }
 
 void ompl::tools::SelfConfig::configureValidStateSamplingAttempts(unsigned int &attempts)
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     impl_->configureValidStateSamplingAttempts(attempts);
 }
 
 void ompl::tools::SelfConfig::configurePlannerRange(double &range)
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     impl_->configurePlannerRange(range, context_);
 }
 
 void ompl::tools::SelfConfig::configureProjectionEvaluator(base::ProjectionEvaluatorPtr &proj)
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     return impl_->configureProjectionEvaluator(proj, context_);
 }
 
 void ompl::tools::SelfConfig::print(std::ostream &out) const
 {
-    boost::mutex::scoped_lock iLock(impl_->lock_);
+    std::lock_guard<std::mutex> iLock(impl_->lock_);
     impl_->print(out);
+}
+
+ompl::base::PlannerPtr ompl::tools::SelfConfig::getDefaultPlanner(const base::GoalPtr &goal)
+{
+    base::PlannerPtr planner;
+    if (!goal)
+        throw Exception("Unable to allocate default planner for unspecified goal definition");
+
+    base::SpaceInformationPtr si(goal->getSpaceInformation());
+    const base::StateSpacePtr &space(si->getStateSpace());
+    control::SpaceInformationPtr siC(std::dynamic_pointer_cast<control::SpaceInformation, base::SpaceInformation>(si));
+    if (siC)  // kinodynamic planning
+    {
+        // if we have a default projection
+        if (space->hasDefaultProjection())
+            planner = std::make_shared<control::KPIECE1>(siC);
+        // otherwise use a single-tree planner
+        else
+            planner = std::make_shared<control::RRT>(siC);
+    }
+    // if we can sample the goal region and interpolation between states is symmetric,
+    // use a bi-directional planner
+    else if (goal->hasType(base::GOAL_SAMPLEABLE_REGION) && space->hasSymmetricInterpolate())
+    {
+        // if we have a default projection
+        if (space->hasDefaultProjection())
+            planner = std::make_shared<geometric::LBKPIECE1>(goal->getSpaceInformation());
+        else
+            planner = std::make_shared<geometric::RRTConnect>(goal->getSpaceInformation());
+    }
+    // otherwise use a single-tree planner
+    else
+    {
+        // if we have a default projection
+        if (space->hasDefaultProjection())
+            planner = std::make_shared<geometric::KPIECE1>(goal->getSpaceInformation());
+        else
+            planner = std::make_shared<geometric::RRT>(goal->getSpaceInformation());
+    }
+
+    if (!planner)
+        throw Exception("Unable to allocate default planner");
+
+    return planner;
 }

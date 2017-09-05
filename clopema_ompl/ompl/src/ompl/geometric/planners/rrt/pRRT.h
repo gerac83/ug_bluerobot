@@ -40,14 +40,13 @@
 #include "ompl/geometric/planners/PlannerIncludes.h"
 #include "ompl/base/StateSamplerArray.h"
 #include "ompl/datastructures/NearestNeighbors.h"
-#include <boost/thread/mutex.hpp>
+#include <thread>
+#include <mutex>
 
 namespace ompl
 {
-
     namespace geometric
     {
-
         /**
            @anchor gpRRT
            @par Short description
@@ -58,25 +57,26 @@ namespace ompl
            qr, until a state @b qm is reached. @b qm is then added to
            the exploration tree.
            @par External documentation
-           J. Kuffner and S.M. LaValle, RRT-connect: An efficient approach to single-query path planning, in <em>Proc. 2000 IEEE Intl. Conf. on Robotics and Automation</em>, pp. 995–1001, Apr. 2000. DOI: <a href="http://dx.doi.org/10.1109/ROBOT.2000.844730">10.1109/ROBOT.2000.844730</a><br>
-           <a href="http://ieeexplore.ieee.org/ielx5/6794/18246/00844730.pdf?tp=&arnumber=844730&isnumber=18246">[PDF]</a>
-           <a href="http://msl.cs.uiuc.edu/~lavalle/rrtpubs.html">[more]</a>
+           J. Kuffner and S.M. LaValle, RRT-connect: An efficient approach to single-query path planning, in <em>Proc.
+           2000 IEEE Intl. Conf. on Robotics and Automation</em>, pp. 995–1001, Apr. 2000. DOI:
+           [10.1109/ROBOT.2000.844730](http://dx.doi.org/10.1109/ROBOT.2000.844730)<br>
+           [[PDF]](http://ieeexplore.ieee.org/ielx5/6794/18246/00844730.pdf?tp=&arnumber=844730&isnumber=18246)
+           [[more]](http://msl.cs.uiuc.edu/~lavalle/rrtpubs.html)
         */
 
         /** \brief Parallel RRT */
         class pRRT : public base::Planner
         {
         public:
-
             pRRT(const base::SpaceInformationPtr &si);
 
-            virtual ~pRRT();
+            ~pRRT() override;
 
-            virtual void getPlannerData(base::PlannerData &data) const;
+            void getPlannerData(base::PlannerData &data) const override;
 
-            virtual base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc);
+            base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc) override;
 
-            virtual void clear();
+            void clear() override;
 
             /** \brief Set the goal bias.
 
@@ -123,43 +123,40 @@ namespace ompl
             }
 
             /** \brief Set a different nearest neighbors datastructure */
-            template<template<typename T> class NN>
+            template <template <typename T> class NN>
             void setNearestNeighbors()
             {
-                nn_.reset(new NN<Motion*>());
+                if (nn_ && nn_->size() != 0)
+                    OMPL_WARN("Calling setNearestNeighbors will clear all states.");
+                clear();
+                nn_ = std::make_shared<NN<Motion *>>();
+                setup();
             }
 
-            virtual void setup();
+            void setup() override;
 
         protected:
-
             class Motion
             {
             public:
+                Motion() = default;
 
-                Motion() : state(NULL), parent(NULL)
+                Motion(const base::SpaceInformationPtr &si) : state(si->allocState())
                 {
                 }
 
-                Motion(const base::SpaceInformationPtr &si) : state(si->allocState()), parent(NULL)
-                {
-                }
+                ~Motion() = default;
 
-                ~Motion()
-                {
-                }
-
-                base::State       *state;
-                Motion            *parent;
-
+                base::State *state{nullptr};
+                Motion *parent{nullptr};
             };
 
             struct SolutionInfo
             {
-                Motion      *solution;
-                Motion      *approxsol;
-                double       approxdif;
-                boost::mutex lock;
+                Motion *solution;
+                Motion *approxsol;
+                double approxdif;
+                std::mutex lock;
             };
 
             void threadSolve(unsigned int tid, const base::PlannerTerminationCondition &ptc, SolutionInfo *sol);
@@ -170,19 +167,18 @@ namespace ompl
                 return si_->distance(a->state, b->state);
             }
 
-            base::StateSamplerArray<base::StateSampler>         samplerArray_;
-            boost::shared_ptr< NearestNeighbors<Motion*> >      nn_;
-            boost::mutex                                        nnLock_;
+            base::StateSamplerArray<base::StateSampler> samplerArray_;
+            std::shared_ptr<NearestNeighbors<Motion *>> nn_;
+            std::mutex nnLock_;
 
-            unsigned int                                        threadCount_;
+            unsigned int threadCount_;
 
-            double                                              goalBias_;
-            double                                              maxDistance_;
+            double goalBias_{.05};
+            double maxDistance_{0.};
 
             /** \brief The most recent goal motion.  Used for PlannerData computation */
-            Motion                                              *lastGoalMotion_;
+            Motion *lastGoalMotion_{nullptr};
         };
-
     }
 }
 

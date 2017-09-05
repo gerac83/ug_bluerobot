@@ -36,11 +36,9 @@
 
 #include "ompl/base/objectives/MechanicalWorkOptimizationObjective.h"
 
-ompl::base::MechanicalWorkOptimizationObjective::
-MechanicalWorkOptimizationObjective(const SpaceInformationPtr &si,
-                                    double pathLengthWeight) :
-    OptimizationObjective(si),
-    pathLengthWeight_(pathLengthWeight)
+ompl::base::MechanicalWorkOptimizationObjective::MechanicalWorkOptimizationObjective(const SpaceInformationPtr &si,
+                                                                                     double pathLengthWeight)
+  : OptimizationObjective(si), pathLengthWeight_(pathLengthWeight)
 {
     description_ = "Mechanical Work";
 }
@@ -50,10 +48,14 @@ double ompl::base::MechanicalWorkOptimizationObjective::getPathLengthWeight() co
     return pathLengthWeight_;
 }
 
-ompl::base::Cost ompl::base::MechanicalWorkOptimizationObjective::motionCost(const State *s1,
-                                                                             const State *s2) const
+ompl::base::Cost ompl::base::MechanicalWorkOptimizationObjective::stateCost(const State *s) const
+{
+    return Cost(1.0);
+}
+
+ompl::base::Cost ompl::base::MechanicalWorkOptimizationObjective::motionCost(const State *s1, const State *s2) const
 {
     // Only accrue positive changes in cost
-    double positiveCostAccrued = std::max(stateCost(s2).v - stateCost(s1).v, 0.0);
-    return Cost(positiveCostAccrued + pathLengthWeight_*si_->distance(s1,s2));
+    double positiveCostAccrued = std::max(stateCost(s2).value() - stateCost(s1).value(), 0.0);
+    return Cost(positiveCostAccrued + pathLengthWeight_ * si_->distance(s1, s2));
 }

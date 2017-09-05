@@ -41,15 +41,16 @@
 
 ompl::control::MorseStatePropagator::MorseStatePropagator(const SpaceInformationPtr &si) : StatePropagator(si)
 {
-    if (base::MorseStateSpace *mss = dynamic_cast<base::MorseStateSpace*>(si->getStateSpace().get()))
+    if (base::MorseStateSpace *mss = dynamic_cast<base::MorseStateSpace *>(si->getStateSpace().get()))
         env_ = mss->getEnvironment();
     else
         throw Exception("MORSE State Space needed for MorseStatePropagator");
 }
 
-void ompl::control::MorseStatePropagator::propagate(const base::State *state, const Control *control, const double duration, base::State *result) const
+void ompl::control::MorseStatePropagator::propagate(const base::State *state, const Control *control,
+                                                    double duration, base::State *result) const
 {
-    boost::mutex::scoped_lock lock(env_->mutex_);
+    std::lock_guard<std::mutex> lock(env_->mutex_);
 
     // place the MORSE world at the start state
     si_->getStateSpace()->as<base::MorseStateSpace>()->writeState(state);

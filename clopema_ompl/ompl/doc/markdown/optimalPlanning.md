@@ -1,4 +1,4 @@
-# Optimal Planning
+# Optimal Planning {#optimalPlanning}
 
 In some motion planning problems, you might not want just _any_ valid path between your start and goal states. You might be interested in the shortest path, or perhaps the path that steers the farthest away from obstacles. In these cases you're looking for an _optimal_ path: a path which satisfies your constraints (connects start and goal states without collisions) and also optimizes some path quality metric. Path length and path clearance are two examples of path quality metrics. Motion planners which attempt to optimize path quality metrics are known as _optimizing planners_.
 
@@ -7,21 +7,11 @@ In order to perform optimal planning, you need two things:
 1. A path quality metric, or _optimization objective_.
 2. An optimizing motion planner
 
-You can specify a path quality metric using the `ompl::base::OptimizationObjective` class. As for the optimizing planner, OMPL currently provides two optimizing planners that guarantee _asymptotic optimality_ of returned solutions:
+You can specify a path quality metric using the `ompl::base::OptimizationObjective` class. As for the optimizing planner, OMPL currently provides several planners that guarantee _asymptotic optimality_ of returned solutions (see the [list of available planners](planners.html)). You can find out more about asymptotic optimality in motion planning by checking out [this paper](http://sertac.scripts.mit.edu/web/wp-content/papercite-data/pdf/karaman.frazzoli-ijrr11.pdf) by Karaman and Frazzoli.
 
-- `ompl::geometric::PRMstar`
-- `ompl::geometric::RRTstar`
+#### CForest parallelization framework
 
-You can find out more about asymptotic optimality in motion planning by checking out [this paper](http://sertac.scripts.mit.edu/web/wp-content/papercite-data/pdf/karaman.frazzoli-ijrr11.pdf) by Karaman and Frazzoli. The following planners also support `ompl::base::OptimizationObjective`, but do not provide theoretical guarantees on solution optimality:
-
-- `ompl::geometric::PRM`
-- `ompl::geometric::TRRT`
-
-Lastly, the following planners provide a theoretical guarantee of _asymptotic near optimality_, but currently do not support user-specified objectives:
-
-- `ompl::geometric::SPARS`
-- `ompl::geometric::SPARStwo`
-- `ompl::geometric::LBTRRT`
+OMPL includes support for the CForest parallelization framework, boosting the convergence of optimal planners. [Learn more about CForest.](CForest.html)
 
 ## Optimization Objectives
 
@@ -47,9 +37,7 @@ However, there are problems that cannot be exactly represented with this assumpt
 
 The reason why these two objectives cannot be combined is because we need more than one value to perform the accumulation of the path cost. We need one value to hold the accumulation of length along the path, and another value to hold the the minimum clearance value encountered so far in the path. Therefore, _the multi-objective problems that cannot be represented in OMPL are those where the individual objectives do not share a cost accumulation function_. We note that the above objective can be approximated by combining a path length objective with a state cost integral objective where state cost is a function of clearance.
 
-OMPL currently does not support control planning with general optimization objectives.
-
-## Wanna learn more?
+## Want to learn more?
 
 Check out these tutorials:
 

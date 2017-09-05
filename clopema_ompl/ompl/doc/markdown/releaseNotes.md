@@ -1,5 +1,82 @@
 # Release Notes
 
+# OMPL 1.3.1 (May 18, 2017)
+
+- Tidy up code.
+- Small bug fixes.
+
+
+# OMPL 1.3.0 (March 1, 2017)
+
+- Added new planners:
+    - [RRT#](\ref gRRTsharp), a variant of [RRT*](\ref gRRTstar) with an improved convergence rate.
+    - [RRTX](\ref gRRTXstatic), a variant of [RRT*](\ref gRRTstar) with an improved convergence rate. Only the static part of the RRTX algorithm is implemented. Dynamical obstacles and updates of the robot position are not available in this implementation.
+    - [SORRT*](\ref gSORRTstar), a variant of [Informed RRT*](\ref gInformedRRTstar) that orders states in the subproblem that could provide a better solution by their potential solution cost.
+- New refactored versions of [BIT*](\ref gBITstar) and [Informed RRT*](\ref gInformedRRTstar).
+- Various changes throughout to follow standard C++11 practices that improve efficiency, safety, or legibility.
+- Fixes for Boost 1.63 and pygccxml 1.8.5.
+- Misc. small bug fixes.
+
+
+# OMPL 1.2.1 (July 1, 2016)
+
+- New simplified installation instructions. There is now also a [installation script](http://ompl.kavrakilab.org/install-ompl-ubuntu.sh) that will download and install OMPL and all its dependencies on Ubuntu 14.04, 15.10, and 16.04.
+- Fixed python bindings for gcc5. Python bindings still take a [very long time](https://github.com/gccxml/pygccxml/issues/56) to generate.
+- Misc. small bug fixes.
+
+
+# OMPL 1.2.0 (June 20, 2016)
+
+- C++11 is now **required**. A lot of Boost usage in older versions of OMPL has been replaced with C++11 STL equivalents.
+- Added several new planners and improved existing planners:
+  - Stable Sparse RRT, both a [geometric](\ref gSST) and a [control-based](\ref cSST) version. SST is an asymptotically near-optimal incremental version of RRT.
+  - [Vector Field RRT](\ref gVFRRT), a tree-based motion planner that tries to minimize the so-called upstream cost of a path. The upstream cost is defined by an integral over a user-defined vector field.
+  - [A bidirectional version of FMT](\ref gBFMT), small fixes in FMT.
+  - A new version of [Expansive Space Trees](\ref gEST) that does not rely on projections to estimate sampling density. Instead, it estimates density directly in the configuration space. This is closer to the original paper and actually works really well! There is now also a [bidirectional version of EST](\ref gBiEST). The previous implementation of EST has been renamed to [ProjEST](\ref gProjEST).
+- Minimum Boost version is now 1.54.
+
+
+# OMPL 1.1.0 (October 28, 2015)
+
+- Added several new and updated planners:
+  - [Lightning](\ref Lightning): the Lightning Framework is a experienced-based motion planner that recalls from a database of previously generated paths the most similar one to the current planning problem and attempts to repair it, while at the same time planning from scratch in a different thread.
+  - [Thunder](\ref Thunder): the Thunder Framework is essentially an improved version of Lightning. It stores previously generated paths in a combined roadmap, thereby offering more opportunities for reuse of partial paths. The roadmap is sparse while still guaranteeing asymptotic near-optimality. This is done by borrowing ideas from the SPARS algorithm.
+  - [Informed RRT*](\ref gInformedRRTstar): a variant of RRT* that uses heuristics to bound the search for optimal solutions.
+  - [Batch Informed Trees (BIT*)](\ref gBITstar): an anytime asymptotically optimal algorithm that uses heuristics to order and bound the search for optimal solutions.
+  - An updated version of the Lower-Bound Tree Rapidly-expanding Random Tree (LBT-RRT) and a lazy version, LazyLBTRRT. These algorithms use Lifelong Planning A* and Dynamic Single-Source Shortest Path over graphs as subroutines, but these subroutines might be more generally useful in other algorithms as well.
+  - An updated version of [TRRT](\ref gTRRT) as well as a bidirectional version of TRRT ([BiTRRT](\ref gBiTRRT))
+  - An updated version of [FMT*](\ref gFMT) that, among other things, caches collision checks.
+- [New web-based based version of OMPL.app!](http://omplapp.kavrakilab.org) The web app has all the functionality of the standalone GUI. In addition, it allows you to interactively construct benchmark jobs that can be submitted to a benchmark server. We have a public version of the web app and benchmarking server running at http://omplapp.kavrakilab.org, but the web app and benchmark server can also be run locally.
+- There are two new concepts, ompl::base::InformedSampler and ompl::base::InformedStateSampler, that capture the idea of using information about the state space and the current solution cost to limit future search to a planning subproblem that contains all possibly better solutions. The ompl::base::PathLengthDirectInfSampler is derived from InformedStateSampler and can be used to limit sampling to only those states that can lead to a shorter path than the best-found solution so far. This sampler is used in ompl::geometric:InformedRRTstar and ompl::geometric::BITstar.
+- The ompl::geometric::PathSimplifier can now also optimize a path with respect to a (sampleable) goal. This means, for example, that a solution path is no longer “stuck” with an awkward inverse kinematics solution for a goal.
+- Added a `plannerarena` script to simplify running [Planner Arena](http://plannerarena.org) locally.
+- Added a new planner termination conditions that allow one to terminate after a fixed number of iterations.
+- The GNAT data structure for nearest neighbor queries has been updated and should be faster in general. There is now also non-threadsafe version of the GNAT data structure that is automatically selected for single-threaded planners. This version should be even faster.
+- Added an option to turn off the path simplification in benchmarking.
+- Added support for parametrized benchmarks. Planner Arena can show performance across values for a given parameter.
+- Made it easier to get repeatable runs of an algorithm by enabling the user to set the seed of the *local* random number generators (i.e., not just the global seed).
+- The [OMPL blog](http://ompl.kavrakilab.org/blog.html) is now [Jekyll](http://www.jekyllrb.com)-based and hosted as a [repository on GitHub](https://github.com/ompl/blog). If you have a project that uses OMPL, you can send us a pull request (please check with us first whether it would be appropriate for the blog before you write content).
+
+
+# OMPL 1.0.0 (October 26, 2014)
+
+- Added many new planners:
+  - [Linear Temporal Logical Planner (LTLPlanner)](\ref cLTLPlanner): a planner that finds solutions for kinodynamic motion planning problems where the goal is specified by a Linear Temporal Logic (LTL) specification.
+  - [Fast Marching Tree algorithm (FMT∗)](\ref gFMT): a new asymptotically optimal algorithm contributed by Marco Pavone's Autonomous Systems Laboratory at Stanford.
+  - [Coupled Forest of Random Engrafting Search Trees (CForest)](\ref gCForest): a meta-planner that runs several instances of asymptotically optimal planners in different threads. When one thread finds a better solution path, the states along the path are passed on to the other threads.
+  - [Anytime Path Shortening](\ref gAPS): a generic wrapper around one or more geometric motion planners that repeatedly applies [shortcutting](\ref ompl::geometric::PathSimplifier) and [hybridization](\ref ompl::geometric::PathHybridization) to a set of solution paths. Any number and combination of planners can be specified, each is run in a separate thread.
+  - [LazyPRM](\ref gLazyPRM) / [LazyPRMstar](\ref gLazyPRMstar): not entirely new, but completely re-implemented.
+- RRT* has a new option to periodically prune parts of the tree that are guaranteed *not* to contain the optimal solution. This idea was introduced in CForest, but it useful independently of the CForest parallelization. Although pruning is almost always useful, it is *disabled* by default to preserve the original behavior.
+- Created consistent behavior across all planners that can optimize paths. Calls to the solve method of RRT*, PRM*, SPARS, SPARStwo, and LBTRRT will terminate when (1) the planner termination condition is true or (2) the optimization objective is satisfied. To make these planners terminate when *any* solution is found, you can set the cost threshold for the optimization objective to, e.g., OptimizationObjective::infiniteCost(). For most of these planners, asymptotic (approximate) optimality is only guaranteed when using the PathLengthOptimizationObjective class.
+- Most control-based planners can now use steering functions. The user simply needs to override ompl::control::StatePropagator::steer() and ompl::control::StatePropagator::canSteer() in a derived class.
+- Several improvements to benchmarking functionality:
+  - [Planner Arena](http://plannerarena.org) has been relaunched and can be used to interactively visualize benchmark results.
+  - ompl_benchmark_statistics.py can now also parse MoveIt! benchmark log files using the flag `--moveit`.
+- Added ompl::tools::PlannerMonitor class, which periodically prints planner progress properties in a separate thread. Useful for developing / debugging new planners.
+- Updated Py++ toolchain. If you previously installed Py++ and have trouble generating the OMPL Python bindings, you may need to run "make installpyplusplus" again.
+- Minimum Boost version is now 1.48 and minimum CMake version is now 2.8.7.
+- Bug fixes.
+
 
 # OMPL 0.14.2 (May 23, 2014)
 
@@ -77,7 +154,7 @@
 # OMPL 0.11.1 (July 26, 2012)
 
 - Fixed bug in RRT* where nearest neighbor radius shrinks too fast.
-- Added option for versioned installs: multiple versions of OMPL can be installed simultaneously (disabled by default). This is enabled by running <tt>cmake -DOMPL_VERSIONED_INSTALL=ON</tt>.
+- Added option for versioned installs: multiple versions of OMPL can be installed simultaneously (disabled by default). This is enabled by running `cmake -DOMPL_VERSIONED_INSTALL=ON`.
 - Bug and documentation fixes.
 
 

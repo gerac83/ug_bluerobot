@@ -36,17 +36,19 @@
 
 #include "ompl/base/objectives/StateCostIntegralObjective.h"
 
-ompl::base::StateCostIntegralObjective::
-StateCostIntegralObjective(const SpaceInformationPtr &si,
-                           bool enableMotionCostInterpolation) :
-    OptimizationObjective(si),
-    interpolateMotionCost_(enableMotionCostInterpolation)
+ompl::base::StateCostIntegralObjective::StateCostIntegralObjective(const SpaceInformationPtr &si,
+                                                                   bool enableMotionCostInterpolation)
+  : OptimizationObjective(si), interpolateMotionCost_(enableMotionCostInterpolation)
 {
     description_ = "State Cost Integral";
 }
 
-ompl::base::Cost ompl::base::StateCostIntegralObjective::motionCost(const State *s1,
-                                                                    const State *s2) const
+ompl::base::Cost ompl::base::StateCostIntegralObjective::stateCost(const State *s) const
+{
+    return Cost(1.0);
+}
+
+ompl::base::Cost ompl::base::StateCostIntegralObjective::motionCost(const State *s1, const State *s2) const
 {
     if (interpolateMotionCost_)
     {
@@ -61,10 +63,10 @@ ompl::base::Cost ompl::base::StateCostIntegralObjective::motionCost(const State 
             State *test2 = si_->allocState();
             for (int j = 1; j < nd; ++j)
             {
-                si_->getStateSpace()->interpolate(s1, s2, (double) j / (double) nd, test2);
+                si_->getStateSpace()->interpolate(s1, s2, (double)j / (double)nd, test2);
                 Cost nextStateCost = this->stateCost(test2);
-                totalCost.v += this->trapezoid(prevStateCost, nextStateCost,
-                                               si_->distance(test1, test2)).v;
+                totalCost = Cost(totalCost.value() +
+                                 this->trapezoid(prevStateCost, nextStateCost, si_->distance(test1, test2)).value());
                 std::swap(test1, test2);
                 prevStateCost = nextStateCost;
             }
@@ -72,16 +74,15 @@ ompl::base::Cost ompl::base::StateCostIntegralObjective::motionCost(const State 
         }
 
         // Lastly, add s2
-        totalCost.v += this->trapezoid(prevStateCost, this->stateCost(s2),
-                                       si_->distance(test1, s2)).v;
+        totalCost = Cost(totalCost.value() +
+                         this->trapezoid(prevStateCost, this->stateCost(s2), si_->distance(test1, s2)).value());
 
         si_->freeState(test1);
 
         return totalCost;
     }
-    else
-        return this->trapezoid(this->stateCost(s1), this->stateCost(s2),
-                               si_->distance(s1, s2));
+    
+        return this->trapezoid(this->stateCost(s1), this->stateCost(s2), si_->distance(s1, s2));
 }
 
 bool ompl::base::StateCostIntegralObjective::isMotionCostInterpolationEnabled() const

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
+cmake_policy(SET CMP0017 NEW)
+
 if(NOT ${CMAKE_VERSION} VERSION_LESS 3.0.0)
-    cmake_policy(SET CMP0042 OLD)
+    cmake_policy(SET CMP0042 NEW)
 endif()
 project(ompl CXX C)
 
@@ -23,7 +25,16 @@ if(MSVC OR MSVC90 OR MSVC10)
     set(MSVC ON)
 endif (MSVC OR MSVC90 OR MSVC10)
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
+# add "${prefix}/share/cmake/Modules", which is where Eigen3's module is in MacPorts.
+if(${CMAKE_VERSION} VERSION_LESS 2.8.12)
+    get_filename_component(CMAKE_ROOT_DIR "${CMAKE_ROOT}" PATH)
+else()
+    get_filename_component(CMAKE_ROOT_DIR "${CMAKE_ROOT}" DIRECTORY)
+endif()
+set(CMAKE_MODULE_PATH
+    "${CMAKE_MODULE_PATH}"
+    "${CMAKE_ROOT_DIR}/cmake/Modules"
+    "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 include(GNUInstallDirs)
 include(CompilerSettings)
 include(OMPLVersion)
@@ -37,6 +48,13 @@ set(OMPL_CMAKE_UTIL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules"
 set(OMPL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(OMPL_DEMO_INSTALL_DIR "share/ompl${OMPL_INSTALL_SUFFIX}/demos"
     CACHE STRING "Relative path to directory where demos will be installed")
+
+# Add support in Boost::Python for std::shared_ptr
+# This is a hack that replaces boost::shared_ptr related code with std::shared_ptr.
+# Proper support for std::shared_ptr was added in Boost 1.63.
+if(Boost_VERSION VERSION_LESS "106300")
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/external")
+endif()
 
 include_directories("${OMPL_INCLUDE_DIR}")
 
@@ -52,40 +70,8 @@ else(IS_ICPC)
     add_definitions(-DBOOST_TEST_DYN_LINK)
 endif(IS_ICPC)
 
-# Do one quiet find_package on Boost to see if it is recent enough to
-# have the try_join_for call
-find_package(Boost QUIET 1.50)
-
-# If Boost is not found at all, the check for version 1.50 below will die in
-# the most ungraceful manner because Boost_VERSION is not defined.  Define the
-# variable here for a more useful error.
-if (NOT ${Boost_FOUND})
-    set(Boost_VERSION 0)
-endif()
-
-# try_join_for requires the chrono library, so if we will use
-# try_join_for, we need to include the chrono component
-# Must recheck the Boost version, since update_bindings will re-run CMake
-# and this will pass for versions of Boost < 1.50
-if (${Boost_FOUND} AND ${Boost_VERSION} GREATER 104900) # Boost version is at least 1.50
-  # we're using chrono
-  find_package(Boost COMPONENTS date_time thread serialization filesystem system program_options unit_test_framework chrono REQUIRED)
-else()
-  # don't use chrono
-  find_package(Boost COMPONENTS date_time thread serialization filesystem system program_options unit_test_framework REQUIRED)
-endif()
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-
-if (NOT ${Boost_VERSION} LESS 104400)
-  option(OMPL_ODESOLVER "Enable OMPL ODE solver classes" ON)
-  if(${Boost_VERSION} LESS 105300)
-    # Include bundled version of boost::odeint if it isn't installed natively
-    set(ODEINT_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/external")
-    include_directories(SYSTEM "${ODEINT_INCLUDE_DIR}")
-  endif()
-else()
-  option(OMPL_ODESOLVER "Enable OMPL ODE solver classes" OFF)
-endif()
+find_package(Boost 1.54 COMPONENTS serialization filesystem system program_options REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 
 # on OS X we need to check whether to use libc++ or libstdc++ with clang++
 if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -113,6 +99,13 @@ enable_testing()
 find_package(Python QUIET)
 find_package(Boost COMPONENTS python QUIET)
 
+# Eigen is needed for the InformedStateSampler
+find_package(Eigen3 QUIET)
+if (EIGEN3_FOUND)
+    set(OMPL_HAVE_EIGEN3 1)
+    include_directories("${EIGEN3_INCLUDE_DIR}")
+endif()
+
 # MORSE is only needed for Modular OpenRobots Simulation Engine bindings
 find_package(MORSE QUIET)
 set(OMPL_EXTENSION_MORSE ${MORSE_FOUND})
@@ -122,30 +115,25 @@ find_package(OpenDE QUIET)
 set(OMPL_EXTENSION_OPENDE ${OPENDE_FOUND})
 if (OPENDE_FOUND)
   add_definitions(${OPENDE_DEFINITIONS})
-  include_directories(SYSTEM ${OPENDE_INCLUDE_DIR})
+  include_directories(${OPENDE_INCLUDE_DIR})
 endif()
 
 find_package(Triangle QUIET)
 set(OMPL_EXTENSION_TRIANGLE ${TRIANGLE_FOUND})
 if (TRIANGLE_FOUND)
-  include_directories(SYSTEM ${TRIANGLE_INCLUDE_DIR})
+  include_directories(${TRIANGLE_INCLUDE_DIR})
 endif()
 
 # If FLANN is installed, a wrapper for its nearest neighbor data structures can be used
 find_package(flann 1.8.3 QUIET)
 if (FLANN_FOUND)
     set(OMPL_HAVE_FLANN 1)
-    include_directories(SYSTEM "${FLANN_INCLUDE_DIRS}")
+    include_directories("${FLANN_INCLUDE_DIRS}")
+    link_directories(${FLANN_LIBRARY_DIRS})
 endif()
 
-option(OMPL_LOCAL_PYPLUSPLUS_INSTALL "Whether Py++ and dependencies should be installed in the build directory" OFF)
-set(SUDO "sudo")
-set(CMAKE_GCCXML_ARGS "")
-if(OMPL_LOCAL_PYPLUSPLUS_INSTALL)
-    set(SUDO "")
-    set(CMAKE_GCCXML_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/pyplusplus")
-    set(DISTUTILS_ARGS "--prefix=${PROJECT_BINARY_DIR}/pyplusplus")
-endif()
+# R is needed for running Planner Arena locally
+find_program(R_EXEC R)
 
 add_subdirectory(py-bindings)
 add_subdirectory(src)
@@ -154,31 +142,30 @@ add_subdirectory(demos)
 add_subdirectory(scripts)
 add_subdirectory(doc)
 
-if (NOT MSVC)
-  set(PKG_NAME "ompl")
-  set(PKG_DESC "The Open Motion Planning Library")
-  set(PKG_OMPL_LIBS "-lompl")
-  set(pkg_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/ompl.pc")
-  configure_file("${pkg_conf_file}.in" "${pkg_conf_file}" @ONLY)
-  install(FILES "${pkg_conf_file}"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
-    COMPONENT ompl
-    RENAME "ompl${OMPL_INSTALL_SUFFIX}.pc")
+target_link_flags(ompl)
+set(PKG_NAME "ompl")
+set(PKG_DESC "The Open Motion Planning Library")
+set(PKG_EXTERNAL_DEPS "${ompl_PKG_DEPS}")
+set(PKG_OMPL_LIBS "-lompl ${ompl_LINK_FLAGS}")
+set(pkg_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/ompl.pc")
+configure_file("${pkg_conf_file}.in" "${pkg_conf_file}" @ONLY)
+install(FILES "${pkg_conf_file}"
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
+  COMPONENT ompl
+  RENAME "ompl${OMPL_INSTALL_SUFFIX}.pc")
 
-  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/doc/markdown/FindOMPL.cmake"
-    DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/ompl${OMPL_INSTALL_SUFFIX}"
-    COMPONENT ompl
-    RENAME ompl-config.cmake)
-  if (NOT ${CMAKE_VERSION} VERSION_LESS 2.8.6)
-    include(WriteBasicConfigVersionFile)
-    write_basic_config_version_file(
-      "${CMAKE_CURRENT_BINARY_DIR}/ompl-config-version.cmake"
-      VERSION ${OMPL_VERSION} COMPATIBILITY SameMajorVersion)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/ompl-config-version.cmake"
-      DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/ompl${OMPL_INSTALL_SUFFIX}"
-      COMPONENT ompl)
-  endif()
-endif()
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/doc/markdown/FindOMPL.cmake"
+  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/ompl${OMPL_INSTALL_SUFFIX}"
+  COMPONENT ompl
+  RENAME ompl-config.cmake)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/ompl.conf"
+  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/ompl${OMPL_INSTALL_SUFFIX}"
+  COMPONENT ompl)
+
+# script to install ompl on Ubuntu
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/install-ompl-ubuntu.sh.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/install-ompl-ubuntu.sh" @ONLY)
 
 # uninstall target
 configure_file(

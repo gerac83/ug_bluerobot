@@ -8,8 +8,6 @@ if (OMPL_BUILD_DEMOS)
       ompl
       ${Boost_FILESYSTEM_LIBRARY}
       ${Boost_SYSTEM_LIBRARY}
-      ${Boost_THREAD_LIBRARY}
-      ${Boost_DATE_TIME_LIBRARY}
       ${Boost_PROGRAM_OPTIONS_LIBRARY})
   endmacro(add_ompl_demo)
 
@@ -17,10 +15,7 @@ if (OMPL_BUILD_DEMOS)
   add_ompl_demo(demo_RigidBodyPlanningWithIK RigidBodyPlanningWithIK.cpp)
   add_ompl_demo(demo_RigidBodyPlanningWithControls RigidBodyPlanningWithControls.cpp)
   add_ompl_demo(demo_RigidBodyPlanningWithIntegrationAndControls RigidBodyPlanningWithIntegrationAndControls.cpp)
-  if (OMPL_ODESOLVER)
-      add_ompl_demo(demo_RigidBodyPlanningWithODESolverAndControls RigidBodyPlanningWithODESolverAndControls.cpp)
-  endif()
-
+  add_ompl_demo(demo_RigidBodyPlanningWithODESolverAndControls RigidBodyPlanningWithODESolverAndControls.cpp)
   add_ompl_demo(demo_StateSampling StateSampling.cpp)
   add_ompl_demo(demo_GeometricCarPlanning GeometricCarPlanning.cpp)
   add_ompl_demo(demo_Point2DPlanning Point2DPlanning.cpp)
@@ -29,9 +24,19 @@ if (OMPL_BUILD_DEMOS)
   add_ompl_demo(demo_HypercubeBenchmark HypercubeBenchmark.cpp)
   aux_source_directory(Koules Koules_SRC)
   add_ompl_demo(demo_Koules ${Koules_SRC})
+  add_ompl_demo(demo_PlannerData PlannerData.cpp)
+  add_ompl_demo(demo_ThunderLightning ThunderLightning.cpp)
 
   add_ompl_demo(demo_OptimalPlanning OptimalPlanning.cpp)
   add_ompl_demo(demo_PlannerProgressProperties PlannerProgressProperties.cpp)
+  add_ompl_demo(demo_CForestCircleGridBenchmark CForestCircleGridBenchmark.cpp)
+
+  add_ompl_demo(demo_Diagonal Diagonal.cpp)
+
+  if(OMPL_HAVE_EIGEN3)
+    add_ompl_demo(demo_VectorFieldConservative VFRRT/VectorFieldConservative.cpp)
+    add_ompl_demo(demo_VectorFieldNonconservative VFRRT/VectorFieldNonconservative.cpp)
+  endif()
 
   if (OMPL_EXTENSION_OPENDE)
     add_ompl_demo(demo_OpenDERigidBodyPlanning OpenDERigidBodyPlanning.cpp)
@@ -42,10 +47,6 @@ if (OMPL_BUILD_DEMOS)
     add_ompl_demo(demo_LTLWithTriangulation LTLWithTriangulation)
   endif()
 
-# Only build the PlannerData demo on Boost >= 1.44
-  if(NOT "${Boost_VERSION}" LESS 104400)
-    add_ompl_demo(demo_PlannerData PlannerData.cpp)
-  endif(NOT "${Boost_VERSION}" LESS 104400)
 
 endif(OMPL_BUILD_DEMOS)
 
@@ -55,5 +56,8 @@ install(FILES ${OMPL_DEMO_CXX_FILES} ${OMPL_DEMO_PY_FILES}
     DESTINATION "${OMPL_DEMO_INSTALL_DIR}"
     COMPONENT ompl)
 install(DIRECTORY Koules
+    DESTINATION "${OMPL_DEMO_INSTALL_DIR}"
+    COMPONENT ompl)
+install(DIRECTORY VFRRT
     DESTINATION "${OMPL_DEMO_INSTALL_DIR}"
     COMPONENT ompl)

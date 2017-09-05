@@ -40,13 +40,13 @@
 #include "ompl/util/ClassForward.h"
 #include "ompl/base/Cost.h"
 #include <iostream>
-#include <boost/noncopyable.hpp>
+#include <boost/concept_check.hpp>
+#include <utility>
 
 namespace ompl
 {
     namespace base
     {
-
         /// @cond IGNORE
         OMPL_CLASS_FORWARD(SpaceInformation);
         /// @endcond
@@ -61,27 +61,48 @@ namespace ompl
         /// @endcond
 
         /** \class ompl::base::PathPtr
-            \brief A boost shared pointer wrapper for ompl::base::Path */
+            \brief A shared pointer wrapper for ompl::base::Path */
 
         /** \brief Abstract definition of a path */
-        class Path : private boost::noncopyable
+        class Path
         {
         public:
+            // non-copyable
+            Path(const Path &) = delete;
+            Path &operator=(const Path &) = delete;
 
             /** \brief Constructor. A path must always know the space information it is part of */
-            Path(const SpaceInformationPtr &si) : si_(si)
+            Path(SpaceInformationPtr si) : si_(std::move(si))
             {
             }
 
             /** \brief Destructor */
-            virtual ~Path()
-            {
-            }
+            virtual ~Path() = default;
 
             /** \brief Get the space information associated to this class */
-            const SpaceInformationPtr& getSpaceInformation() const
+            const SpaceInformationPtr &getSpaceInformation() const
             {
                 return si_;
+            }
+
+            /** \brief Cast this instance to a desired type. */
+            template <class T>
+            const T *as() const
+            {
+                /** \brief Make sure the type we are allocating is indeed a Path */
+                BOOST_CONCEPT_ASSERT((boost::Convertible<T *, Path *>));
+
+                return static_cast<const T *>(this);
+            }
+
+            /** \brief Cast this instance to a desired type. */
+            template <class T>
+            T *as()
+            {
+                /** \brief Make sure the type we are allocating is indeed a Path */
+                BOOST_CONCEPT_ASSERT((boost::Convertible<T *, Path *>));
+
+                return static_cast<T *>(this);
             }
 
             /** \brief Return the length of a path */
@@ -89,7 +110,7 @@ namespace ompl
 
             /** \brief Return the cost of the path with respect to a
                 specified optimization objective. */
-            virtual Cost cost(const OptimizationObjectivePtr& obj) const;
+            virtual Cost cost(const OptimizationObjectivePtr &obj) const = 0;
 
             /** \brief Check if the path is valid */
             virtual bool check() const = 0;
@@ -98,11 +119,9 @@ namespace ompl
             virtual void print(std::ostream &out) const = 0;
 
         protected:
-
             /** \brief The space information this path is part of */
             SpaceInformationPtr si_;
         };
-
     }
 }
 

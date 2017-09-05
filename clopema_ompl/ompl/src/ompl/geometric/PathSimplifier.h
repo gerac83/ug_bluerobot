@@ -32,7 +32,7 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Ioan Sucan */
+/* Author: Ioan Sucan, Ryan Luna */
 
 #ifndef OMPL_GEOMETRIC_PATH_SIMPLIFIER_
 #define OMPL_GEOMETRIC_PATH_SIMPLIFIER_
@@ -40,6 +40,7 @@
 #include "ompl/base/SpaceInformation.h"
 #include "ompl/geometric/PathGeometric.h"
 #include "ompl/base/PlannerTerminationCondition.h"
+#include "ompl/base/goals/GoalSampleableRegion.h"
 #include "ompl/util/ClassForward.h"
 #include "ompl/util/RandomNumbers.h"
 #include "ompl/util/Console.h"
@@ -47,17 +48,15 @@
 
 namespace ompl
 {
-
     namespace geometric
     {
-
         /// @cond IGNORE
         /** \brief Forward declaration of ompl::geometric::PathSimplifier */
         OMPL_CLASS_FORWARD(PathSimplifier);
         /// @endcond
 
         /** \class ompl::geometric::PathSimplifierPtr
-            \brief A boost shared pointer wrapper for ompl::geometric::PathSimplifier */
+            \brief A shared pointer wrapper for ompl::geometric::PathSimplifier */
 
         /** \brief This class contains routines that attempt to simplify geometric paths.
 
@@ -66,16 +65,12 @@ namespace ompl
         class PathSimplifier
         {
         public:
+            /** \brief Create an instance for a specified space information.
+            Optionally, a GoalSampleableRegion may be passed in to attempt
+            improvements at the end of the path as well. */
+            PathSimplifier(base::SpaceInformationPtr si, const base::GoalPtr &goal = ompl::base::GoalPtr());
 
-            /** \brief Create an instance for a specified space information */
-            PathSimplifier(const base::SpaceInformationPtr &si) : si_(si), freeStates_(true)
-            {
-            }
-
-            virtual ~PathSimplifier()
-            {
-            }
-
+            virtual ~PathSimplifier() = default;
 
             /** \brief Given a path, attempt to remove vertices from
                 it while keeping the path valid. This is an iterative
@@ -107,7 +102,8 @@ namespace ompl
                 the total number of states (between 0 and 1).
 
             */
-            bool reduceVertices(PathGeometric &path, unsigned int maxSteps = 0, unsigned int maxEmptySteps = 0, double rangeRatio = 0.33);
+            bool reduceVertices(PathGeometric &path, unsigned int maxSteps = 0, unsigned int maxEmptySteps = 0,
+                                double rangeRatio = 0.33);
 
             /** \brief Given a path, attempt to shorten it while
                 maintaining its validity. This is an iterative process
@@ -139,7 +135,7 @@ namespace ompl
 
                 \param rangeRatio the maximum distance between states
                 a connection is attempted, as a fraction relative to
-                the total number of states (between 0 and 1).
+                the total length of the path (between 0 and 1).
 
                 \param snapToVertex While sampling random points on
                 the path, sometimes the points may be close to
@@ -152,7 +148,8 @@ namespace ompl
 
                 \note This function assumes the triangle inequality holds and should not be run on non-metric spaces.
             */
-            bool shortcutPath(PathGeometric &path, unsigned int maxSteps = 0, unsigned int maxEmptySteps = 0, double rangeRatio = 0.33, double snapToVertex = 0.005);
+            bool shortcutPath(PathGeometric &path, unsigned int maxSteps = 0, unsigned int maxEmptySteps = 0,
+                              double rangeRatio = 0.33, double snapToVertex = 0.005);
 
             /** \brief Given a path, attempt to remove vertices from
                 it while keeping the path valid. This is an iterative
@@ -194,10 +191,13 @@ namespace ompl
                 \note This function may significantly increase the number of states along the solution path.
                 \note This function assumes the triangle inequality holds and should not be run on non-metric spaces.
                 */
-            void smoothBSpline(PathGeometric &path, unsigned int maxSteps = 5, double minChange = std::numeric_limits<double>::epsilon());
+            void smoothBSpline(PathGeometric &path, unsigned int maxSteps = 5,
+                               double minChange = std::numeric_limits<double>::epsilon());
 
-            /** \brief Given a path, attempt to remove vertices from it while keeping the path valid.  Then, try to smooth
-                the path. This function applies the same set of default operations to the path, except in non-metric spaces,
+            /** \brief Given a path, attempt to remove vertices from it while keeping the path valid.  Then, try to
+               smooth
+                the path. This function applies the same set of default operations to the path, except in non-metric
+               spaces,
                 with the intention of simplifying it. In non-metric spaces, some operations are skipped because they do
                 not work correctly when the triangle inequality may not hold. */
             void simplifyMax(PathGeometric &path);
@@ -205,27 +205,70 @@ namespace ompl
             /** \brief Run simplification algorithms on the path for at most \e maxTime seconds */
             void simplify(PathGeometric &path, double maxTime);
 
-            /** \brief Run simplification algorithms on the path as long as the termination condition does not become true */
+            /** \brief Run simplification algorithms on the path as long as the termination condition does not become
+             * true */
             void simplify(PathGeometric &path, const base::PlannerTerminationCondition &ptc);
 
-            /** \brief Set this flag to false to avoid freeing the memory allocated for states that are removed from a path during simplification.
+            /** \brief Attempt to improve the solution path by sampling a new
+                goal state and connecting this state to the solution path for
+                at most \e maxTime seconds.
+
+                \param sampingAttempts The maximum number of attempts to
+                connect a candidate goal state to a part of \e path
+
+                \param rangeRatio The fraction of the end of the path to
+                consider for connection to a candidate goal state, in (0,1].
+
+                \param snapToVertex The percentage of the total path length to
+                consider as "close enough" to an existing state in the path for
+                the method to "snap" the connection to that particular state.
+                This prevents states in the path that are very close to each
+                other.
+            */
+            bool findBetterGoal(PathGeometric &path, double maxTime, unsigned int samplingAttempts = 10,
+                                double rangeRatio = 0.33, double snapToVertex = 0.005);
+
+            /** \brief Attempt to improve the solution path by sampling a new
+                goal state and connecting this state to the solution path
+                while the termination condition is not met.
+
+                \param sampingAttempts The maximum number of attempts to
+                connect a candidate goal state to a part of \e path
+
+                \param rangeRatio The fraction of the end of the path to
+                consider for connection to a candidate goal state, in (0,1].
+
+                \param snapToVertex The percentage of the total path length to
+                consider as "close enough" to an existing state in the path for
+                the method to "snap" the connection to that particular state.
+                This prevents states in the path that are very close to each
+                other.
+            */
+            bool findBetterGoal(PathGeometric &path, const base::PlannerTerminationCondition &ptc,
+                                unsigned int samplingAttempts = 10, double rangeRatio = 0.33,
+                                double snapToVertex = 0.005);
+
+            /** \brief Set this flag to false to avoid freeing the memory allocated for states that are removed from a
+               path during simplification.
                 Setting this to true makes this free memory. Memory is freed by default (flag is true by default) */
             void freeStates(bool flag);
 
-            /** \brief Return true if the memory of states is freed when they are removed from a path during simplification */
+            /** \brief Return true if the memory of states is freed when they are removed from a path during
+             * simplification */
             bool freeStates() const;
 
         protected:
-
             /** \brief The space information this path simplifier uses */
             base::SpaceInformationPtr si_;
 
+            /** \brief The goal object for the path simplifier.  Used for end-of-path improvements */
+            std::shared_ptr<base::GoalSampleableRegion> gsr_;
+
             /** \brief Flag indicating whether the states removed from a motion should be freed */
-            bool                      freeStates_;
+            bool freeStates_;
 
             /** \brief Instance of random number generator */
-            RNG                       rng_;
-
+            RNG rng_;
         };
     }
 }

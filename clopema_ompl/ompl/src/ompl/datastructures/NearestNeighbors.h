@@ -38,29 +38,22 @@
 #define OMPL_DATASTRUCTURES_NEAREST_NEIGHBORS_
 
 #include <vector>
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
+#include <functional>
 #include <ompl/base/StateSpace.h>
 
 namespace ompl
 {
-
     /** \brief Abstract representation of a container that can perform nearest neighbors queries */
-    template<typename _T>
+    template <typename _T>
     class NearestNeighbors
     {
     public:
-
         /** \brief The definition of a distance function */
-        typedef boost::function<double(const _T&, const _T&)> DistanceFunction;
+        typedef std::function<double(const _T &, const _T &)> DistanceFunction;
 
-        NearestNeighbors()
-        {
-        }
+        NearestNeighbors() = default;
 
-        virtual ~NearestNeighbors()
-        {
-        }
+        virtual ~NearestNeighbors() = default;
 
         /** \brief Set the distance function to use */
         virtual void setDistanceFunction(const DistanceFunction &distFun)
@@ -69,10 +62,14 @@ namespace ompl
         }
 
         /** \brief Get the distance function used */
-        const DistanceFunction& getDistanceFunction() const
+        const DistanceFunction &getDistanceFunction() const
         {
             return distFun_;
         }
+
+        /** \brief Return true if the solutions reported by this data structure
+            are sorted, when calling nearestK / nearestR. */
+        virtual bool reportsSortedResults() const = 0;
 
         /** \brief Clear the datastructure */
         virtual void clear() = 0;
@@ -83,7 +80,7 @@ namespace ompl
         /** \brief Add a vector of points */
         virtual void add(const std::vector<_T> &data)
         {
-            for (typename std::vector<_T>::const_iterator elt = data.begin() ; elt != data.end() ; ++elt)
+            for (auto elt = data.begin(); elt != data.end(); ++elt)
                 add(*elt);
         }
 
@@ -114,10 +111,8 @@ namespace ompl
         virtual void list(std::vector<_T> &data) const = 0;
 
     protected:
-
         /** \brief The used distance function */
         DistanceFunction distFun_;
-
     };
 }
 

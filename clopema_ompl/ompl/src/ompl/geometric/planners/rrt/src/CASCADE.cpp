@@ -62,11 +62,17 @@ void ompl::geometric::CASCADE::setup(void)
     sc.configurePlannerRange(maxDistance_);
 
     if (!tStart_)
-        tStart_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
+        //tStart_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
+        tStart_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion *>(this));
     if (!tGoal_)
-        tGoal_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
-    tStart_->setDistanceFunction(boost::bind(&CASCADE::distanceFunction, this, _1, _2));
-    tGoal_->setDistanceFunction(boost::bind(&CASCADE::distanceFunction, this, _1, _2));
+        //tGoal_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
+        tGoal_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion *>(this));
+        
+    //tStart_->setDistanceFunction(boost::bind(&CASCADE::distanceFunction, this, _1, _2));
+    tStart_->setDistanceFunction([this](const Motion *a, const Motion *b) { return distanceFunction(a, b); });
+    
+    //tGoal_->setDistanceFunction(boost::bind(&CASCADE::distanceFunction, this, _1, _2));
+    tGoal_->setDistanceFunction([this](const Motion *a, const Motion *b) { return distanceFunction(a, b); });
 }
 
 void ompl::geometric::CASCADE::freeMemory(void)

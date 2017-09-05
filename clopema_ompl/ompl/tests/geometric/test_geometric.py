@@ -48,6 +48,7 @@ import copy
 import ompl.util as ou
 import ompl.base as ob
 import ompl.geometric as og
+from ompl.util import setLogLevel, LogLevel
 
 SOLUTION_TIME = 10.0
 
@@ -260,6 +261,18 @@ class ESTTest(TestPlanner):
     def newplanner(self, si):
         planner = og.EST(si)
         planner.setRange(10.0)
+        return planner
+
+class BiESTTest(TestPlanner):
+    def newplanner(self, si):
+        planner = og.BiEST(si)
+        planner.setRange(10.0)
+        return planner
+
+class ProjESTTest(TestPlanner):
+    def newplanner(self, si):
+        planner = og.ProjEST(si)
+        planner.setRange(10.0)
         projection = ou.vectorUint()
         projection.extend([0, 1])
         cdim = ou.vectorDouble()
@@ -387,4 +400,5 @@ def suite():
     return unittest.TestSuite(suites)
 
 if __name__ == '__main__':
+    setLogLevel(LogLevel.LOG_ERROR)
     unittest.main()

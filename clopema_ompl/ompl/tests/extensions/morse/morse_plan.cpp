@@ -76,7 +76,7 @@ public:
             quat->y = 0.0;
             quat->z = 0.0;
         }
-                
+
     }
     void writeState(const base::State *state)
     {
@@ -143,15 +143,15 @@ int main()
     abounds[3] = 6;
     abounds[4] = -6;
     abounds[5] = 6;
-    base::MorseEnvironmentPtr env(new MyEnvironment(2, 2, cbounds, pbounds, lbounds, abounds));
-    
-    control::SimpleSetupPtr ss(new control::MorseSimpleSetup(env));
-    
-    base::GoalPtr g(new MyGoal(ss->getSpaceInformation()));
-    
+    auto env(std::make_shared<MyEnvironment>(2, 2, cbounds, pbounds, lbounds, abounds));
+
+    auto ss(std::make_shared<control::MorseSimpleSetup>(env));
+
+    auto g(std::make_shared<MyGoal>(ss->getSpaceInformation()));
+
     ss->setGoal(g);
-    
-    ss->solve(1.0);
+
+    ss->control::SimpleSetup::solve(1.0);
 
     return 0;
 }

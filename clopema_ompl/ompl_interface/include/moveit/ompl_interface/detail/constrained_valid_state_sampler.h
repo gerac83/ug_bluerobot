@@ -40,11 +40,14 @@
 #include <ompl/base/StateSampler.h>
 #include <ompl/base/ValidStateSampler.h>
 #include <moveit/constraint_samplers/constraint_sampler.h>
+#include <moveit/macros/class_forward.h>
 
 namespace ompl_interface
 {
 
 class ModelBasedPlanningContext;
+
+MOVEIT_CLASS_FORWARD(ValidStateSampler);
 
 /** @class ValidConstrainedSampler
  *  This class defines a sampler that tries to find a valid sample that satisfies the specified constraints */
@@ -70,8 +73,8 @@ private:
   ompl::RNG                                         rng_;
 };
 
-typedef boost::shared_ptr<ValidConstrainedSampler> ValidConstrainedSamplerPtr;
-typedef boost::shared_ptr<const ValidConstrainedSampler> ValidConstrainedSamplerConstPtr;
+//typedef boost::shared_ptr<ValidConstrainedSampler> ValidConstrainedSamplerPtr;
+//typedef boost::shared_ptr<const ValidConstrainedSampler> ValidConstrainedSamplerConstPtr;
 
 }
 

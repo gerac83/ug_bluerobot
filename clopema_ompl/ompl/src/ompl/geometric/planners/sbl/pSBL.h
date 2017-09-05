@@ -42,15 +42,14 @@
 #include "ompl/base/StateSamplerArray.h"
 #include "ompl/datastructures/Grid.h"
 #include "ompl/datastructures/PDF.h"
-#include <boost/thread/mutex.hpp>
+#include <thread>
+#include <mutex>
 #include <vector>
 
 namespace ompl
 {
-
     namespace geometric
     {
-
         /**
            @anchor gpSBL
            @par Short description
@@ -77,20 +76,19 @@ namespace ompl
            associated to the state space. An exception is thrown if
            no default projection is available either.
            @par External documentation
-           G. Sánchez and J.-C. Latombe, A single-query bi-directional probabilistic roadmap planner with lazy collision checking, in <em>The Tenth International Symposium on Robotics Research</em>, pp. 403–417, 2001.
-           DOI: <a href="http://dx.doi.org/10.1007/3-540-36460-9_27">10.1007/3-540-36460-9_27</a><br>
-           <a href="http://www.springerlink.com/content/9843341054386hh6/fulltext.pdf">[PDF]</a>
+           G. Sánchez and J.-C. Latombe, A single-query bi-directional probabilistic roadmap planner with lazy collision
+           checking, in <em>The Tenth International Symposium on Robotics Research</em>, pp. 403–417, 2001.
+           DOI: [10.1007/3-540-36460-9_27](http://dx.doi.org/10.1007/3-540-36460-9_27)<br>
+           [[PDF]](http://www.springerlink.com/content/9843341054386hh6/fulltext.pdf)</a>
         */
-
 
         /** \brief Parallel Single-query Bi-directional Lazy collision checking planner */
         class pSBL : public base::Planner
         {
         public:
-
             pSBL(const base::SpaceInformationPtr &si);
 
-            virtual ~pSBL();
+            ~pSBL() override;
 
             /** \brief Set the projection evaluator. This class is
                 able to compute the projection of a given state. */
@@ -107,7 +105,7 @@ namespace ompl
             }
 
             /** \brief Get the projection evaluator. */
-            const base::ProjectionEvaluatorPtr& getProjectionEvaluator() const
+            const base::ProjectionEvaluatorPtr &getProjectionEvaluator() const
             {
                 return projectionEvaluator_;
             }
@@ -137,16 +135,15 @@ namespace ompl
                 return threadCount_;
             }
 
-            virtual void setup();
+            void setup() override;
 
-            virtual base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc);
+            base::PlannerStatus solve(const base::PlannerTerminationCondition &ptc) override;
 
-            virtual void clear();
+            void clear() override;
 
-            virtual void getPlannerData(base::PlannerData &data) const;
+            void getPlannerData(base::PlannerData &data) const override;
 
         protected:
-
             class Motion;
             struct MotionInfo;
 
@@ -154,44 +151,40 @@ namespace ompl
             typedef Grid<MotionInfo>::Cell GridCell;
 
             /** \brief A PDF of grid cells */
-            typedef PDF<GridCell*>         CellPDF;
+            typedef PDF<GridCell *> CellPDF;
 
             class Motion
             {
             public:
+                Motion() = default;
 
-                Motion() : root(NULL), state(NULL), parent(NULL), valid(false)
+                Motion(const base::SpaceInformationPtr &si)
+                  : state(si->allocState())
                 {
                 }
 
-                Motion(const base::SpaceInformationPtr &si) : root(NULL), state(si->allocState()), parent(NULL), valid(false)
-                {
-                }
+                ~Motion() = default;
 
-                ~Motion()
-                {
-                }
-
-                const base::State   *root;
-                base::State         *state;
-                Motion              *parent;
-                bool                 valid;
-                std::vector<Motion*> children;
-                boost::mutex         lock;
+                const base::State *root{nullptr};
+                base::State *state{nullptr};
+                Motion *parent{nullptr};
+                bool valid{false};
+                std::vector<Motion *> children;
+                std::mutex lock;
             };
 
             /** \brief A struct containing an array of motions and a corresponding PDF element */
             struct MotionInfo
             {
-                Motion* operator[](unsigned int i)
+                Motion *operator[](unsigned int i)
                 {
                     return motions_[i];
                 }
-                std::vector<Motion*>::iterator begin()
+                std::vector<Motion *>::iterator begin()
                 {
                     return motions_.begin();
                 }
-                void erase(std::vector<Motion*>::iterator iter)
+                void erase(std::vector<Motion *>::iterator iter)
                 {
                     motions_.erase(iter);
                 }
@@ -207,39 +200,37 @@ namespace ompl
                 {
                     return motions_.empty();
                 }
-                std::vector<Motion*> motions_;
-                CellPDF::Element    *elem_;
+                std::vector<Motion *> motions_;
+                CellPDF::Element *elem_;
             };
 
             struct TreeData
             {
-                TreeData() : grid(0), size(0)
-                {
-                }
+                TreeData() = default;
 
-                Grid<MotionInfo> grid;
-                unsigned int     size;
-                CellPDF          pdf;
-                boost::mutex     lock;
+                Grid<MotionInfo> grid{0};
+                unsigned int size{0};
+                CellPDF pdf;
+                std::mutex lock;
             };
 
             struct SolutionInfo
             {
-                std::vector<Motion*> solution;
-                bool                 found;
-                boost::mutex         lock;
+                std::vector<Motion *> solution;
+                bool found;
+                std::mutex lock;
             };
 
             struct PendingRemoveMotion
             {
                 TreeData *tree;
-                Motion   *motion;
+                Motion *motion;
             };
 
             struct MotionsToBeRemoved
             {
                 std::vector<PendingRemoveMotion> motions;
-                boost::mutex                     lock;
+                std::mutex lock;
             };
 
             void threadSolve(unsigned int tid, const base::PlannerTerminationCondition &ptc, SolutionInfo *sol);
@@ -253,31 +244,30 @@ namespace ompl
             void freeGridMotions(Grid<MotionInfo> &grid);
 
             void addMotion(TreeData &tree, Motion *motion);
-            Motion* selectMotion(RNG &rng, TreeData &tree);
-            void removeMotion(TreeData &tree, Motion *motion, std::map<Motion*, bool> &seen);
+            Motion *selectMotion(RNG &rng, TreeData &tree);
+            void removeMotion(TreeData &tree, Motion *motion, std::map<Motion *, bool> &seen);
             bool isPathValid(TreeData &tree, Motion *motion);
-            bool checkSolution(RNG &rng, bool start, TreeData &tree, TreeData &otherTree, Motion *motion, std::vector<Motion*> &solution);
-
+            bool checkSolution(RNG &rng, bool start, TreeData &tree, TreeData &otherTree, Motion *motion,
+                               std::vector<Motion *> &solution);
 
             base::StateSamplerArray<base::ValidStateSampler> samplerArray_;
-            base::ProjectionEvaluatorPtr                     projectionEvaluator_;
+            base::ProjectionEvaluatorPtr projectionEvaluator_;
 
-            TreeData                                         tStart_;
-            TreeData                                         tGoal_;
+            TreeData tStart_;
+            TreeData tGoal_;
 
-            MotionsToBeRemoved                               removeList_;
-            boost::mutex                                     loopLock_;
-            boost::mutex                                     loopLockCounter_;
-            unsigned int                                     loopCounter_;
+            MotionsToBeRemoved removeList_;
+            std::mutex loopLock_;
+            std::mutex loopLockCounter_;
+            unsigned int loopCounter_;
 
-            double                                           maxDistance_;
+            double maxDistance_{0.};
 
-            unsigned int                                     threadCount_;
+            unsigned int threadCount_;
 
             /** \brief The pair of states in each tree connected during planning.  Used for PlannerData computation */
-            std::pair<base::State*, base::State*>            connectionPoint_;
+            std::pair<base::State *, base::State *> connectionPoint_{nullptr, nullptr};
         };
-
     }
 }
 

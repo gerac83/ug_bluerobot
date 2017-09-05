@@ -45,33 +45,36 @@
 
     \def OMPL_ERROR(fmt, ...)
     \brief Log a formatted error string.
-    \remarks This macro takes the same arguments as <a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf">printf</a>.
+    \remarks This macro takes the same arguments as [printf](http://www.cplusplus.com/reference/clibrary/cstdio/printf).
 
     \def OMPL_WARN(fmt, ...)
     \brief Log a formatted warning string.
-    \remarks This macro takes the same arguments as <a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf">printf</a>.
+    \remarks This macro takes the same arguments as [printf](http://www.cplusplus.com/reference/clibrary/cstdio/printf).
 
     \def OMPL_INFORM(fmt, ...)
     \brief Log a formatted information string.
-    \remarks This macro takes the same arguments as <a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf">printf</a>.
+    \remarks This macro takes the same arguments as [printf](http://www.cplusplus.com/reference/clibrary/cstdio/printf).
 
     \def OMPL_DEBUG(fmt, ...)
     \brief Log a formatted debugging string.
-    \remarks This macro takes the same arguments as <a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf">printf</a>.
+    \remarks This macro takes the same arguments as [printf](http://www.cplusplus.com/reference/clibrary/cstdio/printf).
 
     \}
 */
-#define OMPL_ERROR(fmt, ...)  ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_ERROR, fmt, ##__VA_ARGS__)
+#define OMPL_ERROR(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_ERROR, fmt, ##__VA_ARGS__)
 
-#define OMPL_WARN(fmt, ...)   ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_WARN,  fmt, ##__VA_ARGS__)
+#define OMPL_WARN(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_WARN, fmt, ##__VA_ARGS__)
 
-#define OMPL_INFORM(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_INFO,  fmt, ##__VA_ARGS__)
+#define OMPL_INFORM(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_INFO, fmt, ##__VA_ARGS__)
 
-#define OMPL_DEBUG(fmt, ...)  ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_DEBUG, fmt, ##__VA_ARGS__)
+#define OMPL_DEBUG(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_DEBUG, fmt, ##__VA_ARGS__)
+
+#define OMPL_DEVMSG1(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_DEV1, fmt, ##__VA_ARGS__)
+
+#define OMPL_DEVMSG2(fmt, ...) ompl::msg::log(__FILE__, __LINE__, ompl::msg::LOG_DEV2, fmt, ##__VA_ARGS__)
 
 namespace ompl
 {
-
     /** \brief Message namespace. This contains classes needed to
         output error messages (or logging) from within the library.
         Message logging can be performed with \ref logging "logging macros" */
@@ -80,6 +83,8 @@ namespace ompl
         /** \brief The set of priorities for message logging */
         enum LogLevel
         {
+            LOG_DEV2 = -2,  // message type for developers
+            LOG_DEV1 = -1,  // message type for developers
             LOG_DEBUG = 0,
             LOG_INFO,
             LOG_WARN,
@@ -97,14 +102,9 @@ namespace ompl
         class OutputHandler
         {
         public:
+            OutputHandler() = default;
 
-            OutputHandler()
-            {
-            }
-
-            virtual ~OutputHandler()
-            {
-            }
+            virtual ~OutputHandler() = default;
 
             /** \brief log a message to the output handler with the given text
                 and logging level from a specific file and line number */
@@ -116,35 +116,29 @@ namespace ompl
         class OutputHandlerSTD : public OutputHandler
         {
         public:
+            OutputHandlerSTD() = default;
 
-            OutputHandlerSTD() : OutputHandler()
-            {
-            }
-
-            virtual void log(const std::string &text, LogLevel level, const char *filename, int line);
-
+            void log(const std::string &text, LogLevel level, const char *filename, int line) override;
         };
 
         /** \brief Implementation of OutputHandler that saves messages in a file. */
         class OutputHandlerFile : public OutputHandler
         {
         public:
-
             /** \brief The name of the file in which to save the message data */
             OutputHandlerFile(const char *filename);
 
-            virtual ~OutputHandlerFile();
+            ~OutputHandlerFile() override;
 
-            virtual void log(const std::string &text, LogLevel level, const char *filename, int line);
+            void log(const std::string &text, LogLevel level, const char *filename, int line) override;
 
         private:
-
             /** \brief The file to save to */
             FILE *file_;
-
         };
 
-        /** \brief This function instructs ompl that no messages should be outputted. Equivalent to useOutputHandler(NULL) */
+        /** \brief This function instructs ompl that no messages should be outputted. Equivalent to
+         * useOutputHandler(nullptr) */
         void noOutputHandler();
 
         /** \brief Restore the output handler that was previously in use (if any) */
@@ -153,8 +147,9 @@ namespace ompl
         /** \brief Specify the instance of the OutputHandler to use. By default, this is OutputHandlerSTD */
         void useOutputHandler(OutputHandler *oh);
 
-        /** \brief Get the instance of the OutputHandler currently used. This is NULL in case there is no output handler. */
-        OutputHandler* getOutputHandler();
+        /** \brief Get the instance of the OutputHandler currently used. This is nullptr in case there is no output
+         * handler. */
+        OutputHandler *getOutputHandler();
 
         /** \brief Set the minimum level of logging data to output.  Messages
             with lower logging levels will not be recorded. */
@@ -169,7 +164,6 @@ namespace ompl
             string given the arguments and forwards the string to the output handler */
         void log(const char *file, int line, LogLevel level, const char *m, ...);
     }
-
 }
 
 #endif

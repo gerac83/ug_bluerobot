@@ -38,11 +38,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include "2DcirclesSetup.h"
-#include "2dcirclesSetupDubins.h"
 #include <iostream>
 
 #include "ompl/geometric/planners/prm/PRMstar.h"
 #include "ompl/geometric/planners/rrt/RRTstar.h"
+#include "ompl/geometric/planners/cforest/CForest.h"
 #include "ompl/base/objectives/PathLengthOptimizationObjective.h"
 #include "ompl/base/goals/GoalState.h"
 #include "ompl/util/RandomNumbers.h"
@@ -59,13 +59,12 @@ static const bool VERBOSE = true;
 class TestPlanner
 {
 public:
-    TestPlanner(void)
+    TestPlanner()
     {
+        msg::setLogLevel(msg::LOG_ERROR);
     }
 
-    virtual ~TestPlanner(void)
-    {
-    }
+    virtual ~TestPlanner() = default;
 
     virtual base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si) = 0;
 
@@ -84,19 +83,19 @@ protected:
                               double solutionTime)
     {
         /* instantiate problem definition */
-        base::ProblemDefinitionPtr pdef(new base::ProblemDefinition(si));
+        auto pdef(std::make_shared<base::ProblemDefinition>(si));
 
         // define an objective that is met the moment the solution is found
-        base::PathLengthOptimizationObjective *opt = new base::PathLengthOptimizationObjective(si);
-        opt->setCostThreshold(base::Cost(std::numeric_limits<double>::infinity()));
-        pdef->setOptimizationObjective(base::OptimizationObjectivePtr(opt));
+        auto opt(std::make_shared<base::PathLengthOptimizationObjective>(si));
+        opt->setCostThreshold(opt->infiniteCost());
+        pdef->setOptimizationObjective(opt);
 
         /* instantiate motion planner */
         base::PlannerPtr planner = newPlanner(si);
         planner->setProblemDefinition(pdef);
         planner->setup();
 
-        std::size_t nt = std::min<std::size_t>(5, circles.getQueryCount());
+        std::size_t nt = std::min<std::size_t>(6, circles.getQueryCount());
 
         // run a simple test first
         if (nt > 0)
@@ -115,11 +114,13 @@ protected:
             const Circles2D::Query &q = circles.getQuery(i);
             setupProblem(q, si, pdef);
 
+            base::Cost min_cost(std::sqrt(std::pow(q.goalX_ - q.startX_, 2.0) + std::pow(q.goalY_ - q.startY_, 2.0))); //The straight-line cost
+
             planner->clear();
             pdef->clearSolutionPaths();
 
             // we change the optimization objective so the planner runs until the first solution
-            opt->setCostThreshold(base::Cost(std::numeric_limits<double>::infinity()));
+            opt->setCostThreshold(opt->infiniteCost());
 
             time::point start = time::now();
             bool solved = planner->solve(solutionTime);
@@ -151,13 +152,20 @@ protected:
                 }
                 time_spent = time::seconds(time::now() - start);
               }
-              BOOST_CHECK(opt->isCostBetterThan(prev_cost, ini_cost));
+              BOOST_CHECK(!opt->isCostBetterThan(ini_cost, prev_cost));
 
               pdef->clearSolutionPaths();
               // we change the optimization objective so the planner can achieve the objective
               opt->setCostThreshold(ini_cost);
               if (planner->solve(DT_SOLUTION_TIME))
-                  BOOST_CHECK(pdef->hasOptimizedSolution());
+              {
+                  path = static_cast<geometric::PathGeometric*>(pdef->getSolutionPath().get());
+                  prev_cost  = path->cost(pdef->getOptimizationObjective());
+                  BOOST_CHECK(pdef->hasOptimizedSolution() || opt->isCostEquivalentTo(ini_cost, prev_cost));
+              }
+
+              // make sure not better than the minimum
+              BOOST_CHECK(!opt->isCostBetterThan(prev_cost, min_cost));
             }
         }
     }
@@ -171,10 +179,10 @@ protected:
                                  double solutionTime)
     {
         /* instantiate problem definition */
-        base::ProblemDefinitionPtr pdef(new base::ProblemDefinition(si));
+        auto pdef(std::make_shared<base::ProblemDefinition>(si));
 
         // define an objective that is met the moment the solution is found
-        base::PathLengthOptimizationObjective *opt = new base::PathLengthOptimizationObjective(si);
+        auto opt(std::make_shared<base::PathLengthOptimizationObjective>(si));
         opt->setCostThreshold(base::Cost(std::numeric_limits<double>::infinity()));
         pdef->setOptimizationObjective(base::OptimizationObjectivePtr(opt));
 
@@ -241,7 +249,7 @@ protected:
 
               // In dubins no-goal-bias case, we can't guarantee that
               // ini_cost is actually greater than prev_cost
-              BOOST_CHECK(ini_cost.v >= prev_cost.v);
+              BOOST_CHECK(ini_cost.value() >= prev_cost.value());
 
               pdef->clearSolutionPaths();
             }
@@ -255,10 +263,6 @@ protected:
         base::ScopedState<> start(si);
         start[0] = q.startX_;
         start[1] = q.startY_;
-
-        // If this is a Dubins space, zero-out the SO2 subspace element.
-        if (boost::dynamic_pointer_cast<base::DubinsStateSpace>(si->getStateSpace()))
-            start[2] = 0.0;
 
         base::GoalPtr goal = genGoalFromQuery(q, si);
 
@@ -275,23 +279,10 @@ protected:
         goal2D[0] = q.goalX_;
         goal2D[1] = q.goalY_;
 
-        base::GoalPtr goal;
-        if (boost::dynamic_pointer_cast<base::DubinsStateSpace>(si->getStateSpace()))
-        {
-            geometric::DubinsXYGoal* dubinsGoal =
-                new geometric::DubinsXYGoal(si, goal2D.get());
-            dubinsGoal->setThreshold(1e-3);
-            goal = base::GoalPtr(dubinsGoal);
-        }
-        else
-        {
-            base::GoalState* goalState = new base::GoalState(si);
-            goalState->setState(goal2D);
-            goalState->setThreshold(1e-3);
-            goal = base::GoalPtr(goalState);
-        }
-
-        return goal;
+        auto goalState(std::make_shared<base::GoalState>(si));
+        goalState->setState(goal2D);
+        goalState->setThreshold(1e-3);
+        return goalState;
     }
 };
 
@@ -299,10 +290,10 @@ class RRTstarTest : public TestPlanner
 {
 protected:
 
-    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si)
+    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si) override
     {
-        geometric::RRTstar *rrt = new geometric::RRTstar(si);
-        return base::PlannerPtr(rrt);
+        auto rrt(std::make_shared<geometric::RRTstar>(si));
+        return rrt;
     }
 };
 
@@ -310,10 +301,10 @@ class PRMstarTest : public TestPlanner
 {
 protected:
 
-    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si)
+    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si) override
     {
-        geometric::PRMstar *prm = new geometric::PRMstar(si);
-        return base::PlannerPtr(prm);
+        auto prm(std::make_shared<geometric::PRMstar>(si));
+        return prm;
     }
 };
 
@@ -321,45 +312,21 @@ class PRMTest : public TestPlanner
 {
 protected:
 
-    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si)
+    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si) override
     {
-        geometric::PRM *prm = new geometric::PRM(si);
-        return base::PlannerPtr(prm);
+        auto prm(std::make_shared<geometric::PRM>(si));
+        return prm;
     }
 };
 
-class RRTstarDubinsTest : public TestPlanner
+class CForestTest : public TestPlanner
 {
 protected:
-    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si)
-    {
-        geometric::RRTstar *rrt = new geometric::RRTstar(si);
-        return base::PlannerPtr(rrt);
-    }
 
-    void test2DCircles(const Circles2D& circles)
+    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si) override
     {
-        base::SpaceInformationPtr si = geometric::spaceInformation2DCirclesDubins(circles);
-        test2DCirclesGeneral(circles, si, 5.0);
-    }
-};
-
-// This is to test an edge case that I've only been able to reproduce
-// without goal bias.
-class RRTstarDubinsNoGoalBiasTest : public TestPlanner
-{
-protected:
-    base::PlannerPtr newPlanner(const base::SpaceInformationPtr &si)
-    {
-        geometric::RRTstar *rrt = new geometric::RRTstar(si);
-        rrt->setGoalBias(0.0);
-        return base::PlannerPtr(rrt);
-    }
-
-    void test2DCircles(const Circles2D& circles)
-    {
-        base::SpaceInformationPtr si = geometric::spaceInformation2DCirclesDubins(circles);
-        test2DCirclesNoGoalBias(circles, si, 5.0);
+        auto cforest(std::make_shared<geometric::CForest>(si));
+        return cforest;
     }
 };
 
@@ -383,7 +350,7 @@ public:
     }
 
     template<typename T>
-    void runAllTests(void)
+    void runAllTests()
     {
         TestPlanner *p = new T();
         run2DCirclesTest(p);
@@ -392,7 +359,7 @@ public:
 
 protected:
 
-    PlanTest(void)
+    PlanTest()
     {
         verbose_ = VERBOSE;
         boost::filesystem::path path(TEST_RESOURCES_DIR);
@@ -420,7 +387,6 @@ BOOST_FIXTURE_TEST_SUITE(MyPlanTestFixture, PlanTest)
 OMPL_PLANNER_TEST(PRMstar)
 OMPL_PLANNER_TEST(PRM)
 OMPL_PLANNER_TEST(RRTstar)
-OMPL_PLANNER_TEST(RRTstarDubinsNoGoalBias)
-OMPL_PLANNER_TEST(RRTstarDubins)
+OMPL_PLANNER_TEST(CForest)
 
 BOOST_AUTO_TEST_SUITE_END()

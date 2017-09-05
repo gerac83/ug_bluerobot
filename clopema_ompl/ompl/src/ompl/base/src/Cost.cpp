@@ -36,8 +36,8 @@
 
 #include "ompl/base/Cost.h"
 
-std::ostream& ompl::base::operator<<(std::ostream& stream, Cost c)
+std::ostream &ompl::base::operator<<(std::ostream &stream, Cost c)
 {
-    stream << c.v;
+    stream << c.value();
     return stream;
 }

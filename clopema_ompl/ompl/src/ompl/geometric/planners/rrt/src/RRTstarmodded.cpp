@@ -62,11 +62,11 @@ ompl::geometric::RRTstarmodded::RRTstarmodded(const base::SpaceInformationPtr &s
     Planner::declareParam<bool>("delay_collision_checking", this, &RRTstarmodded::setDelayCC, &RRTstarmodded::getDelayCC, "0,1");
 
     addPlannerProgressProperty("iterations INTEGER",
-                               boost::bind(&RRTstarmodded::getIterationCount, this));
+                               std::bind(&RRTstarmodded::getIterationCount, this));
     addPlannerProgressProperty("collision checks INTEGER",
-                               boost::bind(&RRTstarmodded::getCollisionCheckCount, this));
+                               std::bind(&RRTstarmodded::getCollisionCheckCount, this));
     addPlannerProgressProperty("best cost REAL",
-                               boost::bind(&RRTstarmodded::getBestCost, this));
+                               std::bind(&RRTstarmodded::getBestCost, this));
 }
 
 ompl::geometric::RRTstarmodded::~RRTstarmodded() {
@@ -79,8 +79,10 @@ void ompl::geometric::RRTstarmodded::setup() {
     sc.configurePlannerRange(maxDistance_);
 
     if(!nn_)
-        nn_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
-    nn_->setDistanceFunction(boost::bind(&RRTstarmodded::distanceFunction, this, _1, _2));
+//        nn_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion*>(si_->getStateSpace()));
+        nn_.reset(tools::SelfConfig::getDefaultNearestNeighbors<Motion *>(this));
+    //nn_->setDistanceFunction(std::bind(&RRTstarmodded::distanceFunction, this, _1, _2));
+    nn_->setDistanceFunction([this](const Motion *a, const Motion *b) { return distanceFunction(a, b); });
 
 
     // Setup optimization objective
@@ -407,7 +409,7 @@ ompl::base::PlannerStatus ompl::geometric::RRTstarmodded::solve(const base::Plan
     base::State *xstate    = si_->allocState();
 
     if(solution)
-        OMPL_INFORM("%s: Starting planning with existing solution of cost %.5f", getName().c_str(), solution->cost.v);
+        OMPL_INFORM("%s: Starting planning with existing solution of cost %.5f", getName().c_str(), solution->cost.value());
 
 
     bool start_state_added = false;
@@ -544,7 +546,10 @@ ompl::base::PlannerStatus ompl::geometric::RRTstarmodded::solve(const base::Plan
         base::PathPtr path(geoPath);
         // Add the solution path, whether it is approximate (not reaching the goal), and the
         // distance from the end of the path to the goal (-1 if satisfying the goal).
-        base::PlannerSolution psol(path, approximate, approximate ? approximatedist : -1.0, getName());
+        //base::PlannerSolution psol(path, approximate, approximate ? approximatedist : -1.0, getName());
+        base::PlannerSolution psol(path);
+        psol.setPlannerName(getName());
+        psol.setApproximate(approximate ? approximatedist : -1.0);
         // Does the solution satisfy the optimization objective?
         psol.optimized_ = sufficientlyShort;
 
@@ -620,7 +625,8 @@ std::string ompl::geometric::RRTstarmodded::getCollisionCheckCount() const {
     return boost::lexical_cast<std::string>(collisionChecks_);
 }
 std::string ompl::geometric::RRTstarmodded::getBestCost() const {
-    return boost::lexical_cast<std::string>(bestCost_.v);
+    //return boost::lexical_cast<std::string>(bestCost_.v);
+    return boost::lexical_cast<std::string>(bestCost_.value());
 }
 
 bool ompl::geometric::RRTstarmodded::sample_states(unsigned int min_size) {

@@ -114,7 +114,8 @@ namespace ompl
             };
 
             /** \brief A nearest-neighbor datastructure representing a tree of motions */
-            typedef boost::shared_ptr< NearestNeighbors<Motion*> > TreeData;
+            //typedef boost::shared_ptr< NearestNeighbors<Motion*> > TreeData;
+            typedef std::shared_ptr<NearestNeighbors<Motion *> > TreeData;
 
             /** \brief Information attached to growing a tree of motions (used internally) */
             struct TreeGrowingInfo

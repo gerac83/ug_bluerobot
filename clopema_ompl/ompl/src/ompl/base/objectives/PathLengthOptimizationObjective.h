@@ -32,7 +32,7 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Luis G. Torres */
+/* Author: Luis G. Torres, Jonathan Gammell (allocInformedStateSampler) */
 
 #ifndef OMPL_BASE_OBJECTIVES_PATH_LENGTH_OPTIMIZATION_OBJECTIVE_
 #define OMPL_BASE_OBJECTIVES_PATH_LENGTH_OPTIMIZATION_OBJECTIVE_
@@ -49,16 +49,23 @@ namespace ompl
         public:
             PathLengthOptimizationObjective(const SpaceInformationPtr &si);
 
+            /** \brief Returns identity cost. */
+            Cost stateCost(const State *s) const override;
+
             /** \brief Motion cost for this objective is defined as
                 the configuration space distance between \e s1 and \e
                 s2, using the method SpaceInformation::distance(). */
-            virtual Cost motionCost(const State *s1, const State *s2) const;
+            Cost motionCost(const State *s1, const State *s2) const override;
 
             /** \brief the motion cost heuristic for this objective is
                 simply the configuration space distance between \e s1
                 and \e s2, since this is the optimal cost between any
                 two states assuming no obstacles. */
-            virtual Cost motionCostHeuristic(const State *s1, const State *s2) const;
+            Cost motionCostHeuristic(const State *s1, const State *s2) const override;
+
+            /** \brief Allocate a state sampler for the path-length objective (i.e., direct ellipsoidal sampling). */
+            InformedSamplerPtr allocInformedStateSampler(const ProblemDefinitionPtr &probDefn,
+                                                         unsigned int maxNumberCalls) const override;
         };
     }
 }
