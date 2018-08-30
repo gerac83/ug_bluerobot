@@ -517,7 +517,7 @@ bool ClopemaRobotCommander::plan(Plan &plan, bool verbose) {
             if(verbose) {
                 ROS_INFO_STREAM("Planner attemp:" << i);
             }
-            state = MoveGroup::plan(plan);
+            state = static_cast<bool>(MoveGroup::plan(plan));
             if (state)
                 break;
         }
@@ -533,7 +533,7 @@ bool ClopemaRobotCommander::move() {
     if(!plan(p)) {
         return false;
     }
-    return execute(p);
+    return static_cast<bool>(execute(p));
 }
 
 
@@ -690,7 +690,7 @@ bool ClopemaRobotCommander::plan_put_on_table(trajectory_msgs::JointTrajectory& 
 bool ClopemaRobotCommander::execute_traj(const trajectory_msgs::JointTrajectory& traj) {
     clopema_robot::ClopemaRobotCommander::Plan plan;
     plan.trajectory_.joint_trajectory = traj;
-    return execute(plan);
+    return static_cast<bool>(execute(plan));
 }
 
 bool ClopemaRobotCommander::execute_traj(const std::vector< trajectory_msgs::JointTrajectory >& trajs) {

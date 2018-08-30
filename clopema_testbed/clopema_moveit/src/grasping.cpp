@@ -252,7 +252,7 @@ bool grasp_it_cb(clopema_moveit::ClopemaGraspItRequest& req,
             //Plan to pre grasping pose
             g->setStartStateToCurrentState();
             g->setJointValueTarget(pre_grasp(pose, req.offset_minus));
-            bool succeed = g->plan(plan);
+            bool succeed = static_cast<bool>(g->plan(plan));
             if(!succeed) {
                 res.error = "Can not plan.";
                 continue;
