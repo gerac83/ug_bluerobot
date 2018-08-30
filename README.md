@@ -9,7 +9,7 @@ echo "export CLOPEMA_PARTNER=LOCAL">>~/.bashrc
 
 source ~/.bashrc
 
-sudo apt-get install ros-kinetic-openni-launch ros-kinetic-perception-pcl ros-kinetic-python-orocos-kdl libgsl-dev libeigen2-dev libeigen3-dev ros-kinetic-eigen-conversions ros-kinetic-industrial-msgs ros-kinetic-industrial-robot-client ros-kinetic-diagnostic-updater ros-kinetic-moveit* libsdl2-dev libsdl1.2-dev
+sudo apt-get install ros-kinetic-openni-launch ros-kinetic-perception-pcl ros-kinetic-python-orocos-kdl libgsl-dev libeigen2-dev libeigen3-dev ros-kinetic-eigen-conversions ros-kinetic-industrial-msgs ros-kinetic-industrial-robot-client ros-kinetic-diagnostic-updater ros-kinetic-moveit* libsdl2-dev libsdl1.2-dev libblas-dev liblapack-dev libeigen3-dev smach smach-ros
 
 To test, source devel/setup.bash:
 
