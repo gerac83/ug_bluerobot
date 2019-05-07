@@ -24,11 +24,12 @@
 #include <clopema_robot/TimeParametrization.h>
 #include <industrial_msgs/SetDrivePower.h>
 #include <clopema_robot/SetSpeed.h>
+#include <tf/transform_broadcaster.h>
 
 namespace clopema_robot {
 typedef actionlib::SimpleActionClient<control_msgs::GripperCommandAction> GripperClient;
 
-ClopemaRobotCommander::ClopemaRobotCommander (const std::string &group, float planning_time) : MoveGroup(group) {
+ClopemaRobotCommander::ClopemaRobotCommander (const std::string &group, float planning_time) : MoveGroupInterface(group) {
     overwrite_time_parameterization = true;
     std::string req_planner;
     if (!ros::param::get(PLANNER_PARAM, req_planner)) {
@@ -303,7 +304,7 @@ bool ClopemaRobotCommander::setJointValueTarget(
     geometry_msgs::Pose pose;
     std::string ik_link;
     transform_to_tip(eef_pose, end_effector_link, pose, ik_link);
-    return MoveGroup::setJointValueTarget(pose, ik_link);
+    return MoveGroupInterface::setJointValueTarget(pose, ik_link);
 }
 
 bool ClopemaRobotCommander::setJointValueTarget(
@@ -312,7 +313,7 @@ bool ClopemaRobotCommander::setJointValueTarget(
     geometry_msgs::PoseStamped pose = eef_pose;
     std::string ik_link;
     transform_to_tip(eef_pose.pose, end_effector_link, pose.pose, ik_link);
-    return MoveGroup::setJointValueTarget(pose, ik_link);
+    return MoveGroupInterface::setJointValueTarget(pose, ik_link);
 }
 
 bool ClopemaRobotCommander::setJointValueTarget(const Eigen::Affine3d& eef_pose,
@@ -325,12 +326,12 @@ bool ClopemaRobotCommander::setJointValueTarget(const Eigen::Affine3d& eef_pose,
 void ClopemaRobotCommander::setPathConstraints(
         const moveit_msgs::Constraints& constraint, bool add_empty_joint) {
     if (!add_empty_joint) {
-        MoveGroup::setPathConstraints(constraint);
+        MoveGroupInterface::setPathConstraints(constraint);
         return;
     }
     moveit_msgs::Constraints c = constraint;
     fillEmptyJointConstraints(c);
-    MoveGroup::setPathConstraints(c);
+    MoveGroupInterface::setPathConstraints(c);
 }
 
 void ClopemaRobotCommander::fillEmptyJointConstraints(
@@ -454,12 +455,12 @@ void ClopemaRobotCommander::setStartState(
 void ClopemaRobotCommander::setStartState(
         const robot_state::RobotState& start_state) {
     this->start_state.reset(new robot_state::RobotState(start_state));
-    MoveGroup::setStartState(start_state);
+    MoveGroupInterface::setStartState(start_state);
 }
 
 void ClopemaRobotCommander::setStartStateToCurrentState() {
     start_state.reset();
-    MoveGroup::setStartStateToCurrentState();
+    MoveGroupInterface::setStartStateToCurrentState();
 }
 
 robot_state::RobotStatePtr ClopemaRobotCommander::getStartState() {
@@ -477,7 +478,7 @@ void ClopemaRobotCommander::set_number_of_diff_planners(unsigned int n) {
 }
 
 void ClopemaRobotCommander::setPlannerId(const std::string& planner_id) {
-    MoveGroup::setPlannerId(planner_id);
+    MoveGroupInterface::setPlannerId(planner_id);
     this->planner_id = planner_id;
 }
 
@@ -517,7 +518,7 @@ bool ClopemaRobotCommander::plan(Plan &plan, bool verbose) {
             if(verbose) {
                 ROS_INFO_STREAM("Planner attemp:" << i);
             }
-            state = static_cast<bool>(MoveGroup::plan(plan));
+            state = static_cast<bool>(MoveGroupInterface::plan(plan));
             if (state)
                 break;
         }
@@ -820,26 +821,26 @@ bool ClopemaRobotCommander::move_to_named_target(const std::string& named_target
     return true;
 }
 
-moveit::planning_interface::MoveItErrorCode ClopemaRobotCommander::asyncExecute(const moveit::planning_interface::MoveGroup::Plan& plan) {
-    moveit::planning_interface::MoveGroup::Plan p = plan;
+moveit::planning_interface::MoveItErrorCode ClopemaRobotCommander::asyncExecute(const moveit::planning_interface::MoveGroupInterface::Plan& plan) {
+    moveit::planning_interface::MoveGroupInterface::Plan p = plan;
     if(overwrite_time_parameterization) {
         if(!add_time_parametrization(p))
             return false;
     }
-    return MoveGroup::asyncExecute(p);
+    return MoveGroupInterface::asyncExecute(p);
 }
 
-moveit::planning_interface::MoveItErrorCode ClopemaRobotCommander::execute(const moveit::planning_interface::MoveGroup::Plan& plan) {
-    moveit::planning_interface::MoveGroup::Plan p = plan;
+moveit::planning_interface::MoveItErrorCode ClopemaRobotCommander::execute(const moveit::planning_interface::MoveGroupInterface::Plan& plan) {
+    moveit::planning_interface::MoveGroupInterface::Plan p = plan;
     if(overwrite_time_parameterization) {
         if(!add_time_parametrization(p)) {
             return false;   
         }
     }
-    return MoveGroup::execute(p);
+    return MoveGroupInterface::execute(p);
 }
 
-bool ClopemaRobotCommander::add_time_parametrization(moveit::planning_interface::MoveGroup::Plan& plan) {
+bool ClopemaRobotCommander::add_time_parametrization(moveit::planning_interface::MoveGroupInterface::Plan& plan) {
     clopema_robot::TimeParametrization srv;
     srv.request.group = this->getName();
     if(start_state) {

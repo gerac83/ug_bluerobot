@@ -11,8 +11,8 @@ include_directories(
     include
 )
 
-add_executable(mechanical_calibration src/mechanical_calibration.cpp)
-target_link_libraries(mechanical_calibration ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
+#add_executable(mechanical_calibration src/mechanical_calibration.cpp)
+#target_link_libraries(mechanical_calibration ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
 #set_target_properties(mechanical_calibration PROPERTIES LINK_FLAGS -L${orocos_kdl_LIBRARY_DIRS})
 
 ##########################

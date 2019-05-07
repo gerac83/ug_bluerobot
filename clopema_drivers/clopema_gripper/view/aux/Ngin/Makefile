@@ -1,6 +1,6 @@
 TARGET := libNgin.a
 RM := rm -f
-OPTIONS := -Wall -g -I../shImage
+OPTIONS := -Wall -fpermissive -g -I../shImage
 
 $(TARGET): Ngin.o Ngin_texture.o Ngin_frustum.o Ngin_light.o Ngin_object.o Ngin_primitives.o shLoad3ds.o
 	-$(RM) $(TARGET)

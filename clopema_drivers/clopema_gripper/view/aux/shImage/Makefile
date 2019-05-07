@@ -1,6 +1,6 @@
 TARGET := libshImage.a
 RM := rm -f
-OPTIONS := -Wall -g
+OPTIONS := -Wall -g -fpermissive
 
 .PHONY: all
 $(TARGET): shBMP.o

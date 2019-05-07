@@ -271,12 +271,12 @@ double move_group::MoveGroupCartesianPathServiceDual::computeCartesianPath(
     for (unsigned int i = 0; i <= steps; ++i) {
         double percentage = (double) i / (double) steps;
 
-        Eigen::Affine3d pose1(
+        Eigen::Isometry3d pose1(
                 start_quaternion1.slerp(percentage, target_quaternion1));
         pose1.translation() = percentage * rotated_target1.translation()
                 + (1 - percentage) * start_pose1.translation();
 
-        Eigen::Affine3d pose2(
+        Eigen::Isometry3d pose2(
                 start_quaternion2.slerp(percentage, target_quaternion2));
         pose2.translation() = percentage * rotated_target2.translation()
                 + (1 - percentage) * start_pose2.translation();
@@ -326,7 +326,7 @@ double move_group::MoveGroupCartesianPathServiceDual::computeCartesianPath(
         
         for (std::size_t i = 0; i < dist_vector.size(); ++i) {
             if (dist_vector[i] > thres) {
-                logDebug("Truncating Cartesian path due to detected jump in joint-space distance");
+                CONSOLE_BRIDGE_logDebug("Truncating Cartesian path due to detected jump in joint-space distance");
                 last_valid_percentage = (double) i / (double) steps;
                 traj.resize(i);
                 ROS_INFO_STREAM("Threshold: " << thres);

@@ -67,8 +67,8 @@ class VirtualRobot {
         ros::NodeHandle node_;
         std::vector<std::string> joint_names;
         std::vector<double> joint_positions;
-        static const double precision = 1e-3;
-        static const double robot_period = 0.01;
+        static constexpr double precision = 1e-3;
+        static constexpr double robot_period = 0.01;
 
         ros::Timer timer_joint_state, timer_robot_status, timer_next_state;
         ros::Publisher pub_joint_state, pub_robot_status;

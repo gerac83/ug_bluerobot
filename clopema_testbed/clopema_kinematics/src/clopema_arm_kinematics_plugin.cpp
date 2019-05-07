@@ -331,11 +331,10 @@ bool ClopemaArmKinematicsPlugin::initialize(
     jnt_to_pose_solver_.reset(new KDL::ChainFkSolverPos_recursive(kdl_chain_));
 
     //Joint limits initialization
-    boost::shared_ptr<urdf::Link> link = boost::const_pointer_cast<urdf::Link>(
-            robot_model.getLink(tip_frame_));
+    std::shared_ptr<urdf::Link> link = std::const_pointer_cast<urdf::Link>(robot_model.getLink(tip_frame_));
     while (link->name != base_frame_ && joint_names_.size() <= num_joints_) {
         link_names_.push_back(link->name);
-        boost::shared_ptr<urdf::Joint> joint = link->parent_joint;
+        std::shared_ptr<urdf::Joint> joint = link->parent_joint;
         if (joint) {
             if (joint->type != urdf::Joint::UNKNOWN
                     && joint->type != urdf::Joint::FIXED) {

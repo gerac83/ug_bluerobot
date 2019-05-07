@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <boost/format.hpp>
 #include <simple_message/smpl_msg_connection.h>
 #include <simple_message/message_manager.h>
 #include <simple_message/message_handler.h>

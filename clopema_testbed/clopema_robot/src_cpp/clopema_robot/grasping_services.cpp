@@ -15,6 +15,7 @@
 #include <clopema_moveit/ClopemaGraspFromTableDual.h>
 #include <clopema_moveit/ClopemaGraspIt.h>
 #include <moveit/robot_state/conversions.h>
+#include <tf/transform_broadcaster.h>
 
 using namespace Eigen;
 using namespace moveit::planning_interface;

@@ -21,8 +21,8 @@ catkin_package(CATKIN_DEPENDS std_msgs roscpp actionlib actionlib_msgs control_m
 set(VIEW_PATH "${CMAKE_CURRENT_SOURCE_DIR}/view")
 
 # Externally built libraries (for visualizer)
-add_custom_target(tools_lib COMMAND make WORKING_DIRECTORY "${VIEW_PATH}/tools")
-add_custom_target(aux_lib COMMAND make WORKING_DIRECTORY "${VIEW_PATH}/aux")
+#add_custom_target(tools_lib COMMAND make WORKING_DIRECTORY "${VIEW_PATH}/tools")
+#add_custom_target(aux_lib COMMAND make WORKING_DIRECTORY "${VIEW_PATH}/aux")
 
 # Server-side executables
 ## URT output
@@ -37,7 +37,7 @@ if (BUILD_GRIPPER_SERVER)
     add_library(clopema_gripper_skin src/skin.c src/skin_iterators.cpp)
     add_library(clopema_gripper_motor src/motor.cpp)
     add_library(clopema_gripper_micro src/micro.cpp)
-    add_executable(clopema_gripper_view src/view.cpp src/shconio.c)
+#    add_executable(clopema_gripper_view src/view.cpp src/shconio.c)
 
     add_executable(clopema_gripper_rosskin_server src/skin_ros_server.cpp)
     add_executable(clopema_gripper_motor_server src/motor_ros_server.cpp)
@@ -51,10 +51,10 @@ if (BUILD_GRIPPER_SERVER)
     target_link_libraries(clopema_gripper_motor "${SERVER_LDFLAGS}")
     set_target_properties(clopema_gripper_micro PROPERTIES COMPILE_FLAGS "${SERVER_CFLAGS}")
     target_link_libraries(clopema_gripper_micro "${SERVER_LDFLAGS}")
-    set_target_properties(clopema_gripper_view PROPERTIES COMPILE_FLAGS
-        "${SERVER_CFLAGS} -I${VIEW_PATH}/tools -I${VIEW_PATH}/aux/shImage -I${VIEW_PATH}/aux/shFont -I${VIEW_PATH}/aux/Ngin -I${VIEW_PATH}/aux/Ngin3d")
-    target_link_libraries(clopema_gripper_view clopema_gripper_skin clopema_gripper_motor "-lviewtools -lNgin3d -lNgin -lSDLmain -lSDL -lGL -lGLU -lshFont -lshImage ${SERVER_LDFLAGS}")
-    add_dependencies(clopema_gripper_view tools_lib aux_lib)
+#    set_target_properties(clopema_gripper_view PROPERTIES COMPILE_FLAGS
+#        "${SERVER_CFLAGS} -I${VIEW_PATH}/tools -I${VIEW_PATH}/aux/shImage -I${VIEW_PATH}/aux/shFont -I${VIEW_PATH}/aux/Ngin -I${VIEW_PATH}/aux/Ngin3d")
+#    target_link_libraries(clopema_gripper_view clopema_gripper_skin clopema_gripper_motor "-lviewtools -lNgin3d -lNgin -lSDLmain -lSDL -lGL -lGLU -lshFont -lshImage ${SERVER_LDFLAGS}")
+#    add_dependencies(clopema_gripper_view tools_lib aux_lib)
     set_target_properties(clopema_gripper_rosskin_server PROPERTIES COMPILE_FLAGS "${SERVER_CFLAGS}")
     target_link_libraries(clopema_gripper_rosskin_server clopema_gripper_skin "${SERVER_LDFLAGS}" ${catkin_LIBRARIES})
     set_target_properties(clopema_gripper_motor_server PROPERTIES COMPILE_FLAGS "${SERVER_CFLAGS}")
@@ -70,21 +70,21 @@ endif (BUILD_GRIPPER_SERVER)
 # Client-side executables
 add_library(clopema_gripper_skin_ds src/skin.c)
 add_library(clopema_gripper_rosskin_client src/skin_ros_client.cpp)
-add_executable(clopema_gripper_ros_view src/view.cpp src/shconio.c)
-add_dependencies(clopema_gripper_ros_view tools_lib aux_lib clopema_gripper_skin_ds clopema_gripper_rosskin_client)
+#add_executable(clopema_gripper_ros_view src/view.cpp src/shconio.c)
+#add_dependencies(clopema_gripper_ros_view tools_lib aux_lib clopema_gripper_skin_ds clopema_gripper_rosskin_client)
 
 set(CLIENT_CFLAGS "-Wall -O0 -g -Wno-unused-result -DSKIN_DS_ONLY")
 
 set_target_properties(clopema_gripper_skin_ds PROPERTIES COMPILE_FLAGS "${CLIENT_CFLAGS}")
 set_target_properties(clopema_gripper_rosskin_client PROPERTIES COMPILE_FLAGS "${CLIENT_CFLAGS}")
 target_link_libraries(clopema_gripper_rosskin_client clopema_gripper_skin_ds ${catkin_LIBRARIES})
-set_target_properties(clopema_gripper_ros_view PROPERTIES COMPILE_FLAGS
-	"${CLIENT_CFLAGS} -DTHROUGH_ROS -I${VIEW_PATH}/tools -I${VIEW_PATH}/aux/shImage -I${VIEW_PATH}/aux/shFont -I${VIEW_PATH}/aux/Ngin -I${VIEW_PATH}/aux/Ngin3d")
-target_link_libraries(clopema_gripper_ros_view clopema_gripper_skin_ds clopema_gripper_rosskin_client "-lviewtools -lNgin3d -lNgin -lrt -lSDLmain -lSDL -lGL -lGLU -lshFont -lshImage" ${catkin_LIBRARIES})
+#set_target_properties(clopema_gripper_ros_view PROPERTIES COMPILE_FLAGS
+#	"${CLIENT_CFLAGS} -DTHROUGH_ROS -I${VIEW_PATH}/tools -I${VIEW_PATH}/aux/shImage -I${VIEW_PATH}/aux/shFont -I${VIEW_PATH}/aux/Ngin -I${VIEW_PATH}/aux/Ngin3d")
+#target_link_libraries(clopema_gripper_ros_view clopema_gripper_skin_ds clopema_gripper_rosskin_client "-lviewtools -lNgin3d -lNgin -lrt -lSDLmain -lSDL -lGL -lGLU -lshFont -lshImage" ${catkin_LIBRARIES})
 
 add_dependencies(clopema_gripper_skin_ds ${${PROJECT_NAME}_EXPORTED_TARGETS})
 add_dependencies(clopema_gripper_rosskin_client ${${PROJECT_NAME}_EXPORTED_TARGETS})
-add_dependencies(clopema_gripper_ros_view ${${PROJECT_NAME}_EXPORTED_TARGETS})
+#add_dependencies(clopema_gripper_ros_view ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 # Visualizer data installation
 file(GLOB data_files "data/*")

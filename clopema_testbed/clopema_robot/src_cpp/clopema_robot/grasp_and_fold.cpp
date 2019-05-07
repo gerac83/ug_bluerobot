@@ -14,6 +14,7 @@
 #include <eigen_conversions/eigen_msg.h>
 #include <boost/math/special_functions/fpclassify.hpp>
 #include <geometry_msgs/PoseArray.h>
+#include <tf/transform_broadcaster.h>
 
 static const bool PUBLISH_GRASPING_POINTS = false;
 

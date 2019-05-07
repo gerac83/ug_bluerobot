@@ -5,7 +5,7 @@ add_definitions(-std=c++11)
 add_compile_options(-std=c++11)
 
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
-find_package(catkin REQUIRED COMPONENTS moveit_msgs moveit_ros_move_group moveit_ros_planning moveit_ros_planning_interface moveit_core roscpp rospy tf tf_conversions message_generation)
+find_package(catkin REQUIRED COMPONENTS moveit_msgs moveit_ros_move_group moveit_ros_planning moveit_ros_planning_interface moveit_core roscpp rospy tf tf_conversions message_generation eigen_conversions)
 find_package(orocos_kdl REQUIRED)
 
 add_service_files(

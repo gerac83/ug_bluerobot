@@ -128,8 +128,8 @@ protected:
     void cb_robot_status(const industrial_msgs::RobotStatusConstPtr& rs);
 
 protected:
-    static const double pos_stale_time_ = 1.0;  // max time since last "current position" update, for validation (sec)
-    static const double start_pos_tol_  = 4e-2; // max difference btwn start & current position, for validation (rad)
+    static constexpr double pos_stale_time_ = 1.0;  // max time since last "current position" update, for validation (sec)
+    static constexpr double start_pos_tol_  = 4e-2; // max difference btwn start & current position, for validation (rad)
 
     ConcurentQueue<SimpleMessage> messages;
     ConcurentQueue<SimpleMessage> q_send; //queue (SET) which is sent directly to the robot nomatter in what order, must be global in case of trajStop

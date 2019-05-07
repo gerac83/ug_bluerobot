@@ -7,7 +7,7 @@
  * Created on:  Oct 17, 2013
  */
 
-#include <moveit/move_group_interface/move_group.h>
+/*#include <moveit/move_group_interface/move_group.h>*/
 #include <moveit/move_group_interface/move_group_interface.h>
 
 #ifndef ROBOT_COMMANDER_H
@@ -43,7 +43,7 @@ namespace clopema_robot
     const std::string NAMED_TARGET_ARMS_HOME = "home_arms";
     const std::string NAMED_TARGET_ARMS_XTION1_ABOVE_T3 = "xtion1_above_t3";    //without external axis moving
 
-    class ClopemaRobotCommander : public moveit::planning_interface::MoveGroup
+    class ClopemaRobotCommander : public moveit::planning_interface::MoveGroupInterface
     {
 
         public:
@@ -175,37 +175,37 @@ namespace clopema_robot
 
             /** \brief Given a vector of real values in the same order as expected by the group, set those as the joint state goal */
             bool setJointValueTarget(const std::vector<double> &group_variable_values) {
-                return MoveGroup::setJointValueTarget(group_variable_values);
+                return MoveGroupInterface::setJointValueTarget(group_variable_values);
             }
 
             /** \brief Given a map of joint names to real values, set those as the joint state goal */
             bool setJointValueTarget(const std::map<std::string, double> &variable_values) {
-                return MoveGroup::setJointValueTarget(variable_values);
+                return MoveGroupInterface::setJointValueTarget(variable_values);
             }
 
             /** \brief Set the joint state goal from corresponding joint values from the specified state.
               Values from state for joints not in this MoveGroup's group are ignored. */
             bool setJointValueTarget(const robot_state::RobotState &robot_state) {
-                return MoveGroup::setJointValueTarget(robot_state);
+                return MoveGroupInterface::setJointValueTarget(robot_state);
             }
 
             /** \brief Set the joint state goal for a particular joint */
             bool setJointValueTarget(const std::string &joint_name, const std::vector<double> &values) {
-                return MoveGroup::setJointValueTarget(joint_name, values);
+                return MoveGroupInterface::setJointValueTarget(joint_name, values);
             }
 
             /** \brief Set the joint state goal for a particular joint */
             bool setJointValueTarget(const std::string &joint_name, double value) {
-                return MoveGroup::setJointValueTarget(joint_name, value);
+                return MoveGroupInterface::setJointValueTarget(joint_name, value);
             }
 
             /** \brief Set the joint state goal for a particular joint */
             bool setJointValueTarget(const sensor_msgs::JointState &state) {
-                return MoveGroup::setJointValueTarget(state);
+                return MoveGroupInterface::setJointValueTarget(state);
             }
 
             bool setPathConstraints(const std::string &constraint) {
-                return MoveGroup::setPathConstraints(constraint);
+                return MoveGroupInterface::setPathConstraints(constraint);
             }
 
             /** \brief Shadow MoveGroup constraints because we add empty joint constraint to force planning in

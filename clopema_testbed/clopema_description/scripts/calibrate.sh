@@ -9,8 +9,8 @@ PID=$!
 file=`pwd`
 roscd clopema_description/robots/
 partner=$(env  | grep CLOPEMA_PARTNER | grep -oe '[^=]*$');
-rosrun xacro xacro.py clopema_`echo $partner`.urdf.xacro > clopema.urdf
-rosrun clopema_description mechanical_calibration
+rosrun xacro xacro.py --inorder clopema_`echo $partner`.urdf.xacro > clopema.urdf
+#rosrun clopema_description mechanical_calibration
 kill -INT $PID
 cd $file
 

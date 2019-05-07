@@ -178,14 +178,14 @@ bool poses_to_joints(const std::vector<tf::Pose> & poses,
     robot_state::RobotStatePtr kinematic_state(
             new robot_state::RobotState(kinematic_model));
     kinematic_state->updateLinkTransforms();
-    Eigen::Affine3d to_base = kinematic_state->getFrameTransform(ik_base_name);
+    Eigen::Isometry3d to_base = kinematic_state->getFrameTransform(ik_base_name);
 
     traj.joint_names = kinematic_state->getVariableNames();
     traj.points.clear();
     traj.header.frame_id = kinematic_model->getModelFrame();
 
     for (int i = 0; i < poses.size(); ++i) {
-        Eigen::Affine3d pose;
+        Eigen::Isometry3d pose;
         tf::poseTFToEigen(poses[i], pose);
         pose = to_base * pose;
         if (!kinematic_state->setFromIK(
@@ -247,7 +247,7 @@ bool poses_to_joints_dual(const std::vector<tf::Pose> & poses,
     robot_state::RobotStatePtr kinematic_state(
             new robot_state::RobotState(kinematic_model));
     kinematic_state->updateLinkTransforms();
-    Eigen::Affine3d to_base = kinematic_state->getFrameTransform(ik_base_name);
+    Eigen::Isometry3d to_base = kinematic_state->getFrameTransform(ik_base_name);
 
     traj.joint_names = kinematic_state->getVariableNames();
     traj.points.clear();
@@ -255,7 +255,7 @@ bool poses_to_joints_dual(const std::vector<tf::Pose> & poses,
 
     for (int i = 0; i < poses.size(); ++i) {
         {
-            Eigen::Affine3d pose;
+            Eigen::Isometry3d pose;
             tf::poseTFToEigen(poses[i], pose);
             pose = to_base * pose;
             if (!kinematic_state->setFromIK(
@@ -269,7 +269,7 @@ bool poses_to_joints_dual(const std::vector<tf::Pose> & poses,
         }
         kinematic_state->updateLinkTransforms();
         {
-            Eigen::Affine3d pose;
+            Eigen::Isometry3d pose;
             tf::poseTFToEigen(poses2[i], pose);
             pose = to_base * pose;
             if (!kinematic_state->setFromIK(

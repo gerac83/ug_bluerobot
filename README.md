@@ -1,7 +1,9 @@
 # ug_bluerobot
 Motoman dual-arm robot base components
 
-# Installation
+# Installation for Melodic
+
+**NOTE:** If you have Kinetic, checkout kinetic-devel!
 
 pip install docopt==0.6.1
 
@@ -9,7 +11,7 @@ echo "export CLOPEMA_PARTNER=LOCAL">>~/.bashrc
 
 source ~/.bashrc
 
-sudo apt-get install ros-kinetic-openni-launch ros-kinetic-perception-pcl ros-kinetic-python-orocos-kdl libgsl-dev libeigen2-dev libeigen3-dev ros-kinetic-eigen-conversions ros-kinetic-industrial-msgs ros-kinetic-industrial-robot-client ros-kinetic-diagnostic-updater ros-kinetic-moveit* libsdl2-dev libsdl1.2-dev libblas-dev liblapack-dev libeigen3-dev smach smach-ros
+sudo apt-get install ros-melodic-openni-launch ros-melodic-perception-pcl ros-melodic-python-orocos-kdl libgsl-dev libeigen3-dev ros-melodic-eigen-conversions ros-melodic-industrial-msgs ros-melodic-industrial-robot-client ros-melodic-diagnostic-updater ros-melodic-moveit* libsdl2-dev libsdl1.2-dev libblas-dev liblapack-dev libeigen3-dev ros-melodic-smach ros-melodic-smach-ros
 
 To test, source devel/setup.bash:
 

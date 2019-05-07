@@ -26,13 +26,13 @@ unsigned char *shLoadBMP(const char *bmpFile, shBMPHeader *header, shBMPInfo *in
 	unsigned char *bitmap;
 	shBMPHeader tmpHeader;
 	shBMPInfo tmpInfo;
-	if (header == '\0')
-		header = &tmpHeader;
-	if (info == '\0')
-		info = &tmpInfo;
+//	if (header == '\0')
+//		header = &tmpHeader;
+//	if (info == '\0')
+//		info = &tmpInfo;
 	FILE *BMPFile = fopen(bmpFile, "rb");
 	if (!BMPFile)
-		return '\0';
+		return reinterpret_cast<unsigned char *>('\0');
 	fread(&(header->fileType), sizeof(unsigned short int), 1, BMPFile);
 	fread(&(header->fileSize), sizeof(unsigned int), 1, BMPFile);
 	fread(&(header->reserved1), sizeof(unsigned short int), 1, BMPFile);
@@ -41,12 +41,12 @@ unsigned char *shLoadBMP(const char *bmpFile, shBMPHeader *header, shBMPInfo *in
 	if (header->fileType != 'B'+('M'<<8))//'MB')
 	{
 		fclose(BMPFile);
-		return '\0';
+		return reinterpret_cast<unsigned char *>('\0');
 	}
 	if (header->reserved1 || header->reserved2)
 	{
 		fclose(BMPFile);
-		return '\0';
+		return reinterpret_cast<unsigned char *>('\0');
 	}
 	fread(info, 1, header->bitmapOffset-14, BMPFile);
 	bitmap = new unsigned char [header->fileSize-header->bitmapOffset];
@@ -54,7 +54,7 @@ unsigned char *shLoadBMP(const char *bmpFile, shBMPHeader *header, shBMPInfo *in
 	{
 		fclose(BMPFile);
 		delete[] bitmap;
-		return '\0';
+		return reinterpret_cast<unsigned char *>('\0');
 	}
 	fclose(BMPFile);
 	return bitmap;
