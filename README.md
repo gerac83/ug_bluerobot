@@ -1,7 +1,7 @@
 # ug_bluerobot
 Motoman dual-arm robot base components
 
-# Installation
+# Installation for Kinetic
 
 pip install docopt==0.6.1
 
