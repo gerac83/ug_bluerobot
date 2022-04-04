@@ -17,11 +17,21 @@ Run each line at a time:
 
 `catkin_make`
 
-To test, source devel/setup.bash:
+(yes, catkin_make twice!)
+
+`catkin_make install`
+
+To test, `source devel/setup.bash`
 
 `roslaunch clopema_launch virtual_robot.launch`
 
-**Remember to set the planning library in MoveIT pane**
+**Remember to set the planning library in MoveIT pane: RRTConnectkConfigDeafault**
+
+**Remember to set "simplify solutions" in rqt/dynamic configuration. To do this, do the following:"
+
+1. Run `rqt` in a new terminal
+2. Click on `Plugins -> Conifgurations -> Dynamic Reconfigure`
+3. Click on `ompl` then check `simplify_solutions`
 
 # Notes from Gerardo
 
